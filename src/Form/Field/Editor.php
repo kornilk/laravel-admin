@@ -7,7 +7,7 @@ use Encore\Admin\Form\Textarea;
 class Editor extends Textarea
 {
     protected static $js = [
-        '//cdn.ckeditor.com/4.5.10/standard/ckeditor.js',
+        'vendor/laravel-admin-ext/ckeditor/ckeditor.js',
     ];
 
     public function render()
