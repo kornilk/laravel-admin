@@ -21,6 +21,7 @@ class Administrator extends Model implements AuthenticatableContract
     use HasPermissions;
     use DefaultDatetimeFormat;
     use ContentTrait;
+    use \Altek\Eventually\Eventually;
 
     protected $fillable = ['email', 'password', 'name', 'avatar'];
     protected static $admin_permission_ids = [];
