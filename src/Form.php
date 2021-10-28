@@ -181,6 +181,16 @@ class Form implements Renderable
     }
 
     /**
+     * Get builder formm class.
+     *
+     * @return string
+     */
+    public function getFormClass()
+    {
+        return $this->builder->getFormClass();
+    }
+
+    /**
      * Generate a edit form.
      *
      * @param $id

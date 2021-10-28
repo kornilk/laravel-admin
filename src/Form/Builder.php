@@ -152,6 +152,15 @@ class Builder
     }
 
     /**
+     * Get form class name.
+     *
+     * @return string
+     */
+    public function getFormClass(){
+        return $this->formClass;
+    }
+
+    /**
      * Set the builder mode.
      *
      * @param string $mode

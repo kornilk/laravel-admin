@@ -72,6 +72,7 @@ trait HasAssets
         'vendor/laravel-admin/google-fonts/fonts.css',
         'vendor/laravel-admin/AdminLTE/dist/css/AdminLTE.min.css',
         'vendor/laravel-admin/magnific/magnific-popup.css',
+        'vendor/laravel-admin/laravel-admin/laravel-admin-ext.css',
     ];
 
     /**
@@ -89,6 +90,8 @@ trait HasAssets
         'vendor/laravel-admin/sweetalert2/dist/sweetalert2.min.js',
         'vendor/laravel-admin/laravel-admin/laravel-admin.js',
         'vendor/laravel-admin/magnific/jquery.magnific-popup.min.js',
+        'vendor/laravel-admin/modal-form/modals-handling.js',
+        'vendor/laravel-admin/laravel-admin/laravel-admin-ext.js',
     ];
 
     /**
