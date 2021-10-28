@@ -46,13 +46,15 @@ class InstallCommand extends Command
      */
     public function initDatabase()
     {
-        $this->call('migrate');
+        $this->call('migrate', ['--path' => '/database/migrations/2016_01_04_173148_create_admin_tables']);
 
         $userModel = config('admin.database.users_model');
 
         if ($userModel::count() == 0) {
             $this->call('db:seed', ['--class' => \Encore\Admin\Auth\Database\AdminTablesSeeder::class]);
         }
+
+        $this->call('migrate');
     }
 
     /**
