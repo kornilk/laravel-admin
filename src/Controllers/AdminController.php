@@ -74,7 +74,7 @@ class AdminController extends Controller
 
         $body->filter(function($filter) {
 
-            $filter->scope('trashed', __('content.Recycle Bin'))->onlyTrashed();
+            $filter->scope('trashed', __('admin.Recycle Bin'))->onlyTrashed();
             
         });
 

@@ -18,6 +18,6 @@ class BatchRestore extends BatchAction
 
     public function dialog ()
     {
-        $this->confirm(__('content.Are you sure you want to restore?'));
+        $this->confirm(__('admin.Are you sure you want to restore?'));
     }
 }

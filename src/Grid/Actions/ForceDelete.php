@@ -13,11 +13,11 @@ class ForceDelete extends RowAction
     {
         $model->forceDelete();
 
-        return $this->response()->success(__('content.Permanently deleted'))->refresh();
+        return $this->response()->success(__('admin.Permanently deleted'))->refresh();
     }
 
     public function dialog()
     {
-        $this->confirm(__('content.Are you sure you want to delete permanently?'));
+        $this->confirm(__('admin.Are you sure you want to delete permanently?'));
     }
 }

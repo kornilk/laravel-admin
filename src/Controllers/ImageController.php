@@ -113,7 +113,7 @@ class ImageController extends AdminController
 
             if (config('image.watermark')) {
 
-                $form->switch('watermark', __('content.Watermark'))->states($this->getYesNoSwitch());
+                $form->switch('watermark', __('admin.Watermark'))->states($this->getYesNoSwitch());
                 $form->ignore('watermark');
 
             }
@@ -144,7 +144,7 @@ class ImageController extends AdminController
             $form->large();
 
             $form->saved(function ($form) {
-                return $this->modalSaveRespose($form, __('content.Upload succeeded'));
+                return $this->modalSaveRespose($form, __('admin.Upload succeeded'));
             });
         });
     }

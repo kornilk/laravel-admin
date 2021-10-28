@@ -62,7 +62,7 @@ class UserController extends AdminController
 
                 $query->where('name', 'like', "%{$this->input}%")
                     ->orWhere('email', 'like', "%{$this->input}%");
-            }, __('content.Search'));
+            }, __('admin.Search'));
         });
 
         return $grid;
