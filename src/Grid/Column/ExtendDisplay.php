@@ -61,6 +61,9 @@ trait ExtendDisplay
         'limit'         => Displayers\Limit::class,
         'lightbox'      => Displayers\Lightbox::class,
         'gallery'       => Displayers\Gallery::class,
+        'editLink'      => Displayers\EditLink::class,
+        'stripTags'     => Displayers\StripTags::class,
+        'thumbnail'     => Displayers\Thumbnail::class,
     ];
 
     /**

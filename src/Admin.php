@@ -307,8 +307,10 @@ class Admin
     public function routes()
     {
         $attributes = [
-            'prefix'     => config('admin.route.prefix'),
-            'middleware' => config('admin.route.middleware'),
+            'prefix'        => config('admin.route.prefix'),
+            'domain'        => config('extend.subdomain_admin') . config('extend.domain'),
+            'middleware'    => config('admin.route.middleware'),
+            'as'            => 'admin.',
         ];
 
         app('router')->group($attributes, function ($router) {
@@ -317,26 +319,38 @@ class Admin
             $router->namespace('\Encore\Admin\Controllers')->group(function ($router) {
 
                 /* @var \Illuminate\Routing\Router $router */
-                $router->resource('auth/users', 'UserController')->names('admin.auth.users');
-                $router->resource('auth/roles', 'RoleController')->names('admin.auth.roles');
-                $router->resource('auth/permissions', 'PermissionController')->names('admin.auth.permissions');
-                $router->resource('auth/menu', 'MenuController', ['except' => ['create']])->names('admin.auth.menu');
-                $router->resource('auth/logs', 'LogController', ['only' => ['index', 'destroy']])->names('admin.auth.logs');
+                $router->resource('auth/users', 'UserController')->names('auth.users');
+                $router->resource('auth/roles', 'RoleController')->names('auth.roles');
+                $router->resource('auth/permissions', 'PermissionController')->names('auth.permissions');
+                $router->resource('auth/menu', 'MenuController', ['except' => ['create']])->names('auth.menu');
+                $router->resource('auth/logs', 'LogController', ['only' => ['index', 'destroy']])->names('auth.logs');
 
-                $router->post('_handle_form_', 'HandleController@handleForm')->name('admin.handle-form');
-                $router->post('_handle_action_', 'HandleController@handleAction')->name('admin.handle-action');
-                $router->get('_handle_selectable_', 'HandleController@handleSelectable')->name('admin.handle-selectable');
-                $router->get('_handle_renderable_', 'HandleController@handleRenderable')->name('admin.handle-renderable');
+                $router->post('_handle_form_', 'HandleController@handleForm')->name('handle-form');
+                $router->post('_handle_action_', 'HandleController@handleAction')->name('handle-action');
+                $router->get('_handle_selectable_', 'HandleController@handleSelectable')->name('handle-selectable');
+                $router->get('_handle_renderable_', 'HandleController@handleRenderable')->name('handle-renderable');
+
+                $router->resource('images', ImagesController::class);
+                $router->resource('texts', TextController::class);
+                $router->resource('html-texts', HtmlTextController::class);
+
+                $router->get('/images-modal/browse', 'ImageController@browser')->name('image.modal.browser');
+                $router->get('/images-modal/modal-form', 'ImageController@ModalForm')->name('image.modal.form');
+                $router->post('/images-modal/modal-form', 'ImageController@ModalFormSore')->name('image.modal.form.store');
             });
 
             $authController = config('admin.auth.controller', AuthController::class);
 
             /* @var \Illuminate\Routing\Router $router */
-            $router->get('auth/login', $authController.'@getLogin')->name('admin.login');
-            $router->post('auth/login', $authController.'@postLogin');
-            $router->get('auth/logout', $authController.'@getLogout')->name('admin.logout');
-            $router->get('auth/setting', $authController.'@getSetting')->name('admin.setting');
-            $router->put('auth/setting', $authController.'@putSetting');
+            $router->get('auth/login', $authController.'@getLogin')->name('login');
+            $router->post('auth/login', $authController.'@postLogin')->name('login.post');
+            $router->get('auth/logout', $authController.'@getLogout')->name('logout');
+            $router->get('auth/setting', $authController.'@getSetting')->name('setting');
+            $router->put('auth/setting', $authController.'@putSetting')->name('setting.put');
+
+            $router->get('logs', 'LogViewerController@index')->name('log-viewer-index');
+            $router->get('logs/{file}', 'LogViewerController@index')->name('log-viewer-file');
+            $router->get('logs/{file}/tail', 'LogViewerController@tail')->name('log-viewer-tail');
         });
     }
 

@@ -11,7 +11,7 @@ return [
             'thumbnails' => [
                 'thumb' => [320, null],
                 'thumb-r' => [320, 320, 'fit'],
-                'medium' => [750, null],
+                'medium' => [750, null], //Minimum selectable size role
                 'medium-r' => [750, 750, 'fit'],
             ],
             'max' => 1920,

@@ -2,8 +2,13 @@
 
 namespace Encore\Admin\Controllers;
 
+use Encore\Admin\Grid\Actions\BatchForceDelete;
+use Encore\Admin\Grid\Actions\BatchRestore;
+use Encore\Admin\Grid\Actions\ForceDelete;
+use Encore\Admin\Grid\Actions\Restore;
 use Encore\Admin\Layout\Content;
 use Illuminate\Routing\Controller;
+use Illuminate\Http\Response;
 
 class AdminController extends Controller
 {
@@ -28,6 +33,16 @@ class AdminController extends Controller
         //        'create' => 'Create',
     ];
 
+    protected $titlePlural;
+    protected $slug;
+
+    public function __construct()
+    {
+        if (method_exists($this->model, 'getContentTitle')) $this->title = $this->model::getContentTitle();
+        if (method_exists($this->model, 'getContentTitlePlural')) $this->titlePlural = $this->model::getContentTitlePlural();
+        if (method_exists($this->model, 'getContentSlug')) $this->slug = $this->model::getContentSlug();
+    }
+
     /**
      * Get content title.
      *
@@ -47,10 +62,47 @@ class AdminController extends Controller
      */
     public function index(Content $content)
     {
+        $body = $this->grid();
+        $body->disableExport();
+        $content->breadcrumb(...$this->getBreadcrumb());
+
+        if (!empty($this->description['index'])) $content->description($this->description['index']);        
+
+        $body->model()->orderBy('created_at', 'desc');
+
+        $this->manageActionsByPermissions($body, $this->slug);
+
+        $body->filter(function($filter) {
+
+            $filter->scope('trashed', __('content.Recycle Bin'))->onlyTrashed();
+            
+        });
+
+        $body->actions(function ($actions) {
+
+            if (\request('_scope_') == 'trashed') {
+                $actions->disableDelete();
+                $actions->disableEdit();
+                $actions->disableView();
+                $actions->add(new Restore($actions->getKey()));
+                $actions->add(new ForceDelete($actions->getKey()));
+            }
+        
+        });
+
+        $body->batchActions (function($batch) {
+
+            if (\request('_scope_') == 'trashed') {
+                $batch->disableDelete();
+                $batch->add(new BatchRestore());
+                $batch->add(new BatchForceDelete());
+            }
+            
+        });
+        
         return $content
             ->title($this->title())
-            ->description($this->description['index'] ?? trans('admin.list'))
-            ->body($this->grid());
+            ->body($body);
     }
 
     /**
@@ -63,10 +115,38 @@ class AdminController extends Controller
      */
     public function show($id, Content $content)
     {
+        $body = $this->detail($id);
+        $content->breadcrumb(...$this->getBreadcrumb($id, $body));
+
+        if (!empty($this->description['show'])) $content->description($this->description['show']);
+
+        $this->manageActionsByPermissions($body, $this->slug);
+
+        function inlineScript() 
+        {
+
+            return <<<SCRIPT
+                var item = $('.detail-container div.article-element.article-object div.article-element').each(function( index ) {
+                    var h = '';
+
+                    try {
+                        h = JSON.parse(item.data('json'));
+                      }
+                      catch(err) {
+                      }
+
+                    $(this).html(h);
+                });
+
+                
+                SCRIPT;
+        }
+
+        \Admin::script(inlineScript());
+
         return $content
             ->title($this->title())
-            ->description($this->description['show'] ?? trans('admin.show'))
-            ->body($this->detail($id));
+            ->body($body);
     }
 
     /**
@@ -79,10 +159,27 @@ class AdminController extends Controller
      */
     public function edit($id, Content $content)
     {
+        $body = $this->detail($id);
+        $content->breadcrumb(...$this->getBreadcrumb($id, $body, __('admin.edit')));
+
+        if (!empty($this->description['edit'])) $content->description($this->description['edit']);
+
+        $form = $this->form()->edit($id);
+
+        $this->manageActionsByPermissions($form, $this->slug);
+
+        $form->footer(function ($footer) {
+            $footer->disableReset();
+            $footer->disableViewCheck();
+            $footer->disableEditingCheck();
+            $footer->disableCreatingCheck();
+        });
+
+        $this->manageActionsByPermissions($form, $this->slug);
+           
         return $content
             ->title($this->title())
-            ->description($this->description['edit'] ?? trans('admin.edit'))
-            ->body($this->form()->edit($id));
+            ->body($form);
     }
 
     /**
@@ -94,9 +191,103 @@ class AdminController extends Controller
      */
     public function create(Content $content)
     {
+        $content->breadcrumb(...$this->getBreadcrumb(null, null, __('admin.create')));
+        $form = $this->form();
+
+        $this->manageActionsByPermissions($form, $this->slug);
+
+        if (!empty($this->description['create'])) $content->description($this->description['create']);
+
+        $form->footer(function ($footer) {
+            $footer->disableReset();
+            $footer->disableViewCheck();
+            $footer->disableEditingCheck();
+            $footer->disableCreatingCheck();
+        });
+
         return $content
             ->title($this->title())
-            ->description($this->description['create'] ?? trans('admin.create'))
-            ->body($this->form());
+            ->body($form);
+    }
+
+    public function getBreadcrumb($id = null, $data = null, $current = FALSE)
+    {
+        $breadcrumb = [
+            ['text' => $this->title]
+        ];
+
+        if (!empty($data)) {
+
+            $item = false;
+
+            if (!empty($data->getModel()->title)) {
+                $item = ['text' => \Str::limit($data->getModel()->title, 30, '...')];
+            } else if (!empty($data->getModel()->name)) {
+                $item = ['text' => \Str::limit($data->getModel()->name, 30, '...')];
+            } else if (!empty($data->getModel()->id)) {
+                $item = ['text' => $data->getModel()->id];
+            } else if (!empty($id)) {
+                $item = ['text' => $id];
+            }
+
+            if ($item) {
+                $breadcrumb[] = $item;
+            }
+        }
+
+        if ($current) $breadcrumb[] = ['text' => $current];
+
+        return $breadcrumb;
+    }
+
+    protected function getYesNoSwitch()
+    {
+        return [
+            'on'  => ['value' => 1, 'text' => __('content.Yes'), 'color' => 'success'],
+            'off' => ['value' => 0, 'text' => __('content.No'), 'color' => 'danger'],
+        ];
+    }
+
+    public function modalSaveRespose($form, $message = null){
+
+        if (empty($message)) $message = __('admin.save_succeeded');
+
+        $res = new Response(json_encode([
+            'status' => true,
+            'message' => $message,
+            'modelId' => $form->model()->id,
+            'data' => $form->model()
+        ]));
+        $res->header('Content-Type', 'application/json');
+        return $res;
+    }
+
+    protected function manageActionsByPermissions($body, $slug)
+    {
+        if ($body instanceof \Encore\Admin\Show) {
+            $body->panel()->tools(function ($actions) use ($slug) {
+                $this->disableActionsByPermissions($actions, $slug);
+            });
+        } else if ($body instanceof \Encore\Admin\Grid) {
+            $body->actions(function ($actions) use ($slug) {
+                $this->disableActionsByPermissions($actions, $slug);
+            });
+
+            $body->batchActions(function ($actions) use ($slug) {
+                $this->disableActionsByPermissions($actions, $slug);
+            });
+        } else {
+            $body->tools(function ($actions) use ($slug) {
+                $this->disableActionsByPermissions($actions, $slug);
+            });
+        }
+    }
+
+    protected function disableActionsByPermissions($actions, $slug)
+    {
+        if (!\Admin::user()->can($slug . '.destroy') && method_exists($actions, 'disableDelete')) $actions->disableDelete();
+        if (!\Admin::user()->can($slug . '.show') && method_exists($actions, 'disableView')) $actions->disableView();
+        if (!\Admin::user()->can($slug . '.edit') && method_exists($actions, 'disableEdit')) $actions->disableEdit();
+        if (!\Admin::user()->can($slug . '.index') && method_exists($actions, 'disableList')) $actions->disableList();
     }
 }

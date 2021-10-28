@@ -44,7 +44,7 @@ class AuthController extends Controller
     {
         $this->loginValidator($request->all())->validate();
 
-        $credentials = $request->only([$this->username(), 'password']);
+        $credentials = $request->only(['email', 'password']);
         $remember = $request->get('remember', false);
 
         if ($this->guard()->attempt($credentials, $remember)) {
@@ -52,7 +52,7 @@ class AuthController extends Controller
         }
 
         return back()->withInput()->withErrors([
-            $this->username() => $this->getFailedLoginMessage(),
+            'email' => $this->getFailedLoginMessage(),
         ]);
     }
 
@@ -66,7 +66,7 @@ class AuthController extends Controller
     protected function loginValidator(array $data)
     {
         return Validator::make($data, [
-            $this->username()   => 'required',
+            'email'   => 'required',
             'password'          => 'required',
         ]);
     }
@@ -129,22 +129,21 @@ class AuthController extends Controller
 
         $form = new Form(new $class());
 
-        $form->display('username', trans('admin.username'));
         $form->text('name', trans('admin.name'))->rules('required');
+        $form->display('email', trans('content.E-mail address'));
         $form->image('avatar', trans('admin.avatar'));
-        $form->password('password', trans('admin.password'))->rules('confirmed|required');
-        $form->password('password_confirmation', trans('admin.password_confirmation'))->rules('required')
-            ->default(function ($form) {
-                return $form->model()->password;
-            });
+        $form->password('password', trans('admin.password'))->rules('sometimes|confirmed|max:100');
+        $form->password('password_confirmation', trans('admin.password_confirmation'));
 
         $form->setAction(admin_url('auth/setting'));
 
         $form->ignore(['password_confirmation']);
 
         $form->saving(function (Form $form) {
-            if ($form->password && $form->model()->password != $form->password) {
+            if (!empty($form->password) && $form->model()->password != $form->password) {
                 $form->password = Hash::make($form->password);
+            } else {
+                $form->password = $form->model()->password;
             }
         });
 
@@ -152,6 +151,13 @@ class AuthController extends Controller
             admin_toastr(trans('admin.update_succeeded'));
 
             return redirect(admin_url('auth/setting'));
+        });
+
+        $form->footer(function ($footer) {
+            $footer->disableReset();
+            $footer->disableViewCheck();
+            $footer->disableEditingCheck();
+            $footer->disableCreatingCheck();
         });
 
         return $form;

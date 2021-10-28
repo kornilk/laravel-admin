@@ -3,6 +3,7 @@
 namespace Encore\Admin\Form\Field;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Image as ImageClass;
 
 class Image extends File
 {
@@ -20,6 +21,20 @@ class Image extends File
      */
     protected $rules = 'image';
 
+    protected $imageSize = 'default';
+
+    public function __construct($column = '', $arguments = [])
+    {
+        $this->retainable();
+        $this->thumbnail(config('image.sizes.' . $this->imageSize . '.thumbnails'));
+        $this->widen(config('image.sizes.' . $this->imageSize . '.max'), function ($constraint) {
+            $constraint->upsize();
+        })->orientate();
+        $this->attribute(['accept' => 'image/*',  'capture' => 'camera']);
+
+        parent::__construct($column, $arguments);
+    }
+
     /**
      * @param array|UploadedFile $image
      *
@@ -27,6 +42,38 @@ class Image extends File
      */
     public function prepare($image)
     {
+        if (request()->has('watermark') && request()->watermark === 'on') {
+            
+            try {
+                $width = ImageClass::make($image)->width();
+                
+                if ($width > config('image.sizes.' . $this->imageSize . '.max')) $width = config('image.sizes.' . $this->imageSize . '.max');
+    
+                $watermarkWidth = round($width / 10);
+    
+                if ($watermarkWidth < 150 ) $watermarkWidth = 150;
+    
+                if ($width < $watermarkWidth) $watermarkWidth = $width;
+    
+                $offset = 15;
+                switch (true) {
+    
+                    case $width >= 1000:
+                        $offset = 50;
+                        break;
+                }
+    
+                $watermark = ImageClass::make(config('image.watermark'))->widen($watermarkWidth, function ($constraint) {
+                    $constraint->upsize();
+                });
+    
+                $this->insert($watermark, 'bottom-right', $offset, $offset);
+    
+            } catch (\Throwable $th) {
+
+            }
+        }
+
         if ($this->picker) {
             return parent::prepare($image);
         }
@@ -34,14 +81,35 @@ class Image extends File
         if (request()->has(static::FILE_DELETE_FLAG)) {
             return $this->destroy();
         }
-
+        
         $this->name = $this->getStoreName($image);
+        $this->renameIfExists($image);
+
+        if (config('image.keepOriginal')) {
+            $pi = pathinfo($this->name);
+            $this->uploadWithFilename($image, $pi['filename'] . '-original.' . $pi['extension']);
+        }
 
         $this->callInterventionMethods($image->getRealPath());
 
-        $path = $this->uploadAndDeleteOriginal($image);
+        $path = $this->uploadWithFilename($image, $this->name);
+
+        $this->destroy();
 
         $this->uploadAndDeleteOriginalThumbnail($image);
+
+        return $path;
+    }
+
+    protected function uploadWithFilename(UploadedFile $file, $name)
+    {
+        $path = null;
+
+        if (!is_null($this->storagePermission)) {
+            $path = $this->storage->putFileAs($this->getDirectory(), $file, $name, $this->storagePermission);
+        } else {
+            $path = $this->storage->putFileAs($this->getDirectory(), $file, $name);
+        }
 
         return $path;
     }
@@ -59,5 +127,11 @@ class Image extends File
         $extra['type'] = 'image';
 
         return $extra;
+    }
+
+    public function setImageSize(string $value){
+        $this->imageSize = $value;
+
+        return $this;
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Encore\Admin\Auth\Database;
 
+use Encore\Admin\Traits\ContentTrait;
 use Encore\Admin\Traits\DefaultDatetimeFormat;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -19,8 +20,11 @@ class Administrator extends Model implements AuthenticatableContract
     use Authenticatable;
     use HasPermissions;
     use DefaultDatetimeFormat;
+    use ContentTrait;
 
-    protected $fillable = ['username', 'password', 'name', 'avatar'];
+    protected $fillable = ['email', 'password', 'name', 'avatar'];
+    protected static $admin_permission_ids = [];
+    protected static $admin_role_ids = [];
 
     /**
      * Create a new Eloquent model instance.
@@ -36,6 +40,52 @@ class Administrator extends Model implements AuthenticatableContract
         $this->setTable(config('admin.database.users_table'));
 
         parent::__construct($attributes);
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        $permissionModel = config('admin.database.permissions_model');
+        $roleModel = config('admin.database.roles_model');
+
+        foreach (config('admin.auth.admin_permissions') as $permission_slug) {
+
+            $permission = $permissionModel::where('slug', $permission_slug)->first();
+            if ($permission) {
+                static::$admin_permission_ids[] = $permission->id;
+            }
+        }
+
+        foreach (config('admin.auth.admin_roles') as $role_slug) {
+
+            $role = $roleModel::where('slug', $role_slug)->first();
+            if ($role) {
+                static::$admin_role_ids[] = $role->id;
+            }
+        }
+
+        static::attaching(function ($model, $relation, $properties) {
+            
+            if (!\Auth::guard('admin')->user()->isAdministrator()){
+
+                if ($relation === 'permissions'){
+                    foreach ($properties as $property){
+                        if (in_array($property['permission_id'], static::$admin_permission_ids)) return false;
+                    }
+                    
+                }
+    
+                if ($relation === 'roles'){
+                    foreach ($properties as $property){
+                        if (in_array($property['role_id'], static::$admin_role_ids)) return false;
+                    }
+                }
+            }
+
+
+        });
+
     }
 
     /**

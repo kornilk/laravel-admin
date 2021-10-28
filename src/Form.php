@@ -4,6 +4,7 @@ namespace Encore\Admin;
 
 use Closure;
 use Encore\Admin\Exception\Handler;
+use Encore\Admin\Form\Actions\LanguageSelector;
 use Encore\Admin\Form\Builder;
 use Encore\Admin\Form\Concerns\HandleCascadeFields;
 use Encore\Admin\Form\Concerns\HasFields;
@@ -115,6 +116,11 @@ class Form implements Renderable
      */
     protected $isSoftDeletes = false;
 
+    protected $i18nEnabled = false;
+    protected $modelIsTranslatable = false;
+    protected $disableTranslate = false;
+    protected $disableTranslatedFieldCopy = false;
+
     /**
      * Create a new form instance.
      *
@@ -123,6 +129,8 @@ class Form implements Renderable
      */
     public function __construct($model, Closure $callback = null)
     {
+        $this->i18nEnabled = config('i18n.enabled');
+
         $this->model = $model;
 
         $this->builder = new Builder($this);
@@ -136,6 +144,16 @@ class Form implements Renderable
         $this->isSoftDeletes = in_array(SoftDeletes::class, class_uses_deep($this->model), true);
 
         $this->callInitCallbacks();
+
+        if ($this->i18nEnabled && in_array(
+            \App\Traits\Translatable::class,
+            array_keys((new \ReflectionClass($model))->getTraits())
+        )) {
+            $this->modelIsTranslatable = true;
+            $this->tools(function ($tools) {
+                $tools->append(new LanguageSelector($this));
+            });
+        }
     }
 
     /**
@@ -1062,6 +1080,10 @@ class Form implements Renderable
 
         $builder = $this->model();
 
+        if ($this->modelIsTranslatable) {
+            $builder = $builder->withTranslations(config('i18n.locales'));
+        }
+
         if ($this->isSoftDeletes) {
             $builder = $builder->withTrashed();
         }
@@ -1071,6 +1093,12 @@ class Form implements Renderable
         $this->callEditing();
 
         $data = $this->model->toArray();
+
+        if ($this->modelIsTranslatable) {
+            foreach ($data['translations'] as $translatedField){
+                $data[$translatedField['column_name'] . '_' . $translatedField['locale']] = $this->model->getTranslatedAttribute($translatedField['column_name'], $translatedField['locale']);
+            }
+        }
 
         $this->fields()->each(function (Field $field) use ($data) {
             if (!in_array($field->column(), $this->ignored, true)) {
@@ -1538,11 +1566,39 @@ class Form implements Renderable
     public function __call($method, $arguments)
     {
         if ($className = static::findFieldClass($method)) {
-            $column = Arr::get($arguments, 0, ''); //[0];
+            $column = \Arr::get($arguments, 0, ''); //[0];
 
-            $element = new $className($column, array_slice($arguments, 1));
+            if (!$this->disableTranslate && $this->modelIsTranslatable && is_string($column) && in_array($column, $this->model->getTranslatableAttributes())) {
 
-            $this->pushField($element);
+                $originalElement = new $className($column, array_slice($arguments, 1));
+                $originalElement->setLabel($originalElement->label() . ' [' . strtoupper(config('i18n.default')) . ']');
+                $originalElement->translatedFields = [];
+
+                foreach (config('i18n.locales') as $locale) {
+
+                    $isDefaultField = $locale === config('i18n.default');
+
+                    $this->html('<div class="translatable ' . ($isDefaultField ? '' : 'translatable-hidden') . '" data-locale="'.$locale.'">')->plain();
+
+                    if ($isDefaultField) {
+                        $this->pushField($originalElement);
+                    } else {
+                        $element = new $className($column . '_' . $locale, array_slice($arguments, 1));
+                        $element->setLabel($element->label() . ' [' . strtoupper($locale) . ']');
+                        $originalElement->translatedFields[$locale] = $element;
+                        $this->pushField($element);
+                    }
+
+                    $this->html('</div>')->plain();
+                }
+
+                return $originalElement;
+    
+            } else {
+                $element = new $className($column, array_slice($arguments, 1));
+                
+                $this->pushField($element);
+            }
 
             return $element;
         }
@@ -1558,5 +1614,30 @@ class Form implements Renderable
     public function getLayout(): Layout
     {
         return $this->layout;
+    }
+
+    public function disableTranslatedFieldCopy(){
+        $this->disableTranslatedFieldCopy = true;
+    }
+
+    public function copyFieldAttributesToTranslatedFields(){
+        foreach($this->fields() as $field){
+            if (property_exists($field, 'translatedFields')){
+                $field->copyToTranslatedFields();
+            }
+        }
+    }
+
+
+    public function disableColumnTranslate(){
+        
+        $this->disableTranslate = true;
+        
+        return $this;
+    }
+
+    public function enableColumnTranslate(){
+        $this->disableTranslate = false;
+        return $this;
     }
 }

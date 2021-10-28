@@ -123,6 +123,7 @@ trait HasFields
         'morphMany'         => Field\HasMany::class,
         'belongsTo'         => Field\BelongsTo::class,
         'belongsToMany'     => Field\BelongsToMany::class,
+        'belongsToManyOrdered'     => Field\BelongsToManyOrdered::class,
     ];
 
     /**

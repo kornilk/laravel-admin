@@ -1572,4 +1572,42 @@ class Field implements Renderable
     {
         return $this->render()->render();
     }
+
+    public function copyToTranslatedFields(){
+        foreach($this->translatedFields as $field){
+            $field->setWidth($this->width['field'], $this->width['label']);
+            $field->setLabelClass($this->labelClass);
+            $field->setHelpArray($this->help);
+
+            if (method_exists($field, 'retainable')) $field->retainable($this->retainable);
+            if (method_exists($field, 'removable')) $field->removable($this->removable);
+            if (method_exists($field, 'downloadable')) $field->downloadable($this->downloadable);
+            if (method_exists($field, 'uniqueName')) $field->uniqueName($this->uniqueName);
+        }
+    }
+
+    public function setHelpArray($data)
+    {
+        $this->help = $data;
+        return $this;
+    }
+    
+    public function setLabel($label){
+        $this->label = $label;
+        return $this;
+    }
+
+    public function translatedRules($rules){
+        foreach($this->translatedFields as $field){
+            $field->rules($rules);
+        }
+        return $this;
+    }
+
+    public function setColumn($column, $label = null){
+        $this->column = $column;
+        $this->id = $this->formatId($column);
+        if (!empty($label)) $this->label = $label;
+        return $this;
+    }
 }

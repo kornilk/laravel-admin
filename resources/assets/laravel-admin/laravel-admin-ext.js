@@ -147,3 +147,14 @@ function browse_images(callback) {
 
     modal.modal('show');
 }
+
+$('body').on('click', '.grid-popup-link', function(e){
+            
+    if (!$(this).data('magnif')){
+        $(this).data('magnif', true);
+        $(this).magnificPopup({"type":'image'});
+        e.preventDefault();
+        $(this).trigger('click');
+        $(document).off('focusin' );
+    }
+});
