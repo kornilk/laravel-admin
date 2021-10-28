@@ -26,10 +26,19 @@ class Modal {
             that._clearErrors();
             that._disableButtons();
             that.loading();
+            var data = new FormData(this);
+
+            form.find('.ckEditorTextarea').each(function () {
+                data.append($(this).attr('name'), $(this).data('editor').getData());
+            });
+
+            
             $.ajax({
                 url: form.attr('action'),
                 method: form.attr('method'),
-                data: form.serialize()
+                data: data,
+                processData: false,
+                contentType: false, 
             }).error((jqXHR, textStatus, errorThrown) => {
                 this.$modalButton.trigger('modelFailed');
                 swal(jqXHR.status.toString(), errorThrown, 'error');
@@ -37,6 +46,11 @@ class Modal {
                 if(result.status){
                     toastr.success(result.message);
                     that.$modalButton.data('model-id', result.modelId);
+
+                    if (result.data) {
+                        that.$modalButton.data('model-data', result.data);
+                    }
+
                     that.$modalButton.trigger('modelCreated');
                     that.dismiss();
                 }else{
@@ -114,6 +128,7 @@ class Modal {
     _handleHide() {
         var that = this;
         this.modal.on('hidden.bs.modal', function () {
+            
             var index = modals.findIndex((element)=>{
                 return element.id === that.id;
             });
@@ -121,6 +136,7 @@ class Modal {
                 modals.slice(index, 1);
             }
             that.modal.remove();
+            if ($('body .wrapper>.modal').length > 0) $('body').addClass('modal-open');
         });
     }
 
