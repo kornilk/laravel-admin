@@ -104,4 +104,6 @@ return [
     'prev'                   => 'Prev',
     'next'                   => 'Next',
     'quick_create'           => 'Quick create',
+    'imageSizeHelp'          => 'Minimum image dimension: :width::height',
+    'imageRatioHelp'         => 'Required ratio: :ratio',
 ];
