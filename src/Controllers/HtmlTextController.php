@@ -54,9 +54,13 @@ class HtmlTextController extends AdminController
     {
         $show = new Show($this->model::findOrFail($id));
 
-        $show->field('value', __('content.Text'))->unescape();;
+        $show->field('value', __('content.Text'))->unescape();
         $show->field('context', __('content.Context'));
         $show->field('placeholder', __('content.Placeholder'));
+
+        $show->panel()->tools(function ($tools) {
+            $tools->disableDelete();
+        });
        
         return $show;
     }
@@ -77,9 +81,11 @@ class HtmlTextController extends AdminController
         $form->text('placeholder', __('content.Placeholder'))->rules('required|max:190');
 
         $form->footer(function ($footer) {
-
             $footer->disableCreatingCheck();
-        
+        });
+
+        $form->tools(function (Form\Tools $tools) {
+            $tools->disableDelete();
         });
 
         $form->copyFieldAttributesToTranslatedFields();

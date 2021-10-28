@@ -88,19 +88,13 @@ class UserController extends AdminController
         $show->field('name', $userModel::label('name'));
         $show->field('email', $userModel::label('email'));
 
-        $show->field('roles', trans('admin.roles'))->unescape()->as(function ($roles) {
-            $value = $roles->pluck('name')->toArray();
-            return collect((array) $value)->map(function ($name) {
-                return "<span class='label label-success'>$name</span>";
-            })->implode(' ');
-        });
+        $show->field('roles', trans('admin.roles'))->as(function ($roles) {
+            return $roles->pluck('name');
+        })->label();
 
-        $show->field('permissions', trans('admin.permissions'))->unescape()->as(function ($permission) {
-            $value = $permission->pluck('name')->toArray();
-            return collect((array) $value)->map(function ($name) {
-                return "<span class='label label-success'>$name</span>";
-            })->implode(' ');
-        });
+        $show->field('permissions', trans('admin.permissions'))->as(function ($permission) {
+            return $permission->pluck('name');
+        })->label();
 
         $show->field('created_at', trans('admin.created_at'));
         $show->field('updated_at', trans('admin.updated_at'));

@@ -57,6 +57,10 @@ class TextController extends AdminController
         $show->field('value', __('content.Text'));
         $show->field('context', __('content.Context'));
         $show->field('placeholder', __('content.Placeholder'));
+
+        $show->panel()->tools(function ($tools) {
+            $tools->disableDelete();
+        });
        
         return $show;
     }
@@ -81,6 +85,11 @@ class TextController extends AdminController
             $footer->disableCreatingCheck();
         
         });
+
+        $form->tools(function (Form\Tools $tools) {
+            $tools->disableDelete();
+        });
+        
         
         return $form;
     }

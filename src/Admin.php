@@ -330,9 +330,9 @@ class Admin
                 $router->get('_handle_selectable_', 'HandleController@handleSelectable')->name('handle-selectable');
                 $router->get('_handle_renderable_', 'HandleController@handleRenderable')->name('handle-renderable');
 
-                $router->resource('images', ImagesController::class);
-                $router->resource('texts', TextController::class);
-                $router->resource('html-texts', HtmlTextController::class);
+                $router->resource('images', 'ImagesController');
+                $router->resource('texts', 'TextController');
+                $router->resource('html-texts', 'HtmlTextController');
 
                 $router->get('/images-modal/browse', 'ImageController@browser')->name('image.modal.browser');
                 $router->get('/images-modal/modal-form', 'ImageController@ModalForm')->name('image.modal.form');

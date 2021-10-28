@@ -19,6 +19,6 @@ class Badge extends AbstractDisplayer
             }
 
             return "<span class='badge bg-{$style}'>$name</span>";
-        })->implode('&nbsp;');
+        })->implode(' ');
     }
 }
