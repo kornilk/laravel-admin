@@ -146,7 +146,7 @@ class Form implements Renderable
         $this->callInitCallbacks();
 
         if ($this->i18nEnabled && in_array(
-            \App\Traits\Translatable::class,
+            \Encore\Admin\Traits\Translatable::class,
             array_keys((new \ReflectionClass($model))->getTraits())
         )) {
             $this->modelIsTranslatable = true;

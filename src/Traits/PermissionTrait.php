@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits;
+namespace Encore\Admin\Traits;
 
 trait PermissionTrait
 {

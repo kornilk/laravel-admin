@@ -1,7 +1,7 @@
 <?php
 
-use App\Traits\MenuTrait;
-use App\Traits\PermissionTrait;
+use Encore\Admin\Traits\MenuTrait;
+use Encore\Admin\Traits\PermissionTrait;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;

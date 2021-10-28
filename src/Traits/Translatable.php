@@ -2,11 +2,11 @@
 
 namespace Encore\Admin\Traits;
 
+use Encore\Admin\Models\Translation;
+use Encore\Admin\Translator\Translator;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use App\Models\Translation;
-use App\Translator\Translator;
 
 trait Translatable
 {
