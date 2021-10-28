@@ -11,7 +11,7 @@ return [
     | login page.
     |
     */
-    'name' => 'Laravel-admin',
+    'name' => env('PROJECT_NAME', '') . ' Admin',
 
     /*
     |--------------------------------------------------------------------------
@@ -22,7 +22,7 @@ return [
     | `img` tag, eg '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo' => '<b>Laravel</b> admin',
+    'logo' => '<b>'.env('PROJECT_NAME', '').'</b> admin',
 
     /*
     |--------------------------------------------------------------------------
@@ -34,7 +34,7 @@ return [
     | '<img src="http://logo-url" alt="Admin logo">'.
     |
     */
-    'logo-mini' => '<b>La</b>',
+    'logo-mini' => '<b>Ap</b>',
 
     /*
     |--------------------------------------------------------------------------
@@ -62,7 +62,7 @@ return [
 
         'namespace' => 'App\\Admin\\Controllers',
 
-        'middleware' => ['web', 'admin'],
+        'middleware' => ['web', 'admin', 'firewall.all'],
     ],
 
     /*
@@ -138,7 +138,25 @@ return [
         'excepts' => [
             'auth/login',
             'auth/logout',
+            '_handle_action_',
+            '_grid-sortable_',
+            'locale',
         ],
+
+        'default_permissions' => [
+            'dashboard',
+            'auth.login',
+            'auth.setting',
+        ],
+
+        'admin_permissions' => [
+            '*',
+            'log',
+        ],
+
+        'admin_roles' => [
+            'administrator',
+        ]
     ],
 
     /*
@@ -153,7 +171,7 @@ return [
     'upload' => [
 
         // Disk in `config/filesystem.php`.
-        'disk' => 'admin',
+        'disk' => 'uploads',
 
         // Image and file upload path under the disk above.
         'directory' => [
@@ -173,7 +191,7 @@ return [
     'database' => [
 
         // Database connection for following tables.
-        'connection' => '',
+        'connection' => env('DB_CONNECTION', 'mysql'),
 
         // User tables and model.
         'users_table' => 'admin_users',
@@ -249,7 +267,7 @@ return [
     | Set a default avatar for newly created users.
     |
     */
-    'default_avatar' => '/vendor/laravel-admin/AdminLTE/dist/img/user2-160x160.jpg',
+    'default_avatar' => '/vendor/laravel-admin/laravel-admin/images/user-default.png',
 
     /*
     |--------------------------------------------------------------------------
@@ -275,7 +293,7 @@ return [
     |    "skin-red", "skin-red-light", "skin-black", "skin-black-light".
     |
     */
-    'skin' => env('ADMIN_SKIN', 'skin-blue-light'),
+    'skin' => 'skin-blue-light',
 
     /*
     |--------------------------------------------------------------------------
@@ -289,7 +307,7 @@ return [
     | "sidebar-mini".
     |
     */
-    'layout' => ['sidebar-mini', 'sidebar-collapse'],
+    'layout' => ['fixed'],
 
     /*
     |--------------------------------------------------------------------------
@@ -310,7 +328,7 @@ return [
     | each page
     |
     */
-    'show_version' => true,
+    'show_version' => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -320,7 +338,7 @@ return [
     | Whether to display the environment at the footer of each page
     |
     */
-    'show_environment' => true,
+    'show_environment' => false,
 
     /*
     |--------------------------------------------------------------------------

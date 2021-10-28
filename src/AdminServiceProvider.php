@@ -3,6 +3,10 @@
 namespace Encore\Admin;
 
 use Encore\Admin\Layout\Content;
+use Encore\Admin\Models\HtmlText;
+use Encore\Admin\Models\Image;
+use Encore\Admin\Models\Text;
+use Encore\Admin\Translator\Collection as TranslatorCollection;;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
@@ -90,6 +94,12 @@ class AdminServiceProvider extends ServiceProvider
         Blade::directive('endbox', function ($expression) {
             return "'); echo \$box->render(); ?>";
         });
+
+        Text::observe(CacheObserver::class);
+        HtmlText::observe(CacheObserver::class);
+        Image::observe(CacheObserver::class);
+
+        $this->bootTranslatorCollectionMacros();
     }
 
     /**
@@ -200,5 +210,18 @@ class AdminServiceProvider extends ServiceProvider
         foreach ($this->middlewareGroups as $key => $middleware) {
             app('router')->middlewareGroup($key, $middleware);
         }
+    }
+
+    protected function bootTranslatorCollectionMacros()
+    {
+        Collection::macro('translate', function () {
+            $transtors = [];
+
+            foreach ($this->all() as $item) {
+                $transtors[] = call_user_func_array([$item, 'translate'], func_get_args());
+            }
+
+            return new TranslatorCollection($transtors);
+        });
     }
 }

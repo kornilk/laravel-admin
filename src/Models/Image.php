@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Models;
+namespace Encore\Admin\Models;
 
-use App\Traits\ContentTrait;
+use Encore\Admin\Traits\ContentTrait;
 use Storage;
 
 class Image extends ContentModel
 {
-
     use ContentTrait;
 
     protected static function initStatic()
