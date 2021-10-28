@@ -84,6 +84,7 @@ class AdminTablesSeeder extends Seeder
                 'title'     => 'Dashboard',
                 'icon'      => 'fa-bar-chart',
                 'uri'       => '/',
+                'permission' => null,
             ],
             [
                 'parent_id' => 0,
@@ -91,14 +92,15 @@ class AdminTablesSeeder extends Seeder
                 'title'     => 'Admin',
                 'icon'      => 'fa-tasks',
                 'uri'       => '',
+                'permission' => null,
             ],
             [
                 'parent_id' => 2,
                 'order'     => 3,
                 'title'     => 'Administrators',
-                'permission' => 'auth.management',
                 'icon'      => 'fa-users',
                 'uri'       => 'auth/users',
+                'permission' => 'auth.management',
             ],
             [
                 'parent_id' => 2,
@@ -106,6 +108,7 @@ class AdminTablesSeeder extends Seeder
                 'title'     => 'Roles',
                 'icon'      => 'fa-user',
                 'uri'       => 'auth/roles',
+                'permission' => null,
             ],
             [
                 'parent_id' => 2,
@@ -113,6 +116,7 @@ class AdminTablesSeeder extends Seeder
                 'title'     => 'Permission',
                 'icon'      => 'fa-ban',
                 'uri'       => 'auth/permissions',
+                'permission' => null,
             ],
             [
                 'parent_id' => 2,
@@ -120,6 +124,7 @@ class AdminTablesSeeder extends Seeder
                 'title'     => 'Menu',
                 'icon'      => 'fa-bars',
                 'uri'       => 'auth/menu',
+                'permission' => null,
             ],
             [
                 'parent_id' => 2,
@@ -127,6 +132,7 @@ class AdminTablesSeeder extends Seeder
                 'title'     => 'Operation log',
                 'icon'      => 'fa-history',
                 'uri'       => 'auth/logs',
+                'permission' => null,
             ],
             [
                 'parent_id' => 2,
@@ -134,6 +140,7 @@ class AdminTablesSeeder extends Seeder
                 'title'     => 'Log viewer',
                 'icon'      => 'fa-database',
                 'uri'       => 'logs',
+                'permission' => null,
             ],
         ]);
 
