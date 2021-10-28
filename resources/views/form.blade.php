@@ -23,7 +23,7 @@
                     @endforeach
                 @else
                     @foreach($layout->columns() as $column)
-                        <div class="col-md-{{ $column->width() }}">
+                        <div class="col-lg-{{ $column->width() }}">
                             @foreach($column->fields() as $field)
                                 {!! $field->render() !!}
                             @endforeach
