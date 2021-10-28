@@ -95,7 +95,8 @@ class AdminTablesSeeder extends Seeder
             [
                 'parent_id' => 2,
                 'order'     => 3,
-                'title'     => 'Users',
+                'title'     => 'Administrators',
+                'permission' => 'auth.management',
                 'icon'      => 'fa-users',
                 'uri'       => 'auth/users',
             ],
@@ -127,10 +128,9 @@ class AdminTablesSeeder extends Seeder
                 'icon'      => 'fa-history',
                 'uri'       => 'auth/logs',
             ],
-
             [
                 'parent_id' => 2,
-                'order'     => 7,
+                'order'     => 8,
                 'title'     => 'Log viewer',
                 'icon'      => 'fa-database',
                 'uri'       => 'logs',
