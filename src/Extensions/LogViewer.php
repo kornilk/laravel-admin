@@ -1,6 +1,6 @@
 <?php
 
-namespace Encore\Admin\Extensions\LogViewer;
+namespace Encore\Admin\Extensions;
 
 use Encore\Admin\Extension;
 

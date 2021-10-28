@@ -6,6 +6,7 @@ use Encore\Admin\Layout\Content;
 use Encore\Admin\Models\HtmlText;
 use Encore\Admin\Models\Image;
 use Encore\Admin\Models\Text;
+use Encore\Admin\Observers\CacheObserver;
 use Encore\Admin\Translator\Collection as TranslatorCollection;;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
