@@ -7,11 +7,12 @@ use Encore\Admin\Models\HtmlText;
 use Encore\Admin\Models\Image;
 use Encore\Admin\Models\Text;
 use Encore\Admin\Observers\CacheObserver;
-use Encore\Admin\Translator\Collection as TranslatorCollection;;
+use Encore\Admin\Translator\Collection as TranslatorCollection;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Database\Eloquent\Collection;
 
 class AdminServiceProvider extends ServiceProvider
 {
