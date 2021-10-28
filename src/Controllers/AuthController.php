@@ -204,13 +204,13 @@ class AuthController extends Controller
     }
 
     /**
-     * Get the login username to be used by the controller.
+     * Get the login email to be used by the controller.
      *
      * @return string
      */
-    protected function username()
+    protected function email()
     {
-        return 'username';
+        return 'email';
     }
 
     /**

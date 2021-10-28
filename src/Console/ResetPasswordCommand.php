@@ -28,14 +28,14 @@ class ResetPasswordCommand extends Command
     {
         $userModel = config('admin.database.users_model');
 
-        askForUserName:
-        $username = $this->ask('Please enter a username who needs to reset his password');
+        askForEmail:
+        $email = $this->ask('Please enter a email who needs to reset his password');
 
-        $user = $userModel::query()->where('username', $username)->first();
+        $user = $userModel::query()->where('email', $email)->first();
 
         if (is_null($user)) {
             $this->error('The user you entered is not exists');
-            goto askForUserName;
+            goto askForEmail;
         }
 
         enterPassword:

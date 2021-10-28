@@ -17,7 +17,7 @@ class AdminTablesSeeder extends Seeder
         // create a user.
         Administrator::truncate();
         Administrator::create([
-            'username' => 'admin',
+            'email' => 'admin@admin.com',
             'password' => Hash::make('admin'),
             'name'     => 'Administrator',
         ]);

@@ -291,7 +291,7 @@ class Content implements Renderable
             return [];
         }
 
-        return Arr::only($user->toArray(), ['id', 'username', 'email', 'name', 'avatar']);
+        return Arr::only($user->toArray(), ['id', 'email', 'name', 'avatar']);
     }
 
     /**
