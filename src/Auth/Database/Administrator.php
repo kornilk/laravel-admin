@@ -67,8 +67,8 @@ class Administrator extends Model implements AuthenticatableContract
         }
 
         static::attaching(function ($model, $relation, $properties) {
-            
-            if (!\Auth::guard('admin')->user()->isAdministrator()){
+            $user = \Auth::guard('admin')->user();
+            if (!$user || !\Auth::guard('admin')->user()->isAdministrator()){
 
                 if ($relation === 'permissions'){
                     foreach ($properties as $property){
