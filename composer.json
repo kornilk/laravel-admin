@@ -1,16 +1,10 @@
 {
-    "name": "encore/laravel-admin",
+    "name": "kornilk/laravel-admin",
     "description": "laravel admin",
     "type": "library",
     "keywords": ["laravel", "admin", "grid", "form"],
-    "homepage": "https://github.com/z-song/laravel-admin",
+    "homepage": "https://github.com/kornilk/laravel-admin",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "zsong",
-            "email": "zosong@126.com"
-        }
-    ],
     "require": {
         "php": ">=7.0.0",
         "symfony/dom-crawler": "~3.1|~4.0|~5.0",
