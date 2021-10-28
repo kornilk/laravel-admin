@@ -59,6 +59,8 @@ trait ExtendDisplay
         'suffix'        => Displayers\Suffix::class,
         'secret'        => Displayers\Secret::class,
         'limit'         => Displayers\Limit::class,
+        'lightbox'      => Displayers\Lightbox::class,
+        'gallery'       => Displayers\Gallery::class,
     ];
 
     /**

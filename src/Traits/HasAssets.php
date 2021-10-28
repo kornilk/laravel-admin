@@ -71,6 +71,7 @@ trait HasAssets
         'vendor/laravel-admin/bootstrap3-editable/css/bootstrap-editable.css',
         'vendor/laravel-admin/google-fonts/fonts.css',
         'vendor/laravel-admin/AdminLTE/dist/css/AdminLTE.min.css',
+        'vendor/laravel-admin/magnific/magnific-popup.css',
     ];
 
     /**
@@ -87,6 +88,7 @@ trait HasAssets
         'vendor/laravel-admin/bootstrap3-editable/js/bootstrap-editable.min.js',
         'vendor/laravel-admin/sweetalert2/dist/sweetalert2.min.js',
         'vendor/laravel-admin/laravel-admin/laravel-admin.js',
+        'vendor/laravel-admin/magnific/jquery.magnific-popup.min.js',
     ];
 
     /**

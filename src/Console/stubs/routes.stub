@@ -13,4 +13,8 @@ Route::group([
 
     $router->get('/', 'HomeController@index')->name('home');
 
+    $router->get('logs', 'Encore\Admin\LogViewer\LogViewerController@index')->name('log-viewer-index');
+    $router->get('logs/{file}', 'Encore\Admin\LogViewer\LogViewerController@index')->name('log-viewer-file');
+    $router->get('logs/{file}/tail', 'Encore\Admin\LogViewer\LogViewerController@tail')->name('log-viewer-tail');
+
 });

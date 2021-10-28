@@ -65,6 +65,12 @@ class AdminTablesSeeder extends Seeder
                 'http_method' => '',
                 'http_path'   => "/auth/roles\r\n/auth/permissions\r\n/auth/menu\r\n/auth/logs",
             ],
+            [
+                'name'        => 'Logs',
+                'slug'        => 'ext.log-viewer',
+                'http_method' => '',
+                'http_path'   => "logs*",
+            ],
         ]);
 
         Role::first()->permissions()->save(Permission::first());
@@ -120,6 +126,14 @@ class AdminTablesSeeder extends Seeder
                 'title'     => 'Operation log',
                 'icon'      => 'fa-history',
                 'uri'       => 'auth/logs',
+            ],
+
+            [
+                'parent_id' => 2,
+                'order'     => 7,
+                'title'     => 'Log viewer',
+                'icon'      => 'fa-database',
+                'uri'       => 'logs',
             ],
         ]);
 
