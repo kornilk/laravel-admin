@@ -38,9 +38,9 @@ class AdminController extends Controller
 
     public function __construct()
     {
-        if (method_exists($this->model, 'getContentTitle')) $this->title = $this->model::getContentTitle();
-        if (method_exists($this->model, 'getContentTitlePlural')) $this->titlePlural = $this->model::getContentTitlePlural();
-        if (method_exists($this->model, 'getContentSlug')) $this->slug = $this->model::getContentSlug();
+        if (property_exists($this, 'model') && method_exists($this->model, 'getContentTitle')) $this->title = $this->model::getContentTitle();
+        if (property_exists($this, 'model') && method_exists($this->model, 'getContentTitlePlural')) $this->titlePlural = $this->model::getContentTitlePlural();
+        if (property_exists($this, 'model') && method_exists($this->model, 'getContentSlug')) $this->slug = $this->model::getContentSlug();
     }
 
     /**
@@ -70,7 +70,7 @@ class AdminController extends Controller
 
         $body->model()->orderBy('created_at', 'desc');
 
-        $this->manageActionsByPermissions($body, $this->slug);
+        manageActionsByPermissions($body, $this->slug);
 
         $body->filter(function($filter) {
 
@@ -120,7 +120,7 @@ class AdminController extends Controller
 
         if (!empty($this->description['show'])) $content->description($this->description['show']);
 
-        $this->manageActionsByPermissions($body, $this->slug);
+        manageActionsByPermissions($body, $this->slug);
 
         function inlineScript() 
         {
@@ -166,7 +166,7 @@ class AdminController extends Controller
 
         $form = $this->form()->edit($id);
 
-        $this->manageActionsByPermissions($form, $this->slug);
+        manageActionsByPermissions($form, $this->slug);
 
         $form->footer(function ($footer) {
             $footer->disableReset();
@@ -175,7 +175,7 @@ class AdminController extends Controller
             $footer->disableCreatingCheck();
         });
 
-        $this->manageActionsByPermissions($form, $this->slug);
+        manageActionsByPermissions($form, $this->slug);
            
         return $content
             ->title($this->title())
@@ -194,7 +194,7 @@ class AdminController extends Controller
         $content->breadcrumb(...$this->getBreadcrumb(null, null, __('admin.create')));
         $form = $this->form();
 
-        $this->manageActionsByPermissions($form, $this->slug);
+        manageActionsByPermissions($form, $this->slug);
 
         if (!empty($this->description['create'])) $content->description($this->description['create']);
 
@@ -260,34 +260,5 @@ class AdminController extends Controller
         ]));
         $res->header('Content-Type', 'application/json');
         return $res;
-    }
-
-    protected function manageActionsByPermissions($body, $slug)
-    {
-        if ($body instanceof \Encore\Admin\Show) {
-            $body->panel()->tools(function ($actions) use ($slug) {
-                $this->disableActionsByPermissions($actions, $slug);
-            });
-        } else if ($body instanceof \Encore\Admin\Grid) {
-            $body->actions(function ($actions) use ($slug) {
-                $this->disableActionsByPermissions($actions, $slug);
-            });
-
-            $body->batchActions(function ($actions) use ($slug) {
-                $this->disableActionsByPermissions($actions, $slug);
-            });
-        } else {
-            $body->tools(function ($actions) use ($slug) {
-                $this->disableActionsByPermissions($actions, $slug);
-            });
-        }
-    }
-
-    protected function disableActionsByPermissions($actions, $slug)
-    {
-        if (!\Admin::user()->can($slug . '.destroy') && method_exists($actions, 'disableDelete')) $actions->disableDelete();
-        if (!\Admin::user()->can($slug . '.show') && method_exists($actions, 'disableView')) $actions->disableView();
-        if (!\Admin::user()->can($slug . '.edit') && method_exists($actions, 'disableEdit')) $actions->disableEdit();
-        if (!\Admin::user()->can($slug . '.index') && method_exists($actions, 'disableList')) $actions->disableList();
     }
 }

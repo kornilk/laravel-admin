@@ -9,6 +9,7 @@ Route::group([
     'domain'        => config('extend.subdomain_admin') . config('extend.domain'),
     'middleware'    => config('admin.route.middleware'),
     'as'            => 'admin.',
+    'namespace'     => config('admin.route.namespace')
 ], function (Router $router) {
 
     $router->get('/', 'HomeController@index')->name('home');
