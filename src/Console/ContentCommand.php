@@ -5,6 +5,7 @@ namespace Encore\Admin\Console;
 use Illuminate\Console\GeneratorCommand;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Schema;
 
 class ContentCommand extends GeneratorCommand
 {
@@ -41,6 +42,13 @@ class ContentCommand extends GeneratorCommand
      * @var string
      */
     protected $slug;
+
+    protected $skipColumnTranslations = [
+        'id',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
 
     /**
      * Execute the console command.
@@ -84,6 +92,13 @@ class ContentCommand extends GeneratorCommand
                         $this->line('');
                         $this->info("    \$router->resource('{$this->slug}', {$this->controllerName}::class);");
                         $this->line('');
+                        $this->comment('Add the following lines to content.php');
+                        $this->line('');
+                        foreach (Schema::getColumnListing($table) as $column){
+                            if (in_array($column, $this->skipColumnTranslations)) continue;
+                            $label = $this->formatLabel($column);
+                            $this->info("\"{$this->modelName}.{$column}\" => \"{$label}\",");
+                        }
                     }
                     break;
                 } catch (\Exception $e) {
@@ -95,6 +110,11 @@ class ContentCommand extends GeneratorCommand
             }
             break;
         } while (true);
+    }
+
+    protected function formatLabel($value)
+    {
+        return ucfirst(str_replace(['-', '_'], ' ', $value));
     }
 
     protected function migrate($file)

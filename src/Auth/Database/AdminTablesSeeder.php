@@ -14,6 +14,7 @@ class AdminTablesSeeder extends Seeder
      */
     public function run()
     {
+        \DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         // create a user.
         Administrator::truncate();
         Administrator::create([
@@ -146,5 +147,7 @@ class AdminTablesSeeder extends Seeder
 
         // add role to menu.
         Menu::find(2)->roles()->save(Role::first());
+
+        \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }

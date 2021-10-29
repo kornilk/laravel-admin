@@ -15,9 +15,9 @@ class ResourceGenerator
      * @var array
      */
     protected $formats = [
-        'form_field'  => "\$form->%s('%s', __('%s'))",
-        'show_field'  => "\$show->field('%s', __('%s'))",
-        'grid_column' => "\$grid->column('%s', __('%s'))",
+        'form_field'  => "\$form->%s('%s', \$this->model::label('%s'))",
+        'show_field'  => "\$show->field('%s', \$this->model::label('%s'))",
+        'grid_column' => "\$grid->column('%s', \$this->model::label('%s'))",
     ];
 
     /**
@@ -90,7 +90,7 @@ class ResourceGenerator
             $type = $column->getType()->getName();
             $default = $column->getDefault();
 
-            $defaultValue = '';
+            $defaultValue = 'text';
 
             // set column fieldType and defaultValue
             switch ($type) {
@@ -149,7 +149,7 @@ class ResourceGenerator
 
             $label = $this->formatLabel($name);
 
-            $output .= sprintf($this->formats['form_field'], $fieldType, $name, $label);
+            $output .= sprintf($this->formats['form_field'], $fieldType, $name, $column);
 
             if (trim($defaultValue, "'\"")) {
                 $output .= "->default({$defaultValue})";
@@ -171,7 +171,7 @@ class ResourceGenerator
             // set column label
             $label = $this->formatLabel($name);
 
-            $output .= sprintf($this->formats['show_field'], $name, $label);
+            $output .= sprintf($this->formats['show_field'], $name, $column);
 
             $output .= ";\r\n";
         }
@@ -187,7 +187,7 @@ class ResourceGenerator
             $name = $column->getName();
             $label = $this->formatLabel($name);
 
-            $output .= sprintf($this->formats['grid_column'], $name, $label);
+            $output .= sprintf($this->formats['grid_column'], $name, $column);
             $output .= ";\r\n";
         }
 
