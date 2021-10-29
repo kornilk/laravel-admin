@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Models;
+
+use Encore\Admin\Models\ContentModel;
+use Encore\Admin\Traits\ContentTrait;
+use Encore\Admin\Traits\Translatable;
+
+class DummyModelName extends ContentModel
+{
+    use ContentTrait, Translatable;
+
+    protected $translatable = [];
+
+    protected static function initStatic()
+    {
+        static::$contentTitle = __('content.DummyModelName');
+        static::$contentTitlePlural = __('content.DummyModelNamePlural');
+        static::$contentSlug = 'DummySlug';
+    }
+}

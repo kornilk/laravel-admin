@@ -337,6 +337,10 @@ class Admin
                 $router->get('/images-modal/browse', 'ImageController@browser')->name('image.modal.browser');
                 $router->get('/images-modal/modal-form', 'ImageController@ModalForm')->name('image.modal.form');
                 $router->post('/images-modal/modal-form', 'ImageController@ModalFormSore')->name('image.modal.form.store');
+
+                $router->get('logs', 'LogViewerController@index')->name('log-viewer-index');
+                $router->get('logs/{file}', 'LogViewerController@index')->name('log-viewer-file');
+                $router->get('logs/{file}/tail', 'LogViewerController@tail')->name('log-viewer-tail');
             });
 
             $authController = config('admin.auth.controller', AuthController::class);
@@ -347,10 +351,6 @@ class Admin
             $router->get('auth/logout', $authController.'@getLogout')->name('logout');
             $router->get('auth/setting', $authController.'@getSetting')->name('setting');
             $router->put('auth/setting', $authController.'@putSetting')->name('setting.put');
-
-            $router->get('logs', 'LogViewerController@index')->name('log-viewer-index');
-            $router->get('logs/{file}', 'LogViewerController@index')->name('log-viewer-file');
-            $router->get('logs/{file}/tail', 'LogViewerController@tail')->name('log-viewer-tail');
         });
     }
 

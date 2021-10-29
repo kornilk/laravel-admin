@@ -36,7 +36,7 @@ class CreateHtmlTextsTable extends Migration
             'permission' => 'html-texts.index',
         ]);
 
-        $this->addContentPermissions('html-texts', 'Html Szövegek')->createRoleByPermissionSlug('Html Szövegek - teljes hozzáférés', 'html-texts_full_access', 'html_texts.%');
+        $this->addContentPermissions('html-texts', 'Html Szövegek')->createRoleByPermissionSlug('Html Szövegek - teljes hozzáférés', 'html-texts_full_access', 'html-texts.%');
     }
 
     /**

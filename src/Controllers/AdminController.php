@@ -99,7 +99,7 @@ class AdminController extends Controller
             }
             
         });
-        
+
         return $content
             ->title($this->title())
             ->body($body);
@@ -176,6 +176,8 @@ class AdminController extends Controller
         });
 
         manageActionsByPermissions($form, $this->slug);
+
+        $form->copyFieldAttributesToTranslatedFields();
            
         return $content
             ->title($this->title())
@@ -204,6 +206,8 @@ class AdminController extends Controller
             $footer->disableEditingCheck();
             $footer->disableCreatingCheck();
         });
+
+        $form->copyFieldAttributesToTranslatedFields();
 
         return $content
             ->title($this->title())

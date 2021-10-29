@@ -38,6 +38,9 @@ class AdminServiceProvider extends ServiceProvider
         Console\ActionCommand::class,
         Console\GenerateMenuCommand::class,
         Console\ConfigCommand::class,
+        Console\ModelCommand::class,
+        Console\ContentCommand::class,
+        Console\MigrationCommand::class,
     ];
 
     /**

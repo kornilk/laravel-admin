@@ -87,8 +87,6 @@ class HtmlTextController extends AdminController
         $form->tools(function (Form\Tools $tools) {
             $tools->disableDelete();
         });
-
-        $form->copyFieldAttributesToTranslatedFields();
         
         return $form;
     }

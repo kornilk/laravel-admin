@@ -2,6 +2,7 @@
 
 namespace Encore\Admin\Controllers;
 
+use Encore\Admin\Extensions\LogViewer;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use Illuminate\Http\Request;
@@ -20,12 +21,12 @@ class LogViewerController extends Controller
 
             $viewer = new LogViewer($file);
 
-            $content->body(view('laravel-admin-logs::logs', [
+            $content->body(view('admin::logs', [
                 'logs'      => $viewer->fetch($offset),
                 'logFiles'  => $viewer->getLogFiles(),
                 'fileName'  => $viewer->file,
                 'end'       => $viewer->getFilesize(),
-                'tailPath'  => route('log-viewer-tail', ['file' => $viewer->file]),
+                'tailPath'  => route('admin.log-viewer-tail', ['file' => $viewer->file]),
                 'prevUrl'   => $viewer->getPrevPageUrl(),
                 'nextUrl'   => $viewer->getNextPageUrl(),
                 'filePath'  => $viewer->getFilePath(),
