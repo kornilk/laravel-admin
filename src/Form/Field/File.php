@@ -192,7 +192,7 @@ class File extends Field
     {
         $formClass = $this->form->getFormClass();
         $this->script = <<<EOT
-$("{$formClass} input{$this->getElementClassSelector(false)}").fileinput({$options});
+$(".{$formClass} input{$this->getElementClassSelector(false)}").fileinput({$options});
 EOT;
 
         if ($this->fileActionSettings['showRemove']) {
@@ -203,7 +203,7 @@ EOT;
             ];
 
             $this->script .= <<<EOT
-$("{$formClass} input{$this->getElementClassSelector()}").on('filebeforedelete', function() {
+$(".{$formClass} input{$this->getElementClassSelector(false)}").on('filebeforedelete', function() {
 
     return new Promise(function(resolve, reject) {
 

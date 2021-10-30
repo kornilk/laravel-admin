@@ -1276,7 +1276,7 @@ class Field implements Renderable
      *
      * @return string|array
      */
-    public function getElementClassSelector()
+    public function getElementClassSelector($withFormClass = true)
     {
         $elementClass = $this->getElementClass();
 
@@ -1290,7 +1290,7 @@ class Field implements Renderable
             return $classes;
         }
 
-        return '.'.implode('.', $elementClass);
+        return $withFormClass ? '.' . $this->form->getFormClass() . ' ' : '' . '.'.implode('.', $elementClass);
     }
 
     /**

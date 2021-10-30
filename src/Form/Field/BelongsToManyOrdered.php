@@ -24,7 +24,7 @@ class BelongsToManyOrdered extends MultipleSelect
         $script = <<<SCRIPT
 ;(function () {
 
-    var grid = $('{$formClass} .belongstomany-{$this->column()}');
+    var grid = $('.{$formClass} .belongstomany-{$this->column()}');
     var modal = $('#{$this->modalID}');
     var container = grid.find('.selectable-container');
     var selected = $("{$this->getElementClassSelector()}").val() || [];

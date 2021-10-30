@@ -15,7 +15,7 @@ class BelongsTo extends Select
         $script = <<<SCRIPT
         ;(function () {
 
-            var grid = $('{$formClass} .belongsto-{$this->column()}');
+            var grid = $('.{$formClass} .belongsto-{$this->column()}');
             var modal = $('#{$this->modalID}');
             var container = grid.find('.selectable-container');
             var selected = $("{$this->getElementClassSelector()}").val();
