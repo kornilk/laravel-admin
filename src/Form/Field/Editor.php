@@ -18,7 +18,7 @@ class Editor extends Textarea
         $formClass = $this->form->getFormClass();
         
         $this->script = <<<EOT
-            var selector = $('{$formClass}[name="{$this->id}"]');
+            var selector = $('{$formClass} [name="{$this->id}"]');
 
             for (var prop in CKEDITOR.instances){
                 if (CKEDITOR.instances[prop].element.$ == selector[0]){

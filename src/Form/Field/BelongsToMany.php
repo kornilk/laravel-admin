@@ -15,10 +15,10 @@ class BelongsToMany extends MultipleSelect
         $script = <<<SCRIPT
 ;(function () {
 
-    var grid = $('{$formClass}.belongstomany-{$this->column()}');
+    var grid = $('{$formClass} .belongstomany-{$this->column()}');
     var modal = $('#{$this->modalID}');
     var container = grid.find('.selectable-container');
-    var selected = $("{$formClass}{$this->getElementClassSelector()}").val() || [];
+    var selected = $("{$this->getElementClassSelector()}").val() || [];
     var items = {};
     var emptyElement = $(grid.find('template.empty').html());
 
@@ -49,7 +49,7 @@ class BelongsToMany extends MultipleSelect
         }
 
         $(this).parents('.selectable-item').remove();
-        $("{$formClass}{$this->getElementClassSelector()}").val(selected);
+        $("{$this->getElementClassSelector()}").val(selected);
 
         if (selected.length == 0) {
             container.append(emptyElement);
@@ -75,7 +75,7 @@ class BelongsToMany extends MultipleSelect
 
     var update = function (callback) {
 
-        $("{$formClass}{$this->getElementClassSelector()}")
+        $("{$this->getElementClassSelector()}")
             .select2({data: selected})
             .val(selected)
             .trigger('change')

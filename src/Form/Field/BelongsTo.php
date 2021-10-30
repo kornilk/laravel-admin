@@ -15,10 +15,10 @@ class BelongsTo extends Select
         $script = <<<SCRIPT
         ;(function () {
 
-            var grid = $('{$formClass}.belongsto-{$this->column()}');
+            var grid = $('{$formClass} .belongsto-{$this->column()}');
             var modal = $('#{$this->modalID}');
             var container = grid.find('.selectable-container');
-            var selected = $("{$formClass}{$this->getElementClassSelector()}").val();
+            var selected = $("{$this->getElementClassSelector()}").val();
             var item = null;
 
             var emptyElement = $(grid.find('template.empty').html());
@@ -47,7 +47,7 @@ class BelongsTo extends Select
                     item = $(e.target).closest('.selectable-item');
                     selected = $(this).val();
                 }).find('.modal-footer .submit').off().on('click', function () {
-                    $("{$formClass}{$this->getElementClassSelector()}")
+                    $("{$this->getElementClassSelector()}")
                         .select2({data: [selected]})
                         .val(selected)
                         .trigger('change')
@@ -70,7 +70,7 @@ class BelongsTo extends Select
             grid.on('click', '.grid-row-remove', function () {
                 selected = null;
                 $(this).closest('.selectable-item').remove();
-                $("{$formClass}{$this->getElementClassSelector()}").val(null);
+                $("{$this->getElementClassSelector()}").val(null);
 
                 container.append(emptyElement);
             });
