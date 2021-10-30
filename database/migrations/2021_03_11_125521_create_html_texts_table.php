@@ -30,13 +30,13 @@ class CreateHtmlTextsTable extends Migration
 
         $this->createMenu([
             'order' => 1,
-            'title' => 'Html Szövegek',
+            'title' => 'Blokkok',
             'icon' => 'fa-html5',
             'uri' => 'html-texts',
             'permission' => 'html-texts.index',
         ]);
 
-        $this->addContentPermissions('html-texts', 'Html Szövegek')->createRoleByPermissionSlug('Html Szövegek - teljes hozzáférés', 'html-texts_full_access', 'html-texts.%');
+        $this->addContentPermissions('html-texts', 'Blokkok')->createRoleByPermissionSlug('Blokkok - teljes hozzáférés', 'html-texts_full_access', 'html-texts.%');
     }
 
     /**

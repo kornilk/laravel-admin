@@ -28,6 +28,7 @@ class BelongsToManyOrdered extends MultipleSelect
     var modal = $('#{$this->modalID}');
     var container = grid.find('.selectable-container');
     var selected = $("{$this->getElementClassSelector()}").val() || [];
+
     var items = [];
     var emptyElement = $(grid.find('template.empty').html());
 
@@ -55,7 +56,7 @@ class BelongsToManyOrdered extends MultipleSelect
             
             selected = [];
             container.find('.selectable-item').each(function (index, item) {
-                selected.push($(this).data('key'));
+                selected.push($(this).data('key') + '');
             });
 
             items = [];
@@ -64,7 +65,7 @@ class BelongsToManyOrdered extends MultipleSelect
                     items['n'+$(item).find('.grid-row-remove').data('key')] = $(item);
                 }
             });
-
+  
             update(function(){});
         }
     })
@@ -167,8 +168,9 @@ class BelongsToManyOrdered extends MultipleSelect
         e.preventDefault();
         return false;
     }).on('ifChecked', 'input.select', function (e) {
-        if (selected.indexOf($(this).val()) < 0) {
-            selected.push($(this).val());
+        var val = $(this).val();
+        if (selected.indexOf(val) < 0) {
+            selected.push(val);
             items['n'+$(e.target).val()] = $(e.target).closest('.selectable-item');
         }
     }).on('ifUnchecked', 'input.select', function (e) {

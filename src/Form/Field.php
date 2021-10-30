@@ -1290,7 +1290,7 @@ class Field implements Renderable
             return $classes;
         }
 
-        return $withFormClass ? '.' . $this->form->getFormClass() . ' ' : '' . '.'.implode('.', $elementClass);
+        return ($withFormClass ? '.' . $this->form->getFormClass() . ' ' : '') . '.'.implode('.', $elementClass);
     }
 
     /**
