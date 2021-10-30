@@ -34,7 +34,7 @@ class TextController extends AdminController
                     ->orWhere('context', 'like', "%{$this->input}%")
                     ->orWhere('placeholder', 'like', "%{$this->input}%");
             
-            }, __('content.Text'));
+            }, __('admin.Search'));
 
         
         });

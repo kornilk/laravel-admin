@@ -90,7 +90,7 @@ class ResourceGenerator
             $type = $column->getType()->getName();
             $default = $column->getDefault();
 
-            $defaultValue = 'text';
+            $defaultValue = '';
 
             // set column fieldType and defaultValue
             switch ($type) {
@@ -149,7 +149,7 @@ class ResourceGenerator
 
             $label = $this->formatLabel($name);
 
-            $output .= sprintf($this->formats['form_field'], $fieldType, $name, $column);
+            $output .= sprintf($this->formats['form_field'], $fieldType, $name, $name);
 
             if (trim($defaultValue, "'\"")) {
                 $output .= "->default({$defaultValue})";
@@ -171,7 +171,7 @@ class ResourceGenerator
             // set column label
             $label = $this->formatLabel($name);
 
-            $output .= sprintf($this->formats['show_field'], $name, $column);
+            $output .= sprintf($this->formats['show_field'], $name, $name);
 
             $output .= ";\r\n";
         }
@@ -187,7 +187,7 @@ class ResourceGenerator
             $name = $column->getName();
             $label = $this->formatLabel($name);
 
-            $output .= sprintf($this->formats['grid_column'], $name, $column);
+            $output .= sprintf($this->formats['grid_column'], $name, $name);
             $output .= ";\r\n";
         }
 

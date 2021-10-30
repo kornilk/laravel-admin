@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Encore\ModalForm;
+namespace Encore\Admin\Extensions\ModalForm;
 
 use Closure;
 use Encore\Admin\Facades\Admin;

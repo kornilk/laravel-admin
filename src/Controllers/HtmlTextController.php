@@ -34,7 +34,7 @@ class HtmlTextController extends AdminController
                     ->orWhere('context', 'like', "%{$this->input}%")
                     ->orWhere('placeholder', 'like', "%{$this->input}%");
             
-            }, __('content.Text'));
+            }, __('admin.Search'));
 
         
         });
@@ -74,7 +74,7 @@ class HtmlTextController extends AdminController
     {
         $form = new Form(new $this->model());
 
-        $form->ckeditor('value', __('content.Text'))->options(['customConfig' => '/vendor/laravel-admin-ext/ckeditor/config_html-text.js'])->attribute('id', 'htmlTextValue')->attribute('class', 'ckEditorTextarea')->rules('required');
+        $form->ckeditor('value', __('content.Text'))->options(['customConfig' => '/vendor/laravel-admin/ckeditor/config_html-text.js'])->attribute('id', 'htmlTextValue')->attribute('class', 'ckEditorTextarea')->rules('required');
        
         $form->text('context', __('content.Context'))->rules('required|max:190');
 

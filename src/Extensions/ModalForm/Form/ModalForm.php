@@ -7,7 +7,6 @@ use Closure;
 use Encore\Admin\Form;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Http\Request;
-use Illuminate\Support\MessageBag;
 
 /**
  * Class ModalForm

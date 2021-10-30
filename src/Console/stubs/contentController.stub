@@ -32,7 +32,7 @@ DummyGrid
 
                 $query->where('title', 'like', "%{$this->input}%");
             
-            }, __('content.Text'));
+            }, __('admin.Search'));
 
         
         });

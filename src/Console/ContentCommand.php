@@ -97,7 +97,7 @@ class ContentCommand extends GeneratorCommand
                         foreach (Schema::getColumnListing($table) as $column){
                             if (in_array($column, $this->skipColumnTranslations)) continue;
                             $label = $this->formatLabel($column);
-                            $this->info("\"{$this->modelName}.{$column}\" => \"{$label}\",");
+                            $this->info("    \"{$this->modelName}.{$column}\" => \"{$label}\",");
                         }
                     }
                     break;
@@ -165,7 +165,7 @@ class ContentCommand extends GeneratorCommand
                 'DummyForm',
             ],
             [
-                $this->modelName,
+                "App\\Models\\{$this->modelName}",
                 $this->getTitle(),
                 class_basename($this->modelName),
                 $this->indentCodes($this->generator->generateGrid()),

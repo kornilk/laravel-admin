@@ -15,6 +15,6 @@ class Modal extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return \Encore\ModalForm\Modal::class;
+        return \Encore\Admin\Extensions\ModalForm\Modal::class;
     }
 }

@@ -2,12 +2,12 @@
 
 namespace Encore\Admin\Controllers;
 
+use Encore\Admin\Extensions\ModalForm\Form\ModalButton;
+use Encore\Admin\Extensions\ModalForm\Form\ModalForm;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Models\Image;
 use Encore\Admin\Show;
-use Encore\ModalForm\Form\ModalButton;
-use Encore\ModalForm\Form\ModalForm;
 use Request;
 
 class ImageController extends AdminController
@@ -25,33 +25,24 @@ class ImageController extends AdminController
 
         $grid->column('path', __('content.Image'))->image();
 
-        $grid->column('title', __('content.Title'))->display(function($text) {
+        $grid->column('title', __('content.Title'))->display(function ($text) {
             return \Str::limit($text, 150, '...');
         });
         $grid->column('source', __('content.Source'));
-        
-
-        /*$grid->tools(function ($tools) {
-            $tools->append(new GridView());
-        });*/
 
         $grid->filter(function ($filter) {
 
             $filter->disableIdFilter();
 
-            $filter->column(1 / 2, function ($filter) {
-                $filter->like('title', __('content.Title'));
-            });
+            $filter->where(function ($query) {
 
-            $filter->column(1 / 2, function ($filter) {
-                $filter->like('source', __('content.Source'));
-            });
+                $query->where('title', 'like', "%{$this->input}%")
+                    ->orWhere('source', 'like', "%{$this->input}%");
+            }, __('admin.Search'));
         });
 
-        //if (Request::get('view') !== 'table') {
-            $grid->setView('admin::grid.card');
-        //}
-
+        $grid->setView('admin::grid.card');
+ 
         return $grid;
     }
 
@@ -87,25 +78,25 @@ class ImageController extends AdminController
         return $form;
     }
 
-    private function setForm(&$form){
+    private function setForm(&$form)
+    {
 
         $rules = request('rules');
         $help = request('help');
 
-        $form->column(4, function($form) use ($rules, $help){
+        $form->column(4, function ($form) use ($rules, $help) {
             $image =  $form->image('path', __('content.Image'))->rules($rules)->required();
 
             if (!empty($rules)) {
-                $image->rules($rules); 
+                $image->rules($rules);
             }
 
             if (!empty($help)) {
-                $image->help($help); 
+                $image->help($help);
             }
-
         });
 
-        $form->column(8, function($form){
+        $form->column(8, function ($form) {
             $form->text('title', __('content.Title'))->rules('max:700');
             $form->text('source', __('content.Source'))->rules('max:150');
 
@@ -113,22 +104,23 @@ class ImageController extends AdminController
 
                 $form->switch('watermark', __('admin.Watermark'))->states($this->getYesNoSwitch());
                 $form->ignore('watermark');
-
             }
         });
 
         return $form;
     }
 
-    public function ModalFormSore(){
+    public function ModalFormSore()
+    {
         return $this->ModalForm()->store();
     }
 
-    public function ModalForm(){
-        return new ModalForm(new $this->model(), function (ModalForm $form){
+    public function ModalForm()
+    {
+        return new ModalForm(new $this->model(), function (ModalForm $form) {
 
             $this->setForm($form);
-            
+
             $routeAttributes = [];
 
             $rules = request('rules');
@@ -136,7 +128,7 @@ class ImageController extends AdminController
 
             if (!empty($rules)) $routeAttributes['rules'] = $rules;
             if (!empty($help)) $routeAttributes['help'] = $help;
-  
+
             $form->setAction(route('admin.image.modal.form.store', $routeAttributes));
 
             $form->large();
@@ -147,22 +139,23 @@ class ImageController extends AdminController
         });
     }
 
-    public function browser(Request $request){
+    public function browser(Request $request)
+    {
         $grid = new Grid(new $this->model());
 
-        $grid->column('original')->display(function($value){
+        $grid->column('original')->display(function ($value) {
             return $this->path;
         });
         $grid->column('width');
         $grid->column('height');
         $grid->column('path', __('content.Image'))->image();
-        
 
-        $grid->column('title', __('content.Title'))->display(function($text) {
+
+        $grid->column('title', __('content.Title'))->display(function ($text) {
             return \Str::limit($text, 80, '...');
         });
         $grid->column('source', __('content.Source'));
-        
+
         $grid->filter(function ($filter) {
 
             $filter->disableIdFilter();
@@ -182,8 +175,8 @@ class ImageController extends AdminController
         $grid->disableActions();
         $grid->disableCreateButton();
 
-        if (\Admin::user()->can($this->slug . '.create')){ //Ez az editorban lévő inlineImage miatt van itt
-            $modalButton = new ModalButton(__('admin.upload'), route('admin.image.modal.form', ['rules' => 'dimensions:min_width='.config('image.rules.medium.minWidth').',min_height='.config('image.rules.medium.minHeight').'']));
+        if (\Admin::user()->can($this->slug . '.create')) {
+            $modalButton = new ModalButton(__('admin.upload'), route('admin.image.modal.form', ['rules' => 'dimensions:min_width=' . config('image.rules.medium.minWidth') . ',min_height=' . config('image.rules.medium.minHeight') . '']));
             $modalButton->setClass('btn btn-primary btn-sm ml-5');
 
             $grid->tools(function ($tools) use ($modalButton) {
@@ -194,5 +187,4 @@ class ImageController extends AdminController
 
         return $grid->render();
     }
-
 }

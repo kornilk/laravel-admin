@@ -90,7 +90,7 @@ trait HasAssets
         'vendor/laravel-admin/sweetalert2/dist/sweetalert2.min.js',
         'vendor/laravel-admin/laravel-admin/laravel-admin.js',
         'vendor/laravel-admin/magnific/jquery.magnific-popup.min.js',
-        'vendor/laravel-admin/modal-form/modals-handling.js',
+        'vendor/laravel-admin/modal-form/js/modals-handling.js',
         'vendor/laravel-admin/laravel-admin/laravel-admin-ext.js',
     ];
 

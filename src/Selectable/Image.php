@@ -1,11 +1,11 @@
 <?php
 
-namespace Encore\Admin\Grid\Selectable;
+namespace Encore\Admin\Selectable;
 
+use Encore\Admin\Extensions\ModalForm\Form\ModalButton;
 use Encore\Admin\Models\Image as ImageModel;
 use Encore\Admin\Grid\Filter;
 use Encore\Admin\Grid\Selectable;
-use Encore\ModalForm\Form\ModalButton;
 
 class Image extends Selectable
 {
