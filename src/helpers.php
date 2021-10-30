@@ -328,30 +328,6 @@ if (!function_exists('admin_get_route')) {
     }
 }
 
-if (!function_exists('getSelectorFromForm')) {
-    function getSelectorFromForm($form)
-    {
-        if (method_exists($form, 'getFormClass')) {
-            return '.' . $form->getFormClass() . ' ';
-        } else if (method_exists($form, 'getId')) {
-            return '#' . $form->getId() . ' ';
-        }
-        return '';
-    }
-}
-
-if (!function_exists('getSelectorFromForm')) {
-    function getSelectorFromForm($form)
-    {
-        if (method_exists($form, 'getFormClass')) {
-            return '.' . $form->getFormClass() . ' ';
-        } else if (method_exists($form, 'getId')) {
-            return '#' . $form->getId() . ' ';
-        }
-        return '';
-    }
-}
-
 if (!function_exists('manageActionsByPermissions')) {
 function manageActionsByPermissions($body, $slug)
 {

@@ -19,15 +19,15 @@ class BelongsToManyOrdered extends MultipleSelect
 
     protected function addScript()
     {
-        $selectorPerfix = getSelectorFromForm($this->form);
+        $formClass = $this->form->getFormClass();
 
         $script = <<<SCRIPT
 ;(function () {
 
-    var grid = $('{$selectorPerfix}.belongstomany-{$this->column()}');
+    var grid = $('{$formClass}.belongstomany-{$this->column()}');
     var modal = $('#{$this->modalID}');
     var container = grid.find('.selectable-container');
-    var selected = $("{$selectorPerfix}{$this->getElementClassSelector()}").val() || [];
+    var selected = $("{$formClass}{$this->getElementClassSelector()}").val() || [];
     var items = [];
     var emptyElement = $(grid.find('template.empty').html());
 
@@ -92,7 +92,7 @@ class BelongsToManyOrdered extends MultipleSelect
         }
 
         $(this).parents('.selectable-item').remove();
-        $("{$selectorPerfix}{$this->getElementClassSelector()}").val(selected);
+        $("{$formClass}{$this->getElementClassSelector()}").val(selected);
 
         if (selected.length == 0) {
             container.append(emptyElement);
@@ -118,14 +118,14 @@ class BelongsToManyOrdered extends MultipleSelect
 
     var update = function (callback) {
 
-        $("{$selectorPerfix}{$this->getElementClassSelector()}")
+        $("{$formClass}{$this->getElementClassSelector()}")
             .select2().find('option').remove();
 
         for (var i in selected){
-            $("{$selectorPerfix}{$this->getElementClassSelector()}").select2().append('<option value="'+selected[i]+'">'+selected[i]+'</option>');
+            $("{$formClass}{$this->getElementClassSelector()}").select2().append('<option value="'+selected[i]+'">'+selected[i]+'</option>');
         }
 
-        $("{$selectorPerfix}{$this->getElementClassSelector()}")
+        $("{$formClass}{$this->getElementClassSelector()}")
             .select2({data: selected})
             .val(selected)
             .trigger('change')
@@ -144,7 +144,7 @@ class BelongsToManyOrdered extends MultipleSelect
     };
 
     modal.on('show.bs.modal', function (e) {
-        var val = $("{$selectorPerfix}{$this->getElementClassSelector()}").select2().val();
+        var val = $("{$formClass}{$this->getElementClassSelector()}").select2().val();
         for (var i in val){
             if (selected.indexOf(val[i]) < 0) {
                 selected.push(val[i]);
@@ -155,7 +155,7 @@ class BelongsToManyOrdered extends MultipleSelect
     }).on('hidden.bs.modal', function (e) {
         if ($('body .wrapper>.modal').length > 0) $('body').addClass('modal-open');
     }).on('hide.bs.modal', function(){
-        $("{$selectorPerfix}{$this->getElementClassSelector()}").next().addClass('hide');
+        $("{$formClass}{$this->getElementClassSelector()}").next().addClass('hide');
     }).on('click', '.page-item a, .filter-box a', function (e) {
         load($(this).attr('href'));
         e.preventDefault();

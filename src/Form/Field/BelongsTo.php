@@ -10,15 +10,15 @@ class BelongsTo extends Select
 
     protected function addScript()
     {
-        $selectorPerfix = getSelectorFromForm($this->form);
+        $formClass = $this->form->getFormClass();
   
         $script = <<<SCRIPT
         ;(function () {
 
-            var grid = $('{$selectorPerfix}.belongsto-{$this->column()}');
+            var grid = $('{$formClass}.belongsto-{$this->column()}');
             var modal = $('#{$this->modalID}');
             var container = grid.find('.selectable-container');
-            var selected = $("{$selectorPerfix}{$this->getElementClassSelector()}").val();
+            var selected = $("{$formClass}{$this->getElementClassSelector()}").val();
             var item = null;
 
             var emptyElement = $(grid.find('template.empty').html());
@@ -47,7 +47,7 @@ class BelongsTo extends Select
                     item = $(e.target).closest('.selectable-item');
                     selected = $(this).val();
                 }).find('.modal-footer .submit').off().on('click', function () {
-                    $("{$selectorPerfix}{$this->getElementClassSelector()}")
+                    $("{$formClass}{$this->getElementClassSelector()}")
                         .select2({data: [selected]})
                         .val(selected)
                         .trigger('change')
@@ -70,7 +70,7 @@ class BelongsTo extends Select
             grid.on('click', '.grid-row-remove', function () {
                 selected = null;
                 $(this).closest('.selectable-item').remove();
-                $("{$selectorPerfix}{$this->getElementClassSelector()}").val(null);
+                $("{$formClass}{$this->getElementClassSelector()}").val(null);
 
                 container.append(emptyElement);
             });

@@ -15,10 +15,10 @@ class Editor extends Textarea
         $config = (array) CKEditor::config('config');
 
         $config = json_encode(array_merge($config, $this->options));
-        $selector = getSelectorFromForm($this->form);
+        $formClass = $this->form->getFormClass();
         
         $this->script = <<<EOT
-            var selector = $('{$selector}[name="{$this->id}"]');
+            var selector = $('{$formClass}[name="{$this->id}"]');
 
             for (var prop in CKEDITOR.instances){
                 if (CKEDITOR.instances[prop].element.$ == selector[0]){
