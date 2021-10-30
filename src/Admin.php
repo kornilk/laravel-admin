@@ -330,7 +330,7 @@ class Admin
                 $router->get('_handle_selectable_', 'HandleController@handleSelectable')->name('handle-selectable');
                 $router->get('_handle_renderable_', 'HandleController@handleRenderable')->name('handle-renderable');
 
-                $router->resource('images', 'ImagesController');
+                $router->resource('images', 'ImageController');
                 $router->resource('texts', 'TextController');
                 $router->resource('html-texts', 'HtmlTextController');
 

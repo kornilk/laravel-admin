@@ -204,35 +204,29 @@ class Field implements Renderable
     /**
      * Show field as a image.
      *
-     * @param string $server
+     * @param string $thumbnail
+     * @param string $popup
      * @param int    $width
      * @param int    $height
      *
      * @return $this
      */
-    public function image($server = '', $width = 200, $height = 200)
+    public function image($thumbnail = '', $popup = '', $width = 200, $height = 200)
     {
-        return $this->unescape()->as(function ($images) use ($server, $width, $height) {
-            return collect($images)->map(function ($path) use ($server, $width, $height) {
+        return $this->unescape()->as(function ($images) use ($thumbnail, $popup, $width, $height) {
+            return collect($images)->map(function ($path) use ($thumbnail, $popup, $width, $height) {
                 if (empty($path)) {
                     return '';
                 }
 
-                if (url()->isValidUrl($path)) {
-                    $src = $path;
-                } elseif ($server) {
-                    $src = $server.$path;
-                } else {
-                    $disk = config('admin.upload.disk');
+                if (empty($thumbnail)) $thumbnail = config('image.defaultThumbName');
 
-                    if (config("filesystems.disks.{$disk}")) {
-                        $src = Storage::disk($disk)->url($path);
-                    } else {
-                        return '';
-                    }
-                }
+                $image = pathinfo($path);
+                $thumb = $image['dirname'] . '/' . $image['filename'] . '-' . $thumbnail . '.' . $image['extension'];
 
-                return "<img src='$src' style='max-width:{$width}px;max-height:{$height}px' class='img' />";
+                $popup = $image['dirname'] . '/' . $image['filename'] . (!empty($popup) ? "-{$popup}" : '') . '.' . $image['extension'];
+                return '<a href="' . Storage::disk(config('admin.upload.disk'))->url($popup) . '" class="grid-popup-link card-img-top">
+                <img src="' . Storage::disk(config('admin.upload.disk'))->url($thumb) . '" style="max-width:'.$width.'px;max-height:'.$height.'px" class="img img-thumbnail"></a>';
             })->implode('&nbsp;');
         });
     }

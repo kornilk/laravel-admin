@@ -49,7 +49,7 @@ class ImageController extends AdminController
         });
 
         //if (Request::get('view') !== 'table') {
-            $grid->setView('vendor.admin.grid.card');
+            $grid->setView('admin::grid.card');
         //}
 
         return $grid;
@@ -65,9 +65,7 @@ class ImageController extends AdminController
     {
         $show = new Show($this->model::findOrFail($id));
 
-        $show->field('path', __('content.Image'))->as(function ($image) {
-            return getImagePopupHtml($image);
-        })->unescape();
+        $show->field('path', __('content.Image'))->image();
 
         $show->field('title', __('content.Title'));
         $show->field('source', __('content.Source'));
@@ -95,7 +93,7 @@ class ImageController extends AdminController
         $help = request('help');
 
         $form->column(4, function($form) use ($rules, $help){
-            $image =  $form->imageExtend('path', __('content.Image'))->rules($rules)->required();
+            $image =  $form->image('path', __('content.Image'))->rules($rules)->required();
 
             if (!empty($rules)) {
                 $image->rules($rules); 
@@ -179,7 +177,7 @@ class ImageController extends AdminController
             });
         });
 
-        $grid->setView('vendor.admin.grid.card-selectable');
+        $grid->setView('admin::grid.card-selectable');
         $grid->disableExport();
         $grid->disableActions();
         $grid->disableCreateButton();
