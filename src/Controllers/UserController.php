@@ -36,7 +36,7 @@ class UserController extends AdminController
             });
         }
 
-        $grid->column('name', $userModel::label('name'))->sortable()->editLink();
+        $grid->column('name', $userModel::label('name'))->sortable()->edit();
         $grid->column('email', $userModel::label('email'))->sortable();
         $grid->column('created_at', trans('admin.created_at'));
 

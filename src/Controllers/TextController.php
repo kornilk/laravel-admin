@@ -20,7 +20,7 @@ class TextController extends AdminController
     {
         $grid = new Grid(new $this->model());
 
-        $grid->column('value', __('content.Text'))->stripTags()->editLink();
+        $grid->column('value', __('content.Text'))->stripTags()->edit();
         $grid->column('context', __('content.Context'));
         $grid->column('placeholder', __('content.Placeholder'));
        
