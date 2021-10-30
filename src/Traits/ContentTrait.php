@@ -8,19 +8,12 @@ trait ContentTrait {
     protected static $contentTitlePlural;
     protected static $contentSlug;
     protected static $contentFrontedSlug;
-    protected static $languagePrefix;
     protected static $initedContentVariables = false;
 
     protected static function initStatic() {}
 
     protected static function initContentVariables() {
         static::initStatic();
-        if (empty(static::$languagePrefix)) {
-            $class = explode('\\', get_called_class());
-            static::$languagePrefix = end($class);
-            static::$languagePrefix = strtolower(static::$languagePrefix);
-        }
-        
         static::$initedContentVariables = true;
     }
 
@@ -46,8 +39,7 @@ trait ContentTrait {
 
     public static function label($field){
         if (!static::$initedContentVariables) static::initContentVariables();
-        $prefix = static::$languagePrefix;
-        return \Lang::has("{$prefix}.{$field}") ? __("{$prefix}.{$field}") : ((\Lang::has("{$field}")) ? __("{$field}") : __("admin.{$field}"));
+        return \Lang::has("{__CLASS__}.{$field}") ? __("{__CLASS__}.{$field}") : __("{$field}");
     }
 
 }
