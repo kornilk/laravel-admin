@@ -36,16 +36,16 @@ class Image extends Selectable
 
     public function make()
     {
-        $this->column('path', __('content.Image'))->setAttributes(['class' => 'hideLabel'])->image('', false);
+        $this->column('path', __('image'))->setAttributes(['class' => 'hideLabel'])->image('', false);
 
-        $this->column('title', __('content.Title'))->setAttributes(['class' => 'hideLabel'])->display(function ($value) {
+        $this->column('title', __('title'))->setAttributes(['class' => 'hideLabel'])->display(function ($value) {
             return \Str::limit($value, 100, '...');
         });
 
         $this->filter(function (Filter $filter) {
             $filter->disableIdFilter();
-            $filter->like('title',  __('content.Title'));
-            $filter->like('source', __('content.Source'));
+            $filter->like('title',  __('title'));
+            $filter->like('source', __('source'));
         });
 
         if (\Admin::user()->can('images.create')){

@@ -47,7 +47,7 @@ trait ContentTrait {
     public static function label($field){
         if (!static::$initedContentVariables) static::initContentVariables();
         $prefix = static::$languagePrefix;
-        return \Lang::has("content.{$prefix}.{$field}") ? __("content.{$prefix}.{$field}") : ((\Lang::has("content.{$field}")) ? __("content.{$field}") : __("admin.{$field}"));
+        return \Lang::has("{$prefix}.{$field}") ? __("{$prefix}.{$field}") : ((\Lang::has("{$field}")) ? __("{$field}") : __("admin.{$field}"));
     }
 
 }

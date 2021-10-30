@@ -11,8 +11,8 @@ class Image extends ContentModel
 
     protected static function initStatic()
     {
-        static::$contentTitle = __('content.Image');
-        static::$contentTitlePlural = __('content.Images');
+        static::$contentTitle = __('Image');
+        static::$contentTitlePlural = __('Images');
         static::$contentSlug = 'images';
     }
 

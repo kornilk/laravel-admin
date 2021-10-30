@@ -13,7 +13,7 @@ class Restore extends RowAction
     {
         $model->restore();
 
-        return $this->response()->success(__('content.Successfully restored'))->refresh();
+        return $this->response()->success(__('admin.Successfully restored'))->refresh();
     }
 
     public function dialog()
