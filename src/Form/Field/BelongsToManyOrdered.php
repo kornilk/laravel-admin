@@ -12,41 +12,56 @@ class BelongsToManyOrdered extends MultipleSelect
 
     use BelongsToRelation;
 
+    protected static $js = [
+        '/vendor/laravel-admin/AdminLTE/plugins/select2/select2.full.min.js',
+        '/vendor/laravel-admin/sortable/sortable.umd.js',
+    ];
+
     protected function addScript()
     {
+        $selectorPerfix = getSelectorFromForm($this->form);
+
         $script = <<<SCRIPT
 ;(function () {
 
-    var grid = $('.belongstomany-{$this->column()}');
+    var grid = $('{$selectorPerfix}.belongstomany-{$this->column()}');
     var modal = $('#{$this->modalID}');
-    var table = grid.find('.grid-table');
-    var selected = $("{$this->getElementClassSelector()}").val() || [];
-    var rows = [];
+    var container = grid.find('.selectable-container');
+    var selected = $("{$selectorPerfix}{$this->getElementClassSelector()}").val() || [];
+    var items = [];
+    var emptyElement = $(grid.find('template.empty').html());
+
+    if (container.prop('nodeName') !== 'TABLE') {
+        emptyElement = emptyElement.find('.empty-grid');
+    }
 
     for (var index in selected){
-        rows[index] = table.find('tbody tr[data-key="'+selected[index]+'"]');
+        items[index] = container.find('.selectable-item[data-key="'+selected[index]+'"]');
     }
     
-    table.find('tbody').empty();
-    Object.values(rows).forEach(function (row) {
-        table.find('tbody').append(row);
+    container.empty();
+    Object.values(items).forEach(function (item) {
+        container.append(item);
     });
-    rows = [];
 
-    Sortable.create(table.find('tbody')[0], {
+    if (items.length === 0) container.append(emptyElement);
+
+    items = [];
+
+    Sortable.create(container[0], {
         animation: 150,
         ghostClass: 'sortable-background',
         onSort: function (evt) {
             
             selected = [];
-            table.find('tbody').children().each(function (index, tr) {
+            container.find('.selectable-item').each(function (index, item) {
                 selected.push($(this).data('key'));
             });
 
-            rows = [];
-            table.find('tbody').children().each(function (index, tr) {
-                if ($(tr).find('.grid-row-remove').length > 0) {
-                    rows['n'+$(tr).find('.grid-row-remove').data('key')] = $(tr);
+            items = [];
+            container.find('.selectable-item').each(function (index, item) {
+                if ($(item).find('.grid-row-remove').length > 0) {
+                    items['n'+$(item).find('.grid-row-remove').data('key')] = $(item);
                 }
             });
 
@@ -54,9 +69,9 @@ class BelongsToManyOrdered extends MultipleSelect
         }
     })
 
-    table.find('tbody').children().each(function (index, tr) {
-        if ($(tr).find('.grid-row-remove').length > 0) {
-            rows['n'+$(tr).find('.grid-row-remove').data('key')] = $(tr);
+    container.find('.selectable-item').each(function (index, item) {
+        if ($(item).find('.grid-row-remove').length > 0) {
+            items['n'+$(item).find('.grid-row-remove').data('key')] = $(item);
         }
     });
 
@@ -73,15 +88,14 @@ class BelongsToManyOrdered extends MultipleSelect
         var index = selected.indexOf(val);
         if (index !== -1) {
            selected.splice(index, 1);
-           delete rows['n'+val];
+           delete items['n'+val];
         }
 
-        $(this).parents('tr').remove();
-        $("{$this->getElementClassSelector()}").val(selected);
+        $(this).parents('.selectable-item').remove();
+        $("{$selectorPerfix}{$this->getElementClassSelector()}").val(selected);
 
         if (selected.length == 0) {
-            var empty = $('.belongstomany-{$this->column()}').find('template.empty').html();
-            table.find('tbody').append(empty);
+            container.append(emptyElement);
         }
     });
 
@@ -104,55 +118,48 @@ class BelongsToManyOrdered extends MultipleSelect
 
     var update = function (callback) {
 
-        $("{$this->getElementClassSelector()}")
+        $("{$selectorPerfix}{$this->getElementClassSelector()}")
             .select2().find('option').remove();
 
         for (var i in selected){
-            $("{$this->getElementClassSelector()}").select2().append('<option value="'+selected[i]+'">'+selected[i]+'</option>');
+            $("{$selectorPerfix}{$this->getElementClassSelector()}").select2().append('<option value="'+selected[i]+'">'+selected[i]+'</option>');
         }
 
-        $("{$this->getElementClassSelector()}")
+        $("{$selectorPerfix}{$this->getElementClassSelector()}")
             .select2({data: selected})
             .val(selected)
             .trigger('change')
             .next()
             .addClass('hide');
 
-        table.find('tbody').empty();
+            container.empty();
 
-        Object.values(rows).forEach(function (row) {
-            row.find('td:last a').removeClass('hide');
-            row.find('td.column-__modal_selector__').remove();
-            table.find('tbody').append(row);
+        Object.values(items).forEach(function (item) {
+            item.find('.grid-row-remove').removeClass('hide');
+            item.find('.column-__modal_selector__').remove();
+            container.append(item);
         });
-
-        if (selected.length == 0) {
-            var empty = $('.belongstomany-{$this->column()}').find('template.empty').html();
-            table.find('tbody').append(empty);
-        } else {
-            table.find('.empty-grid').parent().remove();
-        }
 
         callback();
     };
 
     modal.on('show.bs.modal', function (e) {
-        var val = $("{$this->getElementClassSelector()}").select2().val();
+        var val = $("{$selectorPerfix}{$this->getElementClassSelector()}").select2().val();
         for (var i in val){
             if (selected.indexOf(val[i]) < 0) {
                 selected.push(val[i]);
-                rows['n'+val[i]] = table.find('tbody tr[data-key="'+val[i]+'"]');
+                items['n'+val[i]] = container.find('tbody tr[data-key="'+val[i]+'"]');
             }
         }
         load("{$this->getLoadUrl(1)}");
     }).on('hidden.bs.modal', function (e) {
         if ($('body .wrapper>.modal').length > 0) $('body').addClass('modal-open');
     }).on('hide.bs.modal', function(){
-        $("{$this->getElementClassSelector()}").next().addClass('hide');
+        $("{$selectorPerfix}{$this->getElementClassSelector()}").next().addClass('hide');
     }).on('click', '.page-item a, .filter-box a', function (e) {
         load($(this).attr('href'));
         e.preventDefault();
-    }).on('click', 'tr', function (e) {
+    }).on('click', '.selectable-item', function (e) {
         $(this).find('input.select').iCheck('toggle');
         e.preventDefault();
     }).on('submit', '.box-header form', function (e) {
@@ -162,19 +169,47 @@ class BelongsToManyOrdered extends MultipleSelect
     }).on('ifChecked', 'input.select', function (e) {
         if (selected.indexOf($(this).val()) < 0) {
             selected.push($(this).val());
-            rows['n'+$(e.target).val()] = $(e.target).parents('tr');
+            items['n'+$(e.target).val()] = $(e.target).closest('.selectable-item');
         }
     }).on('ifUnchecked', 'input.select', function (e) {
            var val = $(this).val();
            var index = selected.indexOf(val);
            if (index !== -1) {
                selected.splice(index, 1);
-               delete rows['n'+$(e.target).val()];
+               delete items['n'+$(e.target).val()];
            }
     }).find('.modal-footer .submit').click(function () {
         update(function () {
             modal.modal('toggle');
         });
+    });
+
+    grid.find('a[data-form="modal"]').on('modelCreated', (e) => {
+                    
+        var createdModelId = $(e.target).data('model-id');
+        
+        var input = $('.belongstomany-{$this->column()}').closest('.form-group').find('select.{$this->column()}');
+        var selected = input.val();
+    
+        if (typeof selected !== 'object' || selected === null ) selected = [];
+        selected.push(createdModelId);
+    
+        input
+        .select2({data: selected})
+        .val(selected)
+        .trigger('change')
+        .next()
+        .addClass('hide');
+            
+        container.find('.empty-grid').remove();
+
+        $.get("{$this->getLoadUrl(1)}&id=" + createdModelId, function(response){
+            var item = $(response).find('.selectable-item:first');
+            item.find('.column-__modal_selector__').remove();
+            item.find('.grid-row-remove').removeClass('hide');
+            container.append(item);
+        });
+
     });
 })();
 SCRIPT;
@@ -201,7 +236,7 @@ SCRIPT;
             $newValue = [];
             foreach ($value as $index => $current){
                 if (!is_numeric($current)) continue;
-                $newValue[$current] = ['order' => $index];
+                $newValue[$current] = ['weight' => $index];
             }
             return $newValue;
         }

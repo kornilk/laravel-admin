@@ -19,11 +19,15 @@
 
     <!-- /.box-header -->
     <div class="box-body">
-        <div class="row imageBoxContainer">
-
+        <div class="row imageBoxContainer selectable-container" id="{{ $grid->tableID }}">
+            @if($grid->rows()->isEmpty() && $grid->showDefineEmptyPage())
+                @include('admin::grid.empty-grid', [
+                    'notTable' => true
+                ])
+            @endif
             @foreach ($grid->rows() as $row)
 
-                <div class="imageBox">
+                <div class="imageBox cursor-pointer selectable-item" {!! $row->getRowAttributes() !!}>
                     <div class="imageBoxContent">
                         <span class="imageCont">
                             {!! $row->path !!}
@@ -33,9 +37,10 @@
                                 {!! $row->title !!}
                             </div>
                             <div class="actions">
-                                {!! $row->column('__row_selector__') !!}
                                 <span class="pull-right">
                                     {!! $row->column('__actions__') !!}
+                                    <span class="column-__modal_selector__">{!! $row->column('__modal_selector__') !!}</span>
+                                    {!! $row->column('__remove__') !!}
                                 </span>
                             </div>
                         </div>

@@ -39,14 +39,14 @@
                 {!! $grid->renderQuickCreate() !!}
             @endif
 
-            <tbody>
+            <tbody class="selectable-container">
 
                 @if($grid->rows()->isEmpty() && $grid->showDefineEmptyPage())
                     @include('admin::grid.empty-grid')
                 @endif
 
                 @foreach($grid->rows() as $row)
-                <tr {!! $row->getRowAttributes() !!}>
+                <tr class="selectable-item" {!! $row->getRowAttributes() !!}>
                     @foreach($grid->visibleColumnNames() as $name)
                     <td {!! $row->getColumnAttributes($name) !!}>
                         {!! $row->column($name) !!}

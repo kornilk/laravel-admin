@@ -10,18 +10,25 @@ class BelongsToMany extends MultipleSelect
 
     protected function addScript()
     {
+        $selectorPerfix = getSelectorFromForm($this->form);
+
         $script = <<<SCRIPT
 ;(function () {
 
-    var grid = $('.belongstomany-{$this->column()}');
+    var grid = $('{$selectorPerfix}.belongstomany-{$this->column()}');
     var modal = $('#{$this->modalID}');
-    var table = grid.find('.grid-table');
-    var selected = $("{$this->getElementClassSelector()}").val() || [];
-    var rows = {};
+    var container = grid.find('.selectable-container');
+    var selected = $("{$selectorPerfix}{$this->getElementClassSelector()}").val() || [];
+    var items = {};
+    var emptyElement = $(grid.find('template.empty').html());
 
-    table.find('tbody').children().each(function (index, tr) {
-        if ($(tr).find('.grid-row-remove').length > 0) {
-            rows[$(tr).find('.grid-row-remove').data('key')] = $(tr);
+    if (container.prop('nodeName') !== 'TABLE') {
+        emptyElement = emptyElement.find('.empty-grid');
+    }
+
+    container.find('.selectable-item').each(function (index, item) {
+        if ($(item).find('.grid-row-remove').length > 0) {
+            items[$(item).find('.grid-row-remove').data('key')] = $(item);
         }
     });
 
@@ -38,15 +45,14 @@ class BelongsToMany extends MultipleSelect
         var index = selected.indexOf(val);
         if (index !== -1) {
            selected.splice(index, 1);
-           delete rows[val];
+           delete items[val];
         }
 
-        $(this).parents('tr').remove();
-        $("{$this->getElementClassSelector()}").val(selected);
+        $(this).parents('.selectable-item').remove();
+        $("{$selectorPerfix}{$this->getElementClassSelector()}").val(selected);
 
         if (selected.length == 0) {
-            var empty = $('.belongstomany-{$this->column()}').find('template.empty').html();
-            table.find('tbody').append(empty);
+            container.append(emptyElement);
         }
     });
 
@@ -69,27 +75,23 @@ class BelongsToMany extends MultipleSelect
 
     var update = function (callback) {
 
-        $("{$this->getElementClassSelector()}")
+        $("{$selectorPerfix}{$this->getElementClassSelector()}")
             .select2({data: selected})
             .val(selected)
             .trigger('change')
             .next()
             .addClass('hide');
 
-        table.find('tbody').empty();
+            container.empty();
 
-        Object.values(rows).forEach(function (row) {
-            row.find('td:last a').removeClass('hide');
-            row.find('td.column-__modal_selector__').remove();
-            table.find('tbody').append(row);
+        Object.values(items).forEach(function (item) {
+            item.find('.grid-row-remove').removeClass('hide');
+            item.find('.column-__modal_selector__').remove();
+            container.append(item);
+
+            item.find('.grid-row-remove').removeClass('hide');
+            container.append(item);
         });
-
-        if (selected.length == 0) {
-            var empty = $('.belongstomany-{$this->column()}').find('template.empty').html();
-            table.find('tbody').append(empty);
-        } else {
-            table.find('.empty-grid').parent().remove();
-        }
 
         callback();
     };
@@ -99,7 +101,7 @@ class BelongsToMany extends MultipleSelect
     }).on('click', '.page-item a, .filter-box a', function (e) {
         load($(this).attr('href'));
         e.preventDefault();
-    }).on('click', 'tr', function (e) {
+    }).on('click', '.selectable-item', function (e) {
         $(this).find('input.select').iCheck('toggle');
         e.preventDefault();
     }).on('submit', '.box-header form', function (e) {
@@ -109,19 +111,47 @@ class BelongsToMany extends MultipleSelect
     }).on('ifChecked', 'input.select', function (e) {
         if (selected.indexOf($(this).val()) < 0) {
             selected.push($(this).val());
-            rows[$(e.target).val()] = $(e.target).parents('tr');
+            items[$(e.target).val()] = $(e.target).closest('.selectable-item');
         }
     }).on('ifUnchecked', 'input.select', function (e) {
            var val = $(this).val();
            var index = selected.indexOf(val);
            if (index !== -1) {
                selected.splice(index, 1);
-               delete rows[$(e.target).val()];
+               delete items[$(e.target).val()];
            }
     }).find('.modal-footer .submit').click(function () {
         update(function () {
             modal.modal('toggle');
         });
+    });
+
+    grid.find('a[data-form="modal"]').on('modelCreated', (e) => {
+                    
+        var createdModelId = $(e.target).data('model-id');
+        
+        var input = $('.belongstomany-{$this->column()}').closest('.form-group').find('select.{$this->column()}');
+        var selected = input.val();
+    
+        if (typeof selected !== 'object' || selected === null ) selected = [];
+        selected.push(createdModelId);
+    
+        input
+        .select2({data: selected})
+        .val(selected)
+        .trigger('change')
+        .next()
+        .addClass('hide');
+            
+        container.find('.empty-grid').remove();
+
+        $.get("{$this->getLoadUrl(1)}&id=" + createdModelId, function(response){
+            var item = $(response).find('.selectable-item:first');
+            item.find('.column-__modal_selector__').remove();
+            item.find('.grid-row-remove').removeClass('hide');
+            container.append(item);
+        });
+
     });
 })();
 SCRIPT;

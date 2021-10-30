@@ -19,7 +19,7 @@ class CreateImagesTable extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->string('path', 190);
-            $table->string('source', 100)->nullable()->default(NULL);
+            $table->string('source', 150)->nullable()->default(NULL);
             $table->text('title')->nullable()->default(NULL);
             $table->integer('width')->nullable()->default(NULL)->index();
             $table->integer('height')->nullable()->default(NULL);
@@ -33,7 +33,7 @@ class CreateImagesTable extends Migration
 
         $this->createMenu([
             'order' => 1,
-            'title' => 'Fotók',
+            'title' => 'Képek',
             'icon' => 'fa-picture-o',
             'uri' => 'images',
             'permission' => 'images.index',

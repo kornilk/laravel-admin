@@ -90,6 +90,7 @@
 }
 
 .imageBox .title {
+    font-weight:normal;
     padding-bottom:10px;
 }
 
@@ -110,19 +111,7 @@ th.hideLabel {
 }
 
 .belongsto-image_id .empty-grid{
-    padding:20px 100px !important;
-}
-
-.belongsto-document_id .empty-grid{
-    padding:20px 100px !important;
-}
-
-.belongsto-image_hero .empty-grid{
-    padding:20px 100px !important;
-}
-
-.belongsto-image_2 .empty-grid{
-    padding:20px 100px !important;
+    padding:20px !important;
 }
 
 .sortable-background {
@@ -202,3 +191,6 @@ form .fields-group .control-label h4 {
     display:none;
 }
 
+.cursor-pointer {
+    cursor:pointer;
+}

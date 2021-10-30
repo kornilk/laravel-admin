@@ -110,7 +110,7 @@ HTML;
     public function addStyle()
     {
         $style = <<<'STYLE'
-.belongsto.modal tr {
+.belongsto.modal .selectable-item {
     cursor: pointer;
 }
 .belongsto.modal .box {
@@ -123,16 +123,17 @@ HTML;
     margin: 50px;
 }
 
-.belongsto.modal .grid-table .empty-grid {
+.belongsto.modal .selectable-container .empty-grid {
     padding: 20px !important;
+    width: 100%;
 }
 
-.belongsto.modal .grid-table .empty-grid svg {
+.belongsto.modal .selectable-container .empty-grid svg {
     width: 60px !important;
     height: 60px !important;
 }
 
-.belongsto.modal .grid-box .box-footer {
+.belongsto.modal .selectable-container .box-footer {
     border-top: none !important;
 }
 STYLE;

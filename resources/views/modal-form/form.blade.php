@@ -40,7 +40,7 @@
             </div>
             <div class="modal-footer">
                 <div class="btn-group pull-left" style="margin-right: 5px">
-                    <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
+                    <button class="btn btn-default" type="button" data-dismiss="modal">{{ __('admin.close') }}</button>
                 </div>
                 {!! $form->renderFooter() !!}
 

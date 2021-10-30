@@ -260,7 +260,7 @@ class AdminController extends Controller
             'status' => true,
             'message' => $message,
             'modelId' => $form->model()->id,
-            'data' => $form->model()
+            'data' => $form->model(),
         ]));
         $res->header('Content-Type', 'application/json');
         return $res;

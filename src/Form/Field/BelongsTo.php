@@ -11,17 +11,22 @@ class BelongsTo extends Select
     protected function addScript()
     {
         $selectorPerfix = getSelectorFromForm($this->form);
-        
+  
         $script = <<<SCRIPT
         ;(function () {
-        
+
             var grid = $('{$selectorPerfix}.belongsto-{$this->column()}');
             var modal = $('#{$this->modalID}');
-        
-            var table = grid.find('.grid-table');
+            var container = grid.find('.selectable-container');
             var selected = $("{$selectorPerfix}{$this->getElementClassSelector()}").val();
-            var row = null;
-        
+            var item = null;
+
+            var emptyElement = $(grid.find('template.empty').html());
+
+            if (container.prop('nodeName') !== 'TABLE') {
+                emptyElement = emptyElement.find('.empty-grid');
+            }
+
             // open modal
             grid.find('.select-relation').click(function (e) {
         
@@ -32,14 +37,14 @@ class BelongsTo extends Select
                 }).on('click', '.page-item a, .filter-box a', function (e) {
                     load($(this).attr('href'));
                     e.preventDefault();
-                }).on('click', 'tr', function (e) {
+                }).on('click', '.selectable-item', function (e) {
                     $(this).find('input.select').iCheck('toggle');
                     e.preventDefault();
                 }).on('submit', '.box-header form', function (e) {
                     load($(this).attr('action')+'&'+$(this).serialize());
                     return false;
                 }).on('ifChecked', 'input.select', function (e) {
-                    row = $(e.target).parents('tr');
+                    item = $(e.target).closest('.selectable-item');
                     selected = $(this).val();
                 }).find('.modal-footer .submit').off().on('click', function () {
                     $("{$selectorPerfix}{$this->getElementClassSelector()}")
@@ -49,10 +54,10 @@ class BelongsTo extends Select
                         .next()
                         .addClass('hide');
         
-                    if (row) {
-                        row.find('td:last a').removeClass('hide');
-                        row.find('td:first').remove();
-                        table.find('tbody').empty().append(row);
+                    if (item) {
+                        item.find('.grid-row-remove').removeClass('hide');
+                        item.find('.column-__modal_selector__').remove();
+                        container.empty().append(item);
                     }
                     modal.modal('toggle');
                 });
@@ -60,16 +65,14 @@ class BelongsTo extends Select
                 $('#{$this->modalID}').modal('show');
                 e.preventDefault();
             });
-        
-            // remove row
+     
+            // remove item
             grid.on('click', '.grid-row-remove', function () {
                 selected = null;
-                $(this).parents('tr').remove();
-                $("{$this->getElementClassSelector()}").val(null);
-        
-                var empty = $('{$selectorPerfix}.belongsto-{$this->column()}').find('template.empty').html();
-        
-                table.find('tbody').append(empty);
+                $(this).closest('.selectable-item').remove();
+                $("{$selectorPerfix}{$this->getElementClassSelector()}").val(null);
+
+                container.append(emptyElement);
             });
         
             var load = function (url) {
@@ -88,6 +91,30 @@ class BelongsTo extends Select
                     });
                 });
             };
+
+            grid.find('a[data-form="modal"]').on('modelCreated', (e) => {
+                    
+                var createdModelId = $(e.target).data('model-id');
+                
+                var input = $('.belongstomany-{$this->column()}').closest('.form-group').find('select.{$this->column()}');
+             
+                input
+                .select2({data: [createdModelId]})
+                .val([createdModelId])
+                .trigger('change')
+                .next()
+                .addClass('hide');
+                    
+                container.html('');
+        
+                $.get("{$this->getLoadUrl()}&id=" + createdModelId, function(response){
+                    var item = $(response).find('.selectable-item:first');
+                    item.find('.column-__modal_selector__').remove();
+                    item.find('.grid-row-remove').removeClass('hide');
+                    container.append(item);
+                });
+        
+            });
         
             
         })();

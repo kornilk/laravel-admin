@@ -23,9 +23,14 @@ class Image extends AbstractDisplayer
             $image = pathinfo($path);
             $thumb = $image['dirname'] . '/' . $image['filename'] . '-' . $thumbnail . '.' . $image['extension'];
 
-            $popup = $image['dirname'] . '/' . $image['filename'] . (!empty($popup) ? "-{$popup}" : '') . '.' . $image['extension'];
-            return '<a href="' . Storage::disk(config('admin.upload.disk'))->url($popup) . '" class="grid-popup-link card-img-top">
-            <img src="' . Storage::disk(config('admin.upload.disk'))->url($thumb) . '" style="max-width:'.$width.'px;max-height:'.$height.'px" class="img img-thumbnail"></a>';
+            if ($popup === false){
+                return '<img src="' . Storage::disk(config('admin.upload.disk'))->url($thumb) . '" style="max-width:'.$width.'px;max-height:'.$height.'px" class="img img-thumbnail">';
+            } else {
+                $popup = $image['dirname'] . '/' . $image['filename'] . (!empty($popup) ? "-{$popup}" : '') . '.' . $image['extension'];
+                return '<a href="' . Storage::disk(config('admin.upload.disk'))->url($popup) . '" class="grid-popup-link card-img-top">
+                <img src="' . Storage::disk(config('admin.upload.disk'))->url($thumb) . '" style="max-width:'.$width.'px;max-height:'.$height.'px" class="img img-thumbnail"></a>';
+            }
+            
         })->implode('&nbsp;');
     }
 }

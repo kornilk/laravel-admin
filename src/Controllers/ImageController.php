@@ -41,7 +41,7 @@ class ImageController extends AdminController
             }, __('admin.Search'));
         });
 
-        $grid->setView('admin::grid.card');
+        $grid->setView('admin::grid.image-card');
  
         return $grid;
     }
@@ -133,6 +133,10 @@ class ImageController extends AdminController
 
             $form->large();
 
+            $form->footer(function ($footer) {
+                $footer->disableReset();
+            });
+
             $form->saved(function ($form) {
                 return $this->modalSaveRespose($form, __('admin.Upload succeeded'));
             });
@@ -170,13 +174,13 @@ class ImageController extends AdminController
             });
         });
 
-        $grid->setView('admin::grid.card-selectable');
+        $grid->setView('admin::grid.image-card-ckeditor');
         $grid->disableExport();
         $grid->disableActions();
         $grid->disableCreateButton();
 
         if (\Admin::user()->can($this->slug . '.create')) {
-            $modalButton = new ModalButton(__('admin.upload'), route('admin.image.modal.form', ['rules' => 'dimensions:min_width=' . config('image.rules.medium.minWidth') . ',min_height=' . config('image.rules.medium.minHeight') . '']));
+            $modalButton = new ModalButton(__('admin.new'), route('admin.image.modal.form', ['rules' => 'dimensions:min_width=' . config('image.rules.medium.minWidth') . ',min_height=' . config('image.rules.medium.minHeight') . '']));
             $modalButton->setClass('btn btn-primary btn-sm ml-5');
 
             $grid->tools(function ($tools) use ($modalButton) {

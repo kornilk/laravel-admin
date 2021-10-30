@@ -36,7 +36,7 @@ class Image extends Selectable
 
     public function make()
     {
-        $this->column('path', __('content.Image'))->setAttributes(['class' => 'hideLabel'])->image();
+        $this->column('path', __('content.Image'))->setAttributes(['class' => 'hideLabel'])->image('', false);
 
         $this->column('title', __('content.Title'))->setAttributes(['class' => 'hideLabel'])->display(function ($value) {
             return \Str::limit($value, 100, '...');
@@ -49,7 +49,7 @@ class Image extends Selectable
         });
 
         if (\Admin::user()->can('images.create')){
-            $modalButton = new ModalButton(__('admin.upload'), route('admin.image.modal.form', $this->modalButtonAttributes));
+            $modalButton = new ModalButton(__('admin.new'), route('admin.image.modal.form', $this->modalButtonAttributes));
             $modalButton->setClass('btn btn-primary btn-sm ml-5');
             $this->tools(function ($tools) use ($modalButton) {
                 $tools->append($modalButton);
@@ -57,6 +57,8 @@ class Image extends Selectable
         }
 
         $this->model()->orderBy('created_at', 'desc');
+
+        $this->setView('admin::grid.image-card');
 
     }
 }
