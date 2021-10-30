@@ -45,7 +45,7 @@
           @endforeach
         @endif
 
-        <input type="text" class="form-control" placeholder="{{ trans('content.email') }}" name="email" value="{{ old('email') }}">
+        <input type="text" class="form-control" placeholder="{{ trans('email_address') }}" name="email" value="{{ old('email') }}">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback {!! !$errors->has('password') ?: 'has-error' !!}">

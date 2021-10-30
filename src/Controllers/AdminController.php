@@ -247,8 +247,8 @@ class AdminController extends Controller
     protected function getYesNoSwitch()
     {
         return [
-            'on'  => ['value' => 1, 'text' => __('content.Yes'), 'color' => 'success'],
-            'off' => ['value' => 0, 'text' => __('content.No'), 'color' => 'danger'],
+            'on'  => ['value' => 1, 'text' => __('yes'), 'color' => 'success'],
+            'off' => ['value' => 0, 'text' => __('no'), 'color' => 'danger'],
         ];
     }
 

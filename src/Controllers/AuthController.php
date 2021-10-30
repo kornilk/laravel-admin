@@ -130,7 +130,7 @@ class AuthController extends Controller
         $form = new Form(new $class());
 
         $form->text('name', trans('admin.name'))->rules('required');
-        $form->display('email', trans('content.E-mail address'));
+        $form->display('email', trans('email_address'));
         $form->image('avatar', trans('admin.avatar'));
         $form->password('password', trans('admin.password'))->rules('sometimes|confirmed|max:100');
         $form->password('password_confirmation', trans('admin.password_confirmation'));

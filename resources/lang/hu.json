@@ -1,3 +1,10 @@
 {
+    "email": "E-mail",
+    "email_address": "E-mail cím",
+    "yes": "Igen",
+    "no": "Nem",
+    "text": "Szöveg",
+    "context": "Context",
+    "placeholder": "Placeholder",
     "Save order": "Sorrend mentése"
 }
