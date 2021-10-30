@@ -23,7 +23,7 @@ class ImageController extends AdminController
     {
         $grid = new Grid(new $this->model());
 
-        $grid->column('path', __('content.Image'))->thumbnail();
+        $grid->column('path', __('content.Image'))->image();
 
         $grid->column('title', __('content.Title'))->display(function($text) {
             return \Str::limit($text, 150, '...');
@@ -155,7 +155,7 @@ class ImageController extends AdminController
         });
         $grid->column('width');
         $grid->column('height');
-        $grid->column('path', __('content.Image'))->thumbnail();
+        $grid->column('path', __('content.Image'))->image();
         
 
         $grid->column('title', __('content.Title'))->display(function($text) {

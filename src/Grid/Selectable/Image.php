@@ -35,7 +35,7 @@ class Image extends Selectable
 
     public function make()
     {
-        $this->column('path', __('content.Image'))->setAttributes(['class' => 'hideLabel'])->thumbnail();
+        $this->column('path', __('content.Image'))->setAttributes(['class' => 'hideLabel'])->image();
 
         $this->column('title', __('content.Title'))->setAttributes(['class' => 'hideLabel'])->display(function ($value) {
             return \Str::limit($value, 100, '...');
