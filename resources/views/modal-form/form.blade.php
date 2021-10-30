@@ -1,4 +1,4 @@
-@extends('modal-form::modal')
+@extends('admin::modal-form.modal')
 
 @section('content')
     <div class="modal-dialog {!! $size !!}" role="document">

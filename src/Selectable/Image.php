@@ -16,11 +16,12 @@ class Image extends Selectable
 
     public function __construct($multiple = false, $key = '')
     {
+        $this->minWidth = config('image.rules.medium.minWidth');
+        $this->minHeight = config('image.rules.medium.minHeight');
+
         $this->setModalButtonAttributes();
         parent::__construct($multiple, $key);
 
-        $this->minWidth = config('image.rules.medium.minWidth');
-        $this->minHeight = config('image.rules.medium.minHeight');
     }
 
     public function setModalButtonAttributes()

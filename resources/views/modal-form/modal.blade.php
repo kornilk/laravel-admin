@@ -1,5 +1,5 @@
 <div id="{{$id}}" class="modal fade" role="dialog">
-    {!! Modal::style() !!}
+    {!! Encore\Admin\Facades\Modal::style() !!}
     @yield('content')
-    {!! Modal::script() !!}
+    {!! Encore\Admin\Facades\Modal::script() !!}
 </div>
