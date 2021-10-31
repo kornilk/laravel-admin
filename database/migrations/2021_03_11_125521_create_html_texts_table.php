@@ -10,6 +10,12 @@ class CreateHtmlTextsTable extends Migration
 {
     use MenuTrait, PermissionTrait;
 
+    public function __construct()
+    {
+        $this->namePlural = $this->model::getContentTitlePlural();
+        $this->slug = $this->model::getContentSlug();
+    }   
+
     /**
      * Run the migrations.
      *
@@ -30,13 +36,13 @@ class CreateHtmlTextsTable extends Migration
 
         $this->createMenu([
             'order' => 1,
-            'title' => 'Blokkok',
+            'title' => $this->namePlural,
             'icon' => 'fa-html5',
             'uri' => 'html-texts',
-            'permission' => 'html-texts.index',
+            'permission' => 'html-texts.show',
         ]);
 
-        $this->addContentPermissions('html-texts', 'Blokkok')->createRoleByPermissionSlug('Blokkok - teljes hozzáférés', 'html-texts_full_access', 'html-texts.%');
+        $this->addContentPermissions('html-texts', $this->namePlural)->createRoleByPermissionSlug("{$this->namePlural} - teljes hozzáférés', 'texts_full_access", 'html-texts_full_access', 'html-texts.%');
     }
 
     /**

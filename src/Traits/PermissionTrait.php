@@ -89,36 +89,30 @@ trait PermissionTrait
 
     protected function addContentPermissions(string $slug, string $name, bool $publish = FALSE)
     {
-        \DB::table('admin_permissions')->insert([
-            'name' => $name . '  - listázás',
-            'slug' => '' . $slug . '.index',
-            'http_method' => 'GET,HEAD',
-            'http_path' => '/' . $slug . '',
-        ]);
 
         \DB::table('admin_permissions')->insert([
-            'name' => $name . '  - megtekintés',
+            'name' => '{' . $name . '} - {preview}',
             'slug' => '' . $slug . '.show',
             'http_method' => 'GET,HEAD',
             'http_path' => '/' . $slug . '/*',
         ]);
 
         \DB::table('admin_permissions')->insert([
-            'name' => $name . '  - módosítás',
+            'name' => '{' . $name . '} - {edit}',
             'slug' => '' . $slug . '.edit',
             'http_method' => 'PUT,HEAD,GET',
             'http_path' => '/' . $slug . '/*',
         ]);
 
         \DB::table('admin_permissions')->insert([
-            'name' => $name . '  - létrehozás',
+            'name' => '{' . $name . '} - {create}',
             'slug' => '' . $slug . '.create',
             'http_method' => 'GET,HEAD,POST',
             'http_path' => '/' . $slug . '/create' . "\n" . '/' . $slug,
         ]);
 
         \DB::table('admin_permissions')->insert([
-            'name' => $name . '  - törlés',
+            'name' => '{' . $name . '} - {delete}',
             'slug' => '' . $slug . '.destroy',
             'http_method' => 'DELETE',
             'http_path' => '/' . $slug . '/*',
@@ -127,7 +121,7 @@ trait PermissionTrait
         if ($publish) {
 
             \DB::table('admin_permissions')->insert([
-                'name' => $name . '  - publikálás',
+                'name' => '{' . $name . '} - {publish}',
                 'slug' => '' . $slug . '.publish',
                 'http_method' => 'POST,PUT,PATCH',
                 'http_path' => '/' . $slug . '/publish',

@@ -9,6 +9,13 @@ use Encore\Admin\Traits\PermissionTrait;
 class CreateImagesTable extends Migration
 {
     use MenuTrait, PermissionTrait; 
+
+    public function __construct()
+    {
+        $this->namePlural = $this->model::getContentTitlePlural();
+        $this->slug = $this->model::getContentSlug();
+    }   
+
     /**
      * Run the migrations.
      *
@@ -33,15 +40,15 @@ class CreateImagesTable extends Migration
 
         $this->createMenu([
             'order' => 1,
-            'title' => 'Képek',
+            'title' => $this->namePlural,
             'icon' => 'fa-picture-o',
             'uri' => 'images',
-            'permission' => 'images.index',
+            'permission' => 'images.show',
         ]);
 
-        $this->addContentPermissions('images', 'Képek')->createRoleByPermissionSlug('Képek - teljes hozzáférés', 'images_full_access', 'images.%');
+        $this->addContentPermissions('images', $this->namePlural)->createRoleByPermissionSlug("{$this->namePlural} - teljes hozzáférés', 'texts_full_access", 'images_full_access', 'images.%');
 
-        $this->updatePermission('images.index', [
+        $this->updatePermission('images.show', [
             'http_path' => "\n" . '/images-modal/browse'
         ]);
 
