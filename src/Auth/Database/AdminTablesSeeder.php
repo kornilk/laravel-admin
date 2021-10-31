@@ -61,7 +61,7 @@ class AdminTablesSeeder extends Seeder
                 'http_path'   => '/auth/setting',
             ],
             [
-                'name'        => 'Auth management',
+                'name'        => 'User management',
                 'slug'        => 'auth.management',
                 'http_method' => '',
                 'http_path'   => "/auth/roles\r\n/auth/permissions\r\n/auth/menu\r\n/auth/logs",
@@ -90,7 +90,7 @@ class AdminTablesSeeder extends Seeder
             [
                 'parent_id' => 0,
                 'order'     => 2,
-                'title'     => 'Admin',
+                'title'     => 'Settings',
                 'icon'      => 'fa-tasks',
                 'uri'       => '',
                 'permission' => null,
@@ -114,7 +114,7 @@ class AdminTablesSeeder extends Seeder
             [
                 'parent_id' => 2,
                 'order'     => 5,
-                'title'     => 'Permission',
+                'title'     => 'Permissions',
                 'icon'      => 'fa-ban',
                 'uri'       => 'auth/permissions',
                 'permission' => null,
@@ -138,7 +138,7 @@ class AdminTablesSeeder extends Seeder
             [
                 'parent_id' => 2,
                 'order'     => 8,
-                'title'     => 'Log viewer',
+                'title'     => 'System log',
                 'icon'      => 'fa-database',
                 'uri'       => 'logs',
                 'permission' => null,

@@ -165,6 +165,7 @@ if (!function_exists('admin_trans')) {
      */
     function admin_trans($key = null, $replace = [], $locale = null)
     {
+        if (\Lang::has("admin.{$key}")) return __("admin.{$key}", $replace, $locale);
         $line = __($key, $replace, $locale);
 
         if (!is_string($line)) {

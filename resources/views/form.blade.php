@@ -1,3 +1,6 @@
+<script>
+    var ckeditorImageBrowseUrl = '{{ route("admin.image.modal.browser") }}';
+</script>
 <div class="box box-info">
     <div class="box-header with-border">
         <h3 class="box-title">{{ $form->title() }}</h3>

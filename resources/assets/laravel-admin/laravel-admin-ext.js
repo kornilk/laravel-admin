@@ -132,7 +132,7 @@ function browse_images(callback) {
     var modal = $('#imageBrowser');
 
     if (modal.length === 0) {
-        modal = createBrowseModal('imageBrowser', '/admin/images-modal/browse', function (data) {
+        modal = createBrowseModal('imageBrowser', ckeditorImageBrowseUrl, function (data) {
             callback(
                 {
                     description: data.title,

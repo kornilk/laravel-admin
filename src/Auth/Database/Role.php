@@ -109,4 +109,17 @@ class Role extends Model
             $model->permissions()->detach();
         });
     }
+
+    public function getNameAttribute($name)
+    {
+        $name = preg_replace_callback(
+            '|\{([^}]+)\}|',
+            function ($matches) {
+                return \Lang::has("admin.{$matches[1]}") ? __("admin.{$matches[1]}") : __($matches[1]);
+            },
+            $name
+        );
+
+        return \Lang::has("admin.{$name}") ? __("admin.{$name}") : __($name);
+    }
 }

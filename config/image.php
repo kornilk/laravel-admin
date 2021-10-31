@@ -18,7 +18,7 @@ return [
         ]
     ],
 
-    'keepOriginal' => true,
+    'keepOriginal' => false,
 
     'rules' => [
         'medium' => [
