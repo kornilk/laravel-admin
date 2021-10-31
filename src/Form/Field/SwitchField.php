@@ -22,6 +22,21 @@ class SwitchField extends Field
 
     protected $size = 'small';
 
+    /**
+     * Field constructor.
+     *
+     * @param       $column
+     * @param array $arguments
+     */
+    public function __construct($column = '', $arguments = [])
+    {
+        parent::__construct($column, $arguments);
+        $this->states = [
+            'on'  => ['value' => 1, 'text' => __('yes'), 'color' => 'success'],
+            'off' => ['value' => 0, 'text' => __('no'), 'color' => 'danger'],
+        ];
+    }
+
     public function setSize($size)
     {
         $this->size = $size;
