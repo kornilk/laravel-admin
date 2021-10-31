@@ -21,8 +21,8 @@ class TextController extends AdminController
         $grid = new Grid(new $this->model());
 
         $grid->column('value', $this->model::label('value'))->stripTags()->edit();
-        $grid->column('context');
-        $grid->column('placeholder');
+        $grid->column('context', $this->model::label('context'));
+        $grid->column('placeholder', $this->model::label('placeholder'));
        
         $grid->filter(function($filter){
 
@@ -54,9 +54,9 @@ class TextController extends AdminController
     {
         $show = new Show($this->model::findOrFail($id));
 
-        $show->field('value');
-        $show->field('context');
-        $show->field('placeholder');
+        $show->field('value', $this->model::label('value'));
+        $show->field('context', $this->model::label('context'));
+        $show->field('placeholder', $this->model::label('placeholder'));
 
         $show->panel()->tools(function ($tools) {
             $tools->disableDelete();
@@ -74,11 +74,11 @@ class TextController extends AdminController
     {
         $form = new Form(new $this->model());
 
-        $form->textarea('value')->rules('required');
+        $form->textarea('value', $this->model::label('value'))->rules('required');
        
-        $form->text('context')->rules('required|max:190');
+        $form->text('context', $this->model::label('context'))->rules('required|max:190');
 
-        $form->text('placeholder')->rules('required|max:190');
+        $form->text('placeholder', $this->model::label('placeholder'))->rules('required|max:190');
 
         $form->footer(function ($footer) {
 

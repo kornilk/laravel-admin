@@ -325,9 +325,6 @@ class Field implements Renderable
     {
         $column = is_array($this->column) ? current($this->column) : $this->column;
 
-        if (isset($arguments[0])) return $arguments[0];
-        return '';
-
         $label = $arguments[0] ?? ucfirst($column);
 
         return str_replace(['.', '_', '->'], ' ', $label);
@@ -941,9 +938,7 @@ class Field implements Renderable
      */
     public function label(): string
     {
-        $label = $this->label;
-        $columnLabel = !empty($this->form) ? $this->form->model()::label($this->column) : $this->column;
-        return empty($label) ? $columnLabel : $label;
+        return $this->label;
     }
 
     /**
@@ -983,7 +978,7 @@ class Field implements Renderable
             $input = $this->sanitizeInput($input, $this->column);
 
             $rules[$this->column] = $fieldRules;
-            $attributes[$this->column] = $this->label();
+            $attributes[$this->column] = $this->label;
         }
 
         if (is_array($this->column)) {
@@ -993,7 +988,7 @@ class Field implements Renderable
                 }
                 $input[$column.$key] = Arr::get($input, $column);
                 $rules[$column.$key] = $fieldRules;
-                $attributes[$column.$key] = $this->label()."[$column]";
+                $attributes[$column.$key] = $this->label."[$column]";
             }
         }
 
@@ -1155,7 +1150,7 @@ class Field implements Renderable
      */
     public function getPlaceholder()
     {
-        return $this->placeholder ?: trans('admin.input').' '.$this->label();
+        return $this->placeholder ?: trans('admin.input').' '.$this->label;
     }
 
     /**
@@ -1433,7 +1428,7 @@ class Field implements Renderable
             'help'        => $this->help,
             'class'       => $this->getElementClassString(),
             'value'       => $this->value(),
-            'label'       => $this->label(),
+            'label'       => $this->label,
             'viewClass'   => $this->getViewElementClasses(),
             'column'      => $this->column,
             'errorKey'    => $this->getErrorKey(),

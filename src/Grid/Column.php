@@ -325,7 +325,7 @@ class Column
     public function getLabel()
     {
         $label = $this->label;
-        return empty($label) ? self::$model->label($this->name) : $label;
+        return empty($label) ? self::$model->label($this->name) : $label ;
     }
 
     /**

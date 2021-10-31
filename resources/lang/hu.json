@@ -58,5 +58,6 @@
     "company": "Cég",
     "status": "Állapot",
     "Text.value": "Szöveg",
-    "HtmlText.value": "Tartalom"
+    "HtmlText.value": "Tartalom",
+    "Image.path": "Kép"
 }

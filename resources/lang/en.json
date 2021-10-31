@@ -57,5 +57,6 @@
     "company": "Comapny",
     "status": "Status",
     "Text.value": "Text",
-    "HtmlText.value": "Content"
+    "HtmlText.value": "Content",
+    "Image.path": "Image"
 }

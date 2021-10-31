@@ -36,17 +36,22 @@ class Image extends Selectable
 
     public function make()
     {
-        $this->column('path')->setAttributes(['class' => 'hideLabel'])->image('', false);
+        $this->column('path', $this->model::label('path'))->setAttributes(['class' => 'hideLabel'])->image('', false);
 
-        $this->column('title')->setAttributes(['class' => 'hideLabel'])->display(function ($value) {
+        $this->column('title', $this->model::label('title'))->setAttributes(['class' => 'hideLabel'])->display(function ($value) {
             return \Str::limit($value, 100, '...');
         });
 
-        $this->where(function ($query) {
+        $this->filter(function ($filter) {
 
-            $query->where('title', 'like', "%{$this->input}%")
-                ->orWhere('source', 'like', "%{$this->input}%");
-        }, __('admin.Search'));
+            $filter->disableIdFilter();
+
+            $filter->where(function ($query) {
+
+                $query->where('title', 'like', "%{$this->input}%")
+                    ->orWhere('source', 'like', "%{$this->input}%");
+            }, __('admin.Search'));
+        });
 
         if (\Admin::user()->can('images.create')){
             $modalButton = new ModalButton(__('admin.new'), route('admin.image.modal.form', $this->modalButtonAttributes));

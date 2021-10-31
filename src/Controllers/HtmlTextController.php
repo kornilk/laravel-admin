@@ -20,9 +20,9 @@ class HtmlTextController extends AdminController
     {
         $grid = new Grid(new $this->model());
 
-        $grid->column('value')->stripTags()->edit();
-        $grid->column('context');
-        $grid->column('placeholder');
+        $grid->column('value', $this->model::label('value'))->stripTags()->edit();
+        $grid->column('context', $this->model::label('context'));
+        $grid->column('placeholder', $this->model::label('placeholder'));
        
         $grid->filter(function($filter){
 
@@ -54,9 +54,9 @@ class HtmlTextController extends AdminController
     {
         $show = new Show($this->model::findOrFail($id));
 
-        $show->field('value')->unescape();
-        $show->field('context');
-        $show->field('placeholder');
+        $show->field('value', $this->model::label('value'))->unescape();
+        $show->field('context', $this->model::label('context'));
+        $show->field('placeholder', $this->model::label('placeholder'));
 
         $show->panel()->tools(function ($tools) {
             $tools->disableDelete();
@@ -74,11 +74,11 @@ class HtmlTextController extends AdminController
     {
         $form = new Form(new $this->model());
 
-        $form->ckeditor('value')->options(['customConfig' => '/vendor/laravel-admin/ckeditor/config_html-text.js'])->attribute('id', 'htmlTextValue')->attribute('class', 'ckEditorTextarea')->rules('required');
+        $form->ckeditor('value', $this->model::label('value'))->options(['customConfig' => '/vendor/laravel-admin/ckeditor/config_html-text.js'])->attribute('id', 'htmlTextValue')->attribute('class', 'ckEditorTextarea')->rules('required');
        
-        $form->text('context')->rules('required|max:190');
+        $form->text('context', $this->model::label('context'))->rules('required|max:190');
 
-        $form->text('placeholder')->rules('required|max:190');
+        $form->text('placeholder', $this->model::label('placeholder'))->rules('required|max:190');
 
         $form->footer(function ($footer) {
             $footer->disableCreatingCheck();
