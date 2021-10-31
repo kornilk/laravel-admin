@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Schema;
 class CreateTextsTable extends Migration
 {
     use MenuTrait, PermissionTrait; 
+
+    protected $model = \Encore\Admin\Models\Text::class;
     
     public function __construct()
     {
@@ -42,7 +44,7 @@ class CreateTextsTable extends Migration
             'permission' => 'texts.show',
         ]);
 
-        $this->addContentPermissions('texts', $this->namePlural)->createRoleByPermissionSlug("{$this->namePlural} - teljes hozzáférés", "texts_full_access", 'texts.%');
+        $this->addContentPermissions('texts', $this->namePlural)->createRoleByPermissionSlug("{{$this->namePlural}} - {full access}", "texts_full_access", 'texts.%');
 
     }
 

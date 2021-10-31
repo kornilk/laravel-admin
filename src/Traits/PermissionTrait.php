@@ -91,7 +91,7 @@ trait PermissionTrait
     {
 
         \DB::table('admin_permissions')->insert([
-            'name' => '{' . $name . '} - {preview}',
+            'name' => '{' . $name . '} - {view}',
             'slug' => '' . $slug . '.show',
             'http_method' => 'GET,HEAD',
             'http_path' => '/' . $slug . '/*',
@@ -135,7 +135,6 @@ trait PermissionTrait
 
     protected function removeContentPermissions(string $slug)
     {
-        $this->removePermission('' . $slug . '.index');
         $this->removePermission('' . $slug . '.show');
         $this->removePermission('' . $slug . '.create');
         $this->removePermission('' . $slug . '.edit');

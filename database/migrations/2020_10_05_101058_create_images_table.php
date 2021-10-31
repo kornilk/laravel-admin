@@ -10,6 +10,8 @@ class CreateImagesTable extends Migration
 {
     use MenuTrait, PermissionTrait; 
 
+    protected $model = \Encore\Admin\Models\Image::class;
+
     public function __construct()
     {
         $this->namePlural = $this->model::getContentTitlePlural();
@@ -46,7 +48,7 @@ class CreateImagesTable extends Migration
             'permission' => 'images.show',
         ]);
 
-        $this->addContentPermissions('images', $this->namePlural)->createRoleByPermissionSlug("{$this->namePlural} - teljes hozzáférés', 'texts_full_access", 'images_full_access', 'images.%');
+        $this->addContentPermissions('images', $this->namePlural)->createRoleByPermissionSlug("{{$this->namePlural}} - {full access}", 'images_full_access', 'images.%');
 
         $this->updatePermission('images.show', [
             'http_path' => "\n" . '/images-modal/browse'

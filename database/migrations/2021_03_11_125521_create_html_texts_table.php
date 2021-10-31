@@ -10,6 +10,8 @@ class CreateHtmlTextsTable extends Migration
 {
     use MenuTrait, PermissionTrait;
 
+    protected $model = \Encore\Admin\Models\HtmlText::class;
+
     public function __construct()
     {
         $this->namePlural = $this->model::getContentTitlePlural();
@@ -42,7 +44,7 @@ class CreateHtmlTextsTable extends Migration
             'permission' => 'html-texts.show',
         ]);
 
-        $this->addContentPermissions('html-texts', $this->namePlural)->createRoleByPermissionSlug("{$this->namePlural} - teljes hozzáférés', 'texts_full_access", 'html-texts_full_access', 'html-texts.%');
+        $this->addContentPermissions('html-texts', $this->namePlural)->createRoleByPermissionSlug("{{$this->namePlural}} - {full access}", 'html-texts_full_access', 'html-texts.%');
     }
 
     /**

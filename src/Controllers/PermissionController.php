@@ -28,7 +28,6 @@ class PermissionController extends AdminController
 
         $grid = new Grid(new $permissionModel());
 
-        $grid->column('id', 'ID')->sortable();
         $grid->column('slug', trans('admin.slug'));
         $grid->column('name', trans('admin.name'));
 
@@ -55,13 +54,25 @@ class PermissionController extends AdminController
             })->implode('');
         });
 
-        $grid->column('created_at', trans('admin.created_at'));
-        $grid->column('updated_at', trans('admin.updated_at'));
-
         $grid->tools(function (Grid\Tools $tools) {
             $tools->batch(function (Grid\Tools\BatchActions $actions) {
                 $actions->disableDelete();
             });
+        });
+
+        $grid->filter(function($filter){
+
+            $filter->disableIdFilter();
+
+            $filter->where(function ($query) {
+
+                $query->where('slug', 'like', "%{$this->input}%")
+                    ->orWhere('name', 'like', "%{$this->input}%")
+                    ->orWhere('http_path', 'like', "%{$this->input}%");
+            
+            }, __('admin.Search'));
+
+        
         });
 
         return $grid;
@@ -80,7 +91,6 @@ class PermissionController extends AdminController
 
         $show = new Show($permissionModel::findOrFail($id));
 
-        $show->field('id', 'ID');
         $show->field('slug', trans('admin.slug'));
         $show->field('name', trans('admin.name'));
 
@@ -107,9 +117,6 @@ class PermissionController extends AdminController
             })->implode('');
         });
 
-        $show->field('created_at', trans('admin.created_at'));
-        $show->field('updated_at', trans('admin.updated_at'));
-
         return $show;
     }
 
@@ -124,8 +131,6 @@ class PermissionController extends AdminController
 
         $form = new Form(new $permissionModel());
 
-        $form->display('id', 'ID');
-
         $form->text('slug', trans('admin.slug'))->rules('required');
         $form->text('name', trans('admin.name'))->rules('required');
 
@@ -133,9 +138,6 @@ class PermissionController extends AdminController
             ->options($this->getHttpMethodsOptions())
             ->help(trans('admin.all_methods_if_empty'));
         $form->textarea('http_path', trans('admin.http.path'));
-
-        $form->display('created_at', trans('admin.created_at'));
-        $form->display('updated_at', trans('admin.updated_at'));
 
         return $form;
     }

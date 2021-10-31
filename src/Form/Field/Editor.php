@@ -2,8 +2,6 @@
 
 namespace Encore\Admin\Form\Field;
 
-use Encore\Admin\Form\Textarea;
-
 class Editor extends Textarea
 {
     protected static $js = [
@@ -12,7 +10,7 @@ class Editor extends Textarea
 
     public function render()
     {
-        $config = (array) CKEditor::config('config');
+        $config = (array) config('admin.extensions.ckeditor.config');
 
         $config = json_encode(array_merge($config, $this->options));
         $formClass = $this->form->getFormClass();

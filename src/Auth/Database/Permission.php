@@ -89,6 +89,17 @@ class Permission extends Model
         return false;
     }
 
+    public function getNameAttribute($name)
+    {
+        return preg_replace_callback(
+            '|\{([^}]+)\}|',
+            function ($matches) {
+                return \Lang::has("admin.{$matches[1]}") ? __("admin.{$matches[1]}") : __($matches[1]);
+            },
+            $name
+        );
+    }
+
     /**
      * filter \r.
      *

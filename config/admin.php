@@ -423,6 +423,8 @@ return [
     |
     */
     'extensions' => [
-
+        'ckeditor' => [
+            'config' => [],
+        ]
     ],
 ];
