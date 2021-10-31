@@ -341,6 +341,9 @@ class Admin
                 $router->get('logs', 'LogViewerController@index')->name('log-viewer-index');
                 $router->get('logs/{file}', 'LogViewerController@index')->name('log-viewer-file');
                 $router->get('logs/{file}/tail', 'LogViewerController@tail')->name('log-viewer-tail');
+
+                $router->get('settings/artisan', 'ArtisanController@artisan');
+            $router->post('settings/artisan', 'ArtisanController@runArtisan');
             });
 
             $authController = config('admin.auth.controller', AuthController::class);
