@@ -23,12 +23,12 @@ class ImageController extends AdminController
     {
         $grid = new Grid(new $this->model());
 
-        $grid->column('path', __('image'))->image();
+        $grid->column('path')->image();
 
-        $grid->column('title', __('title'))->display(function ($text) {
+        $grid->column('title')->display(function ($text) {
             return \Str::limit($text, 150, '...');
         });
-        $grid->column('source', __('source'));
+        $grid->column('source');
 
         $grid->filter(function ($filter) {
 
@@ -56,10 +56,10 @@ class ImageController extends AdminController
     {
         $show = new Show($this->model::findOrFail($id));
 
-        $show->field('path', __('image'))->image();
+        $show->field('path')->image();
 
-        $show->field('title', __('title'));
-        $show->field('source', __('source'));
+        $show->field('title');
+        $show->field('source');
 
         return $show;
     }
@@ -85,7 +85,7 @@ class ImageController extends AdminController
         $help = request('help');
 
         $form->column(4, function ($form) use ($rules, $help) {
-            $image =  $form->image('path', __('image'))->rules($rules)->required();
+            $image =  $form->image('path')->rules($rules)->required();
 
             if (!empty($rules)) {
                 $image->rules($rules);
@@ -97,12 +97,12 @@ class ImageController extends AdminController
         });
 
         $form->column(8, function ($form) {
-            $form->text('title', __('title'))->rules('max:700');
-            $form->text('source', __('source'))->rules('max:150');
+            $form->text('title')->rules('max:700');
+            $form->text('source')->rules('max:150');
 
             if (config('image.watermark')) {
 
-                $form->switch('watermark', __('watermark'))->states($this->getYesNoSwitch());
+                $form->switch('watermark')->states($this->getYesNoSwitch());
                 $form->ignore('watermark');
             }
         });
@@ -152,13 +152,13 @@ class ImageController extends AdminController
         });
         $grid->column('width');
         $grid->column('height');
-        $grid->column('path', __('image'))->image();
+        $grid->column('path')->image();
 
 
-        $grid->column('title', __('title'))->display(function ($text) {
+        $grid->column('title')->display(function ($text) {
             return \Str::limit($text, 80, '...');
         });
-        $grid->column('source', __('source'));
+        $grid->column('source');
 
         $grid->filter(function ($filter) {
 

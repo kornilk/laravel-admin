@@ -311,6 +311,7 @@ class Column
             return $label;
         }
 
+        return '';
         $label = ucfirst($this->name);
 
         return __(str_replace(['.', '_'], ' ', $label));
@@ -323,7 +324,8 @@ class Column
      */
     public function getLabel()
     {
-        return $this->label;
+        $label = $this->label;
+        return empty($label) ? self::$model->label($this->name) : $label;
     }
 
     /**

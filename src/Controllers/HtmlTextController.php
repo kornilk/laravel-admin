@@ -20,9 +20,9 @@ class HtmlTextController extends AdminController
     {
         $grid = new Grid(new $this->model());
 
-        $grid->column('value', __('text'))->stripTags()->edit();
-        $grid->column('context', __('context'));
-        $grid->column('placeholder', __('placeholder'));
+        $grid->column('value')->stripTags()->edit();
+        $grid->column('context');
+        $grid->column('placeholder');
        
         $grid->filter(function($filter){
 
@@ -54,9 +54,9 @@ class HtmlTextController extends AdminController
     {
         $show = new Show($this->model::findOrFail($id));
 
-        $show->field('value', __('text'))->unescape();
-        $show->field('context', __('ccontext'));
-        $show->field('placeholder', __('placeholder'));
+        $show->field('value')->unescape();
+        $show->field('context');
+        $show->field('placeholder');
 
         $show->panel()->tools(function ($tools) {
             $tools->disableDelete();
@@ -74,11 +74,11 @@ class HtmlTextController extends AdminController
     {
         $form = new Form(new $this->model());
 
-        $form->ckeditor('value', __('text'))->options(['customConfig' => '/vendor/laravel-admin/ckeditor/config_html-text.js'])->attribute('id', 'htmlTextValue')->attribute('class', 'ckEditorTextarea')->rules('required');
+        $form->ckeditor('value')->options(['customConfig' => '/vendor/laravel-admin/ckeditor/config_html-text.js'])->attribute('id', 'htmlTextValue')->attribute('class', 'ckEditorTextarea')->rules('required');
        
-        $form->text('context', __('context'))->rules('required|max:190');
+        $form->text('context')->rules('required|max:190');
 
-        $form->text('placeholder', __('placeholder'))->rules('required|max:190');
+        $form->text('placeholder')->rules('required|max:190');
 
         $form->footer(function ($footer) {
             $footer->disableCreatingCheck();

@@ -34,14 +34,19 @@ trait ContentTrait {
 
     public static function getContentFrontendSlug(){
         if (!static::$initedContentVariables) static::initContentVariables();
-        return static::$contentFrontedSlug;
+        return !empty(static::$contentFrontedSlug) ? static::$contentFrontedSlug : static::$contentSlug;
+    }
+
+    public static function getContentBaseColumn(){
+        return \Schema::getColumnListing(__CLASS__)[1];
     }
 
     public static function label($field){
+        $class = \Str::afterLast(__CLASS__, '\\');
         if (!static::$initedContentVariables) static::initContentVariables();
         $field = \Str::of($field)->replaceLast('_id', '');
         $fieldName = ucfirst(strtolower(\Str::headline($field)));
-        return \Lang::has("{__CLASS__}.{$field}") ? __("{__CLASS__}.{$field}") : (
+        return \Lang::has("{$class}.{$field}") ? __("{$class}.{$field}") : (
             \Lang::has("{$field}") ? __("{$field}") : $fieldName
         );
     }

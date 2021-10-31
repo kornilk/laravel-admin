@@ -153,6 +153,8 @@ class Field implements Renderable
      */
     protected function formatLabel($label)
     {
+        if ($label) return $label;
+        return '';
         $label = $label ?: ucfirst($this->name);
 
         return str_replace(['.', '_'], ' ', $label);
@@ -165,7 +167,8 @@ class Field implements Renderable
      */
     public function getLabel()
     {
-        return $this->label;
+        $label = $this->label;
+        return empty($label) ? $this->parent->getModel()->label($this->name) : $label;
     }
 
     /**

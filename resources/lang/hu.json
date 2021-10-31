@@ -56,5 +56,7 @@
     "last_name": "Vezetéknév",
     "first_name": "Keresztnév",
     "company": "Cég",
-    "status": "Állapot"
+    "status": "Állapot",
+    "Text.value": "Szöveg",
+    "HtmlText.value": "Tartalom"
 }

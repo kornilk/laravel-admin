@@ -55,5 +55,7 @@
     "last_name": "Last name",
     "first_name": "First name",
     "company": "Comapny",
-    "status": "Status"
+    "status": "Status",
+    "Text.value": "Text",
+    "HtmlText.value": "Content"
 }
