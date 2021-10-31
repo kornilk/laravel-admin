@@ -39,6 +39,14 @@ class TextController extends AdminController
         
         });
 
+        $grid->actions(function ($actions) {
+            $actions->disableDelete();
+        });
+
+        $grid->batchActions(function ($batch) {
+            $batch->disableDelete();
+        });
+
         $grid->disableCreateButton();
 
         return $grid;
