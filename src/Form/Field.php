@@ -1580,10 +1580,10 @@ class Field implements Renderable
             $field->setLabelClass($this->labelClass);
             $field->setHelpArray($this->help);
 
-            if (method_exists($field, 'retainable')) $field->retainable($this->retainable);
-            if (method_exists($field, 'removable')) $field->removable($this->removable);
-            if (method_exists($field, 'downloadable')) $field->downloadable($this->downloadable);
-            if (method_exists($field, 'uniqueName')) $field->uniqueName($this->uniqueName);
+            if (method_exists($field, 'retainable') && property_exists($this, 'retainable')) $field->retainable($this->retainable);
+            if (method_exists($field, 'removable') && property_exists($this, 'removable')) $field->removable($this->removable);
+            if (method_exists($field, 'downloadable') && property_exists($this, 'downloadable')) $field->downloadable($this->downloadable);
+            if (method_exists($field, 'uniqueName') && property_exists($this, 'uniqueName')) $field->uniqueName($this->uniqueName);
         }
     }
 
