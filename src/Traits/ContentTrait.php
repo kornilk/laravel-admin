@@ -39,7 +39,11 @@ trait ContentTrait {
 
     public static function label($field){
         if (!static::$initedContentVariables) static::initContentVariables();
-        return \Lang::has("{__CLASS__}.{$field}") ? __("{__CLASS__}.{$field}") : __("{$field}");
+        $field = \Str::of($field)->replaceLast('_id', '');
+        $fieldName = ucfirst(strtolower(\Str::headline($field)));
+        return \Lang::has("{__CLASS__}.{$field}") ? __("{__CLASS__}.{$field}") : (
+            \Lang::has("{$field}") ? __("{$field}") : $fieldName
+        );
     }
 
 }

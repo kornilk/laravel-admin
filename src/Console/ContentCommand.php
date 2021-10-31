@@ -43,7 +43,7 @@ class ContentCommand extends GeneratorCommand
      */
     protected $slug;
 
-    protected $skipColumnTranslations = [
+    protected $excludeColumnTranslations = [
         'id',
         'created_at',
         'updated_at',
@@ -87,16 +87,23 @@ class ContentCommand extends GeneratorCommand
                     $this->migrate('database/migrations/' . $date . '_' . "create_{$table}_table");
                     if (parent::handle() !== false) {
 
+                        $title = $this->model::getContentTitle();
+                        $titlePlural = $this->model::getContentTitlePlural();
+
                         $this->line('');
                         $this->comment('Add the following route to app/Admin/routes.php:');
                         $this->line('');
                         $this->info("    \$router->resource('{$this->slug}', {$this->controllerName}::class);");
                         $this->line('');
-                        $this->comment('Add the following lines to content.php');
+                        $this->comment('Add the following lines to the language files');
                         $this->line('');
+                        $this->info("    \"{$title}\" => \"{$title}\",");
+                        $this->info("    \"{$titlePlural}\" => \"{$titlePlural}\",");
                         foreach (Schema::getColumnListing($table) as $column){
-                            if (in_array($column, $this->skipColumnTranslations)) continue;
+                            if (in_array($column, $this->excludeColumnTranslations)) continue;
+                            $column = \Str::of($column)->replaceLast('_id', '');
                             $label = $this->formatLabel($column);
+                            $label = ucfirst(strtolower(\Str::headline($label)));
                             $this->info("    \"{$this->modelName}.{$column}\" => \"{$label}\",");
                         }
                     }

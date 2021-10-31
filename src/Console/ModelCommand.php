@@ -24,19 +24,22 @@ class ModelCommand extends ModelMakeCommand
     {
         $stub = parent::replaceClass($stub, $name);
 
-        $this->modelName = $this->argument('name');
-        $this->modelNamePlural = Str::pluralStudly($this->modelName);
-        $this->slug = Str::kebab($this->modelNamePlural);
+        $this->modelModelName = $this->argument('name');
+        $this->title = ucfirst(strtolower(\Str::headline($this->modelModelName)));
+        $this->titlePlural = ucfirst(strtolower(\Str::headline(Str::pluralStudly($this->modelModelName))));
+        $this->slug = Str::slug($this->titlePlural);
 
         return str_replace(
             [
-                'DummyModelNamePlural',
+                'DummyTitlePlural',
+                'DummyTitle',
                 'DummyModelName',
                 'DummySlug',
             ],
             [
-                $this->modelNamePlural,
-                $this->modelName,
+                $this->titlePlural,
+                $this->title,
+                $this->modelModelName,
                 $this->slug,
             ],
             $stub

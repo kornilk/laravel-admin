@@ -84,9 +84,9 @@ class ResourceGenerator
 
         foreach ($this->getTableColumns() as $column) {
             $name = $column->getName();
-            if (in_array($name, $reservedColumns)) {
-                continue;
-            }
+
+            if (in_array($name, $reservedColumns)) continue;
+
             $type = $column->getType()->getName();
             $default = $column->getDefault();
 
@@ -163,13 +163,14 @@ class ResourceGenerator
 
     public function generateShow()
     {
+        $reservedColumns = $this->getReservedColumns();
+
         $output = '';
 
         foreach ($this->getTableColumns() as $column) {
             $name = $column->getName();
 
-            // set column label
-            $label = $this->formatLabel($name);
+            if (in_array($name, $reservedColumns)) continue;
 
             $output .= sprintf($this->formats['show_field'], $name, $name);
 
@@ -181,11 +182,14 @@ class ResourceGenerator
 
     public function generateGrid()
     {
+        $reservedColumns = $this->getReservedColumns();
+
         $output = '';
 
         foreach ($this->getTableColumns() as $column) {
             $name = $column->getName();
-            $label = $this->formatLabel($name);
+
+            if (in_array($name, $reservedColumns)) continue;
 
             $output .= sprintf($this->formats['grid_column'], $name, $name);
             $output .= ";\r\n";
@@ -194,11 +198,11 @@ class ResourceGenerator
         return $output;
     }
 
-    protected function getReservedColumns()
+    protected function getReservedColumns($includeCreatedAt = true)
     {
         return [
             $this->model->getKeyName(),
-            $this->model->getCreatedAtColumn(),
+            $includeCreatedAt ? $this->model->getCreatedAtColumn() : null,
             $this->model->getUpdatedAtColumn(),
             'deleted_at',
         ];
