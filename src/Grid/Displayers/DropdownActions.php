@@ -6,6 +6,8 @@ use Encore\Admin\Actions\RowAction;
 use Encore\Admin\Admin;
 use Encore\Admin\Grid\Actions\Delete;
 use Encore\Admin\Grid\Actions\Edit;
+use Encore\Admin\Grid\Actions\ForceDelete;
+use Encore\Admin\Grid\Actions\Restore;
 use Encore\Admin\Grid\Actions\Show;
 
 class DropdownActions extends Actions
@@ -103,6 +105,54 @@ class DropdownActions extends Actions
     }
 
     /**
+     * Disable Restore.
+     *
+     * @param bool $disable
+     *
+     * @return $this.
+     */
+    public function disableRestore(bool $disable = true)
+    {
+        
+        if ($disable) {
+            $custom = [];
+            foreach ($this->custom as $action){
+                if ($action instanceof Restore) continue;
+                $custom[] = $action;
+            }
+            $this->custom = $custom;
+            
+        } elseif (!in_array(Restore::class, $this->custom)) {
+            array_push($this->custom, Restore::class);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Disable Force Restore.
+     *
+     * @param bool $disable
+     *
+     * @return $this.
+     */
+    public function disableForceDelete(bool $disable = true)
+    {
+        if ($disable) {
+            $custom = [];
+            foreach ($this->custom as $action){
+                if ($action instanceof ForceDelete) continue;
+                $custom[] = $action;
+            }
+            $this->custom = $custom;
+        } elseif (!in_array(ForceDelete::class, $this->custom)) {
+            array_push($this->custom, ForceDelete::class);
+        }
+
+        return $this;
+    }
+
+    /**
      * Disable edit.
      *
      * @param bool $disable
@@ -125,10 +175,14 @@ class DropdownActions extends Actions
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|string
      */
-    public function display($callback = null)
+    public function display($callbacks = null)
     {
-        if ($callback instanceof \Closure) {
-            $callback->call($this, $this);
+        $callbacks = func_get_args();
+
+        foreach ($callbacks as $callback){
+            if ($callback instanceof \Closure) {
+                $callback->call($this, $this);
+            }
         }
 
         if ($this->disableAll) {

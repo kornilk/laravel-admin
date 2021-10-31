@@ -94,7 +94,7 @@ trait PermissionTrait
             'name' => '{' . $name . '} - {view}',
             'slug' => '' . $slug . '.show',
             'http_method' => 'GET,HEAD',
-            'http_path' => '/' . $slug . '/*',
+            'http_path' => '/' . $slug . '*',
         ]);
 
         \DB::table('admin_permissions')->insert([

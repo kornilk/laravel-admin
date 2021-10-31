@@ -165,6 +165,10 @@ class Permission extends Model
         return $method;
     }
 
+    public static function isPermission($permission){
+        return static::where('slug', $permission)->exists();;
+    }
+
     /**
      * Detach models from the relationship.
      *

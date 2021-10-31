@@ -3,6 +3,8 @@
 namespace Encore\Admin\Grid\Tools;
 
 use Encore\Admin\Admin;
+use Encore\Admin\Grid\Actions\BatchForceDelete;
+use Encore\Admin\Grid\Actions\BatchRestore;
 use Illuminate\Support\Collection;
 
 class BatchActions extends AbstractTool
@@ -50,6 +52,53 @@ class BatchActions extends AbstractTool
     public function disableDelete(bool $disable = true)
     {
         $this->enableDelete = !$disable;
+
+        return $this;
+    }
+
+    /**
+     * Disable Restore.
+     *
+     * @param bool $disable
+     *
+     * @return $this.
+     */
+    public function disableRestore(bool $disable = true)
+    {
+
+        if ($disable) {
+            $actions = [];
+            foreach ($this->actions as $action){
+                if ($action instanceof BatchRestore) continue;
+                $actions[] = $action;
+            }
+            $this->actions = new Collection($actions);
+        } elseif (!in_array(BatchRestore::class, $this->custom)) {
+            array_push($this->custom, BatchRestore::class);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Disable Force Restore.
+     *
+     * @param bool $disable
+     *
+     * @return $this.
+     */
+    public function disableForceDelete(bool $disable = true)
+    {
+        if ($disable) {
+            $actions = [];
+            foreach ($this->actions as $action){
+                if ($action instanceof BatchForceDelete) continue;
+                $actions[] = $action;
+            }
+            $this->actions = new Collection($actions);
+        } elseif (!in_array(BatchForceDelete::class, $this->custom)) {
+            array_push($this->custom, BatchForceDelete::class);
+        }
 
         return $this;
     }

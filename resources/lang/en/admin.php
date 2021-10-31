@@ -138,4 +138,8 @@ return [
     'Menu' => 'Menu',
     'Operation log' => 'Operation log',
     'System log' => 'System log',
+    'Force delete' => 'Force delete',
+    'Restore' => 'Restore',
+    'Batch restore' => 'Batch restore',
+    'Batch force delete' => 'Batch force restore',
 ];

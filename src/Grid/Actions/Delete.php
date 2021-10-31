@@ -4,6 +4,8 @@ namespace Encore\Admin\Grid\Actions;
 
 use Encore\Admin\Actions\Response;
 use Encore\Admin\Actions\RowAction;
+use Encore\Admin\Auth\Database\Permission;
+use Encore\Admin\Auth\Permission as AuthPermission;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
@@ -46,5 +48,19 @@ class Delete extends RowAction
     public function dialog()
     {
         $this->question(trans('admin.delete_confirm'), '', ['confirmButtonColor' => '#d33']);
+    }
+
+    protected function authorize($user, $model){
+
+        $slug = method_exists($model, 'getContentSlug') ? $this->slug = $model::getContentSlug() : null;
+        if (empty($slug)) return true;
+
+        $permission = "{$slug}.destroy";
+
+        if (Permission::isPermission($permission) && !$user->can($permission)){
+            return false;
+        }
+
+        return true;
     }
 }

@@ -340,10 +340,10 @@ function manageActionsByPermissions($body, $slug)
         $body->actions(function ($actions) use ($slug) {
             disableActionsByPermissions($actions, $slug);
         });
-
         $body->batchActions(function ($actions) use ($slug) {
             disableActionsByPermissions($actions, $slug);
         });
+        if (!\Admin::user()->can($slug . '.create') && method_exists($body, 'disableCreateButton')) $body->disableCreateButton();
     } else {
         $body->tools(function ($actions) use ($slug) {
             disableActionsByPermissions($actions, $slug);
@@ -356,6 +356,8 @@ if (!function_exists('disableActionsByPermissions')) {
 function disableActionsByPermissions($actions, $slug)
 {
     if (!\Admin::user()->can($slug . '.destroy') && method_exists($actions, 'disableDelete')) $actions->disableDelete();
+    if (!\Admin::user()->can($slug . '.destroy') && method_exists($actions, 'disableForceDelete')) $actions->disableForceDelete();
+    if (!\Admin::user()->can($slug . '.destroy') && method_exists($actions, 'disableRestore')) $actions->disableRestore();
     if (!\Admin::user()->can($slug . '.edit') && method_exists($actions, 'disableEdit')) $actions->disableEdit();
     if (!\Admin::user()->can($slug . '.show') && method_exists($actions, 'disableView')) $actions->disableView();
 }

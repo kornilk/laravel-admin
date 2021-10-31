@@ -2,6 +2,8 @@
 
 namespace Encore\Admin\Controllers;
 
+use Encore\Admin\Auth\Database\Permission;
+use Encore\Admin\Auth\Permission as AuthPermission;
 use Encore\Admin\Grid\Actions\BatchForceDelete;
 use Encore\Admin\Grid\Actions\BatchRestore;
 use Encore\Admin\Grid\Actions\ForceDelete;
@@ -9,6 +11,7 @@ use Encore\Admin\Grid\Actions\Restore;
 use Encore\Admin\Layout\Content;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Response;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AdminController extends Controller
 {
@@ -35,12 +38,40 @@ class AdminController extends Controller
 
     protected $titlePlural;
     protected $slug;
+    protected $methodPermission = [
+        'index' => 'show',
+        'show' => 'show',
+        'create' => 'create',
+        'store' => 'create',
+        'edit' => 'edit',
+        'update' => 'edit',
+        'destroy' => 'destroy',
+    ];
 
     public function __construct()
     {
         if (property_exists($this, 'model') && method_exists($this->model, 'getContentTitle')) $this->title = $this->model::getContentTitle();
         if (property_exists($this, 'model') && method_exists($this->model, 'getContentTitlePlural')) $this->titlePlural = $this->model::getContentTitlePlural();
         if (property_exists($this, 'model') && method_exists($this->model, 'getContentSlug')) $this->slug = $this->model::getContentSlug();
+
+        $slug = $this->slug;
+        $methodPermission = $this->methodPermission;
+
+        $this->middleware(function ($request, $next) use($slug, $methodPermission) {
+
+            if (empty($slug)) return $next($request);
+
+            $method = \Route::current()->getActionMethod();
+            $permission = "{$slug}." . (isset($methodPermission[$method]) ? $methodPermission[$method] : '');
+
+            if (Permission::isPermission($permission) && !\Admin::user()->can($permission)){
+                return AuthPermission::error();
+            }
+
+            return $next($request);
+        });
+
+
     }
 
     /**
@@ -66,16 +97,14 @@ class AdminController extends Controller
         $body->disableExport();
         $content->breadcrumb(...$this->getBreadcrumb());
 
-        if (!empty($this->description['index'])) $content->description($this->description['index']);        
+        if (!empty($this->description['index'])) $content->description($this->description['index']);
 
         $body->model()->orderBy('created_at', 'desc');
 
-        manageActionsByPermissions($body, $this->slug);
+        $body->filter(function ($filter) {
 
-        $body->filter(function($filter) {
-
-            $filter->scope('trashed', __('admin.Recycle Bin'))->onlyTrashed();
-            
+            if (property_exists($this, 'model') && in_array(SoftDeletes::class, class_uses_deep($this->model)))
+                $filter->scope('trashed', __('admin.Recycle Bin'))->onlyTrashed();
         });
 
         $body->actions(function ($actions) {
@@ -86,19 +115,20 @@ class AdminController extends Controller
                 $actions->disableView();
                 $actions->add(new Restore($actions->getKey()));
                 $actions->add(new ForceDelete($actions->getKey()));
+               
             }
-        
         });
 
-        $body->batchActions (function($batch) {
-
+        $body->batchActions(function ($batch) {
+ 
             if (\request('_scope_') == 'trashed') {
                 $batch->disableDelete();
                 $batch->add(new BatchRestore());
                 $batch->add(new BatchForceDelete());
             }
-            
         });
+
+        manageActionsByPermissions($body, $this->slug);
 
         return $content
             ->title($this->title())
@@ -122,7 +152,7 @@ class AdminController extends Controller
 
         manageActionsByPermissions($body, $this->slug);
 
-        function inlineScript() 
+        function inlineScript()
         {
 
             return <<<SCRIPT
@@ -166,8 +196,6 @@ class AdminController extends Controller
 
         $form = $this->form()->edit($id);
 
-        manageActionsByPermissions($form, $this->slug);
-
         $form->footer(function ($footer) {
             $footer->disableReset();
             $footer->disableViewCheck();
@@ -178,7 +206,7 @@ class AdminController extends Controller
         manageActionsByPermissions($form, $this->slug);
 
         $form->copyFieldAttributesToTranslatedFields();
-           
+
         return $content
             ->title($this->title())
             ->body($form);
@@ -196,8 +224,6 @@ class AdminController extends Controller
         $content->breadcrumb(...$this->getBreadcrumb(null, null, __('admin.create')));
         $form = $this->form();
 
-        manageActionsByPermissions($form, $this->slug);
-
         if (!empty($this->description['create'])) $content->description($this->description['create']);
 
         $form->footer(function ($footer) {
@@ -206,6 +232,8 @@ class AdminController extends Controller
             $footer->disableEditingCheck();
             $footer->disableCreatingCheck();
         });
+
+        manageActionsByPermissions($form, $this->slug);
 
         $form->copyFieldAttributesToTranslatedFields();
 
@@ -252,7 +280,8 @@ class AdminController extends Controller
         ];
     }
 
-    public function modalSaveRespose($form, $message = null){
+    public function modalSaveRespose($form, $message = null)
+    {
 
         if (empty($message)) $message = __('admin.save_succeeded');
 

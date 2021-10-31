@@ -139,4 +139,8 @@ return [
     'Menu' => 'Menü',
     'Operation log' => 'Műveleti napló',
     'System log' => 'Rendszernapló',
+    'Force delete' => 'Végleges törlés',
+    'Restore' => 'Visszaállítás',
+    'Batch restore' => 'Csoportos visszaállítás',
+    'Batch force delete' => 'Csoportos végleges törlés',
 ];
