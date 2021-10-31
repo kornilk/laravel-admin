@@ -58,5 +58,7 @@
     "status": "Status",
     "Text.value": "Text",
     "HtmlText.value": "Content",
-    "Image.path": "Image"
+    "Image.path": "Image",
+    "password": "Password",
+    "password_confirmation": "Password confirmation"
 }

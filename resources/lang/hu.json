@@ -59,5 +59,7 @@
     "status": "Állapot",
     "Text.value": "Szöveg",
     "HtmlText.value": "Tartalom",
-    "Image.path": "Kép"
+    "Image.path": "Kép",
+    "password": "Jelszó",
+    "password_confirmation": "Jelszó megerősítés"
 }
