@@ -67,12 +67,6 @@ class AdminTablesSeeder extends Seeder
                 'http_path'   => "/system/users*",
             ],
             [
-                'name'        => 'User management',
-                'slug'        => 'auth.management',
-                'http_method' => '',
-                'http_path'   => "/system/users",
-            ],
-            [
                 'name'        => 'Operation Log',
                 'slug'        => 'system.operation-logs',
                 'http_method' => '',
