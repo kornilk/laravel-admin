@@ -144,4 +144,11 @@ return [
     'Restore' => 'Visszaállítás',
     'Batch restore' => 'Csoportos visszaállítás',
     'Batch force delete' => 'Csoportos végleges törlés',
+    'User' => 'Felhasználó',
+    'modified' => 'Módosítva',
+    'properties' => 'Értékek',
+    'content' => 'Tartalom',
+    'event' => 'Esemény',
+    'before' => 'Előtte',
+    'after' => 'Utána',
 ];

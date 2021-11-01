@@ -151,7 +151,6 @@ return [
 
         'admin_permissions' => [
             '*',
-            'log',
         ],
 
         'admin_roles' => [

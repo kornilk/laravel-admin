@@ -2,7 +2,7 @@
 
 namespace Encore\Admin\Auth\Database;
 
-use Altek\Accountant\Contracts\Recordable;
+use \Encore\Admin\Contracts\Recordable;
 use Encore\Admin\Traits\ContentTrait;
 use Encore\Admin\Traits\DefaultDatetimeFormat;
 use Illuminate\Auth\Authenticatable;
@@ -23,7 +23,7 @@ class Administrator extends Model implements AuthenticatableContract, Recordable
     use DefaultDatetimeFormat;
     use ContentTrait;
     use \Altek\Eventually\Eventually;
-    use \Altek\Accountant\Recordable;
+    use \Encore\Admin\Traits\Recordable;
 
     protected $fillable = ['email', 'password', 'name', 'avatar'];
     protected static $admin_permission_ids = [];
@@ -141,5 +141,17 @@ class Administrator extends Model implements AuthenticatableContract, Recordable
         $relatedModel = config('admin.database.permissions_model');
 
         return $this->belongsToMany($relatedModel, $pivotTable, 'user_id', 'permission_id');
+    }
+
+    public static function getContentBaseColumn(){
+        return 'name';
+    }
+    
+    public function supplyExtraExtended(string $event, array $properties, $user, $contentClass, $contentIdentifier): array
+    {
+        return [
+            'contentReadebleIdentifier' => $properties[$contentClass::getContentBaseColumn()],
+            'userReadebleIdentifier' => $user->contentReadableIdentifier,
+        ];
     }
 }

@@ -90,7 +90,7 @@ class AdminTablesSeeder extends Seeder
             [
                 'parent_id' => 0,
                 'order'     => 2,
-                'title'     => 'Settings',
+                'title'     => 'System',
                 'icon'      => 'fa-tasks',
                 'uri'       => '',
                 'permission' => null,
@@ -109,7 +109,7 @@ class AdminTablesSeeder extends Seeder
                 'title'     => 'Roles',
                 'icon'      => 'fa-user',
                 'uri'       => 'system/roles',
-                'permission' => null,
+                'permission' => '*',
             ],
             [
                 'parent_id' => 2,
@@ -117,7 +117,7 @@ class AdminTablesSeeder extends Seeder
                 'title'     => 'Permissions',
                 'icon'      => 'fa-ban',
                 'uri'       => 'system/permissions',
-                'permission' => null,
+                'permission' => '*',
             ],
             [
                 'parent_id' => 2,
@@ -125,7 +125,7 @@ class AdminTablesSeeder extends Seeder
                 'title'     => 'Menu',
                 'icon'      => 'fa-bars',
                 'uri'       => 'system/menu',
-                'permission' => null,
+                'permission' => '*',
             ],
             [
                 'parent_id' => 2,
@@ -141,7 +141,7 @@ class AdminTablesSeeder extends Seeder
                 'title'     => 'System log',
                 'icon'      => 'fa-database',
                 'uri'       => 'system/system-logs',
-                'permission' => null,
+                'permission' => '*',
             ],
             [
                 'parent_id' => 2,
@@ -149,12 +149,12 @@ class AdminTablesSeeder extends Seeder
                 'title'     => 'Terminal',
                 'icon'      => 'fa-terminal',
                 'uri'       => 'system/artisan',
-                'permission' => null,
+                'permission' => '*',
             ],
         ]);
 
         // add role to menu.
-        Menu::find(2)->roles()->save(Role::first());
+        //Menu::find(3)->roles()->save(Role::first());
 
         \DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }

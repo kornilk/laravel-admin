@@ -23,7 +23,8 @@ class CreateLedgersTable extends Migration
             $table->morphs('recordable');
             $table->unsignedTinyInteger('context');
             $table->string('event');
-            $table->text('properties');
+            $table->mediumText('properties');
+            $table->mediumText('original')->nullable()->default(null);
             $table->text('modified');
             $table->text('pivot');
             $table->text('extra');

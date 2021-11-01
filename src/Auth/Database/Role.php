@@ -2,6 +2,7 @@
 
 namespace Encore\Admin\Auth\Database;
 
+use Encore\Admin\Traits\ContentTrait;
 use Encore\Admin\Traits\DefaultDatetimeFormat;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Role extends Model
 {
     use DefaultDatetimeFormat;
+    use ContentTrait;
 
     protected $fillable = ['name', 'slug'];
 

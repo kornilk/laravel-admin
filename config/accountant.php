@@ -15,7 +15,7 @@ return [
         |
         */
 
-        'implementation' => Altek\Accountant\Models\Ledger::class,
+        'implementation' => Encore\Admin\Models\Ledger::class,
 
         /*
         |--------------------------------------------------------------------------
@@ -38,7 +38,7 @@ return [
         |
         */
 
-        'driver' => 'database',
+        'driver' => \Encore\Admin\Drivers\AccountantDatabase::class,
 
         /*
         |--------------------------------------------------------------------------
@@ -120,6 +120,7 @@ return [
         'deleted_at',
         'password',
         'password_confirmation',
+        'remember_token',
     ],
 
     /*

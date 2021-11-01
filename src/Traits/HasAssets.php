@@ -70,6 +70,7 @@ trait HasAssets
         'vendor/laravel-admin/toastr/build/toastr.min.css',
         'vendor/laravel-admin/bootstrap3-editable/css/bootstrap-editable.css',
         'vendor/laravel-admin/google-fonts/fonts.css',
+        'vendor/laravel-admin/AdminLTE/plugins/select2/select2.min.css',
         'vendor/laravel-admin/AdminLTE/dist/css/AdminLTE.min.css',
         'vendor/laravel-admin/magnific/magnific-popup.css',
         'vendor/laravel-admin/laravel-admin/laravel-admin-ext.css',

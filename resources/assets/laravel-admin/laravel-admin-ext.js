@@ -158,3 +158,7 @@ $('body').on('click', '.grid-popup-link', function(e){
         $(document).off('focusin' );
     }
 });
+
+$('.sidebar-menu .treeview').each(function () {
+    if ($(this).first('.treeview-menu').find('li').length === 0) $(this).remove();
+});

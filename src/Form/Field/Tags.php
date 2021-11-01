@@ -44,7 +44,7 @@ class Tags extends Field
      * @var array
      */
     protected static $css = [
-        '/vendor/laravel-admin/AdminLTE/plugins/select2/select2.min.css',
+       
     ];
 
     /**

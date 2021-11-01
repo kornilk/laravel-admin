@@ -37,8 +37,13 @@ trait ContentTrait {
         return !empty(static::$contentFrontedSlug) ? static::$contentFrontedSlug : static::$contentSlug;
     }
 
+    public static function getTableName()
+    {
+        return with(new static)->getTable();
+    }
+
     public static function getContentBaseColumn(){
-        return \Schema::getColumnListing(__CLASS__)[1];
+        return \Schema::getColumnListing(static::getTableName())[1];
     }
 
     public static function label($field){
@@ -49,6 +54,10 @@ trait ContentTrait {
         return \Lang::has("{$class}.{$field}") ? __("{$class}.{$field}") : (
             \Lang::has("{$field}") ? __("{$field}") : $fieldName
         );
+    }
+
+    public function getContentReadableIdentifierAttribute(){
+        return $this->{static::getContentBaseColumn()};
     }
 
 }

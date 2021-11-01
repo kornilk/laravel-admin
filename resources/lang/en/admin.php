@@ -143,4 +143,11 @@ return [
     'Restore' => 'Restore',
     'Batch restore' => 'Batch restore',
     'Batch force delete' => 'Batch force restore',
+    'User' => 'User',
+    'modified' => 'Modified',
+    'properties' => 'Properties',
+    'content' => 'Content',
+    'event' => 'Event',
+    'before' => 'Before',
+    'after' => 'After',
 ];
