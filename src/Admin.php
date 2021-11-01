@@ -319,11 +319,19 @@ class Admin
             $router->namespace('\Encore\Admin\Controllers')->group(function ($router) {
 
                 /* @var \Illuminate\Routing\Router $router */
-                $router->resource('auth/users', 'UserController')->names('auth.users');
-                $router->resource('auth/roles', 'RoleController')->names('auth.roles');
-                $router->resource('auth/permissions', 'PermissionController')->names('auth.permissions');
-                $router->resource('auth/menu', 'MenuController', ['except' => ['create']])->names('auth.menu');
-                $router->resource('auth/logs', 'LogController', ['only' => ['index', 'destroy']])->names('auth.logs');
+                $router->resource('system/users', 'UserController')->names('auth.users');
+                $router->resource('system/roles', 'RoleController')->names('auth.roles');
+                $router->resource('system/permissions', 'PermissionController')->names('auth.permissions');
+                $router->resource('system/menu', 'MenuController', ['except' => ['create']])->names('auth.menu');
+
+                $router->get('system/system-logs', 'LogViewerController@index')->name('log-viewer-index');
+                $router->get('system/system-logs/{file}', 'LogViewerController@index')->name('log-viewer-file');
+                $router->get('system/system-logs/{file}/tail', 'LogViewerController@tail')->name('log-viewer-tail');
+                
+                $router->get('system/operation-logs', 'OperationLogController', ['only' => ['index']])->name('system.operation-log');;
+
+                $router->get('system/artisan', 'ArtisanController@artisan');
+                $router->post('system/artisan', 'ArtisanController@runArtisan');
 
                 $router->post('_handle_form_', 'HandleController@handleForm')->name('handle-form');
                 $router->post('_handle_action_', 'HandleController@handleAction')->name('handle-action');
@@ -338,12 +346,7 @@ class Admin
                 $router->get('/images-modal/modal-form', 'ImageController@ModalForm')->name('image.modal.form');
                 $router->post('/images-modal/modal-form', 'ImageController@ModalFormSore')->name('image.modal.form.store');
 
-                $router->get('logs', 'LogViewerController@index')->name('log-viewer-index');
-                $router->get('logs/{file}', 'LogViewerController@index')->name('log-viewer-file');
-                $router->get('logs/{file}/tail', 'LogViewerController@tail')->name('log-viewer-tail');
-
-                $router->get('settings/artisan', 'ArtisanController@artisan');
-            $router->post('settings/artisan', 'ArtisanController@runArtisan');
+  
             });
 
             $authController = config('admin.auth.controller', AuthController::class);

@@ -64,13 +64,19 @@ class AdminTablesSeeder extends Seeder
                 'name'        => 'User management',
                 'slug'        => 'auth.management',
                 'http_method' => '',
-                'http_path'   => "/auth/roles\r\n/auth/permissions\r\n/auth/menu\r\n/auth/logs",
+                'http_path'   => "/system/users*",
             ],
             [
-                'name'        => 'Logs',
-                'slug'        => 'ext.log-viewer',
+                'name'        => 'User management',
+                'slug'        => 'auth.management',
                 'http_method' => '',
-                'http_path'   => "logs*",
+                'http_path'   => "/system/users",
+            ],
+            [
+                'name'        => 'Operation Log',
+                'slug'        => 'system.operation-logs',
+                'http_method' => '',
+                'http_path'   => "system/operation-logs*",
             ],
         ]);
 
@@ -100,7 +106,7 @@ class AdminTablesSeeder extends Seeder
                 'order'     => 3,
                 'title'     => 'Administrators',
                 'icon'      => 'fa-users',
-                'uri'       => 'auth/users',
+                'uri'       => 'system/users',
                 'permission' => 'auth.management',
             ],
             [
@@ -108,7 +114,7 @@ class AdminTablesSeeder extends Seeder
                 'order'     => 4,
                 'title'     => 'Roles',
                 'icon'      => 'fa-user',
-                'uri'       => 'auth/roles',
+                'uri'       => 'system/roles',
                 'permission' => null,
             ],
             [
@@ -116,7 +122,7 @@ class AdminTablesSeeder extends Seeder
                 'order'     => 5,
                 'title'     => 'Permissions',
                 'icon'      => 'fa-ban',
-                'uri'       => 'auth/permissions',
+                'uri'       => 'system/permissions',
                 'permission' => null,
             ],
             [
@@ -124,23 +130,23 @@ class AdminTablesSeeder extends Seeder
                 'order'     => 6,
                 'title'     => 'Menu',
                 'icon'      => 'fa-bars',
-                'uri'       => 'auth/menu',
+                'uri'       => 'system/menu',
                 'permission' => null,
             ],
-            // [
-            //     'parent_id' => 2,
-            //     'order'     => 7,
-            //     'title'     => 'Operation log',
-            //     'icon'      => 'fa-history',
-            //     'uri'       => 'auth/logs',
-            //     'permission' => null,
-            // ],
+            [
+                'parent_id' => 2,
+                'order'     => 7,
+                'title'     => 'Operation log',
+                'icon'      => 'fa-history',
+                'uri'       => 'system/operation-logs',
+                'permission' => 'system.operation-logs',
+            ],
             [
                 'parent_id' => 2,
                 'order'     => 8,
                 'title'     => 'System log',
                 'icon'      => 'fa-database',
-                'uri'       => 'logs',
+                'uri'       => 'system/system-logs',
                 'permission' => null,
             ],
             [
@@ -148,7 +154,7 @@ class AdminTablesSeeder extends Seeder
                 'order'     => 9,
                 'title'     => 'Terminal',
                 'icon'      => 'fa-terminal',
-                'uri'       => 'settings/artisan',
+                'uri'       => 'system/artisan',
                 'permission' => null,
             ],
         ]);

@@ -133,6 +133,7 @@ return [
     'User management' => 'User management',
     'Logs' => 'Logs',
     'Settings' => 'Settings',
+    'System' => 'System',
     'Roles' => 'Roles',
     'Permissions' => 'Permissions',
     'Menu' => 'Menu',

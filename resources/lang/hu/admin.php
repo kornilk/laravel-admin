@@ -134,6 +134,7 @@ return [
     'User management' => 'Felhasználó kezelés',
     'Logs' => 'Naplók',
     'Settings' => 'Beállítások',
+    'System' => 'Rendszer',
     'Roles' => 'Szerepek',
     'Permissions' => 'Engedélyek',
     'Menu' => 'Menü',

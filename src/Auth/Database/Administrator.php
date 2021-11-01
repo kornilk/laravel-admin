@@ -2,6 +2,7 @@
 
 namespace Encore\Admin\Auth\Database;
 
+use Altek\Accountant\Contracts\Recordable;
 use Encore\Admin\Traits\ContentTrait;
 use Encore\Admin\Traits\DefaultDatetimeFormat;
 use Illuminate\Auth\Authenticatable;
@@ -15,13 +16,14 @@ use Illuminate\Support\Facades\Storage;
  *
  * @property Role[] $roles
  */
-class Administrator extends Model implements AuthenticatableContract
+class Administrator extends Model implements AuthenticatableContract, Recordable
 {
     use Authenticatable;
     use HasPermissions;
     use DefaultDatetimeFormat;
     use ContentTrait;
     use \Altek\Eventually\Eventually;
+    use \Altek\Accountant\Recordable;
 
     protected $fillable = ['email', 'password', 'name', 'avatar'];
     protected static $admin_permission_ids = [];
