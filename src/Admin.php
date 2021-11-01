@@ -328,7 +328,7 @@ class Admin
                 $router->get('system/system-logs/{file}', 'LogViewerController@index')->name('log-viewer-file');
                 $router->get('system/system-logs/{file}/tail', 'LogViewerController@tail')->name('log-viewer-tail');
                 
-                $router->resource('system/operation-logs', 'OperationLogController', ['only' => ['index']])->name('system.operation-log');;
+                $router->get('system/operation-logs', 'OperationLogController@index')->name('system.operation-log');
 
                 $router->get('system/artisan', 'ArtisanController@artisan');
                 $router->post('system/artisan', 'ArtisanController@runArtisan');
