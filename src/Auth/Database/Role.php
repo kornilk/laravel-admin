@@ -30,6 +30,13 @@ class Role extends Model
         parent::__construct($attributes);
     }
 
+    protected static function initStatic()
+    {
+        static::$contentTitle = __('admin.role');
+        static::$contentTitlePlural = __('admin.roles');
+        static::$contentSlug = 'roles';
+    }
+
     /**
      * A role belongs to many users.
      *

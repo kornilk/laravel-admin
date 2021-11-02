@@ -50,8 +50,8 @@ class OperationLog
             return in_array($value, $named) ? __("admin.{$value}") : __("admin.updated");
         })->modal(__('admin.Event datas'), function ($model) use($that) {
 
-            $new_values = $model->original;
-            $old_values = $model->properties;
+            $new_values = $model->properties;
+            $old_values = $model->original;
 
             $new_table = !empty($new_values) ? $that->getFieldTable($new_values, $model) : null;
             $old_table = !empty($old_values) ? $that->getFieldTable($old_values, $model) : null;

@@ -42,6 +42,13 @@ class Permission extends Model
         parent::__construct($attributes);
     }
 
+    protected static function initStatic()
+    {
+        static::$contentTitle = __('admin.permission');
+        static::$contentTitlePlural = __('admin.permissions');
+        static::$contentSlug = 'permissions';
+    }
+
     /**
      * Permission belongs to many roles.
      *
