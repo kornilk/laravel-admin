@@ -9,6 +9,14 @@ class Image extends ContentModel
 {
     use ContentTrait;
 
+    protected $recordableExcludeColumns = [
+        'width',
+        'height',
+        'filename',
+        'extension',
+        'formats',
+    ];
+
     protected static function initStatic()
     {
         static::$contentTitle = __('Image');
@@ -31,6 +39,17 @@ class Image extends ContentModel
                 $model->setImageData($model);
             }
         });
+    }
+
+    public static function getContentBaseColumn(){
+        return 'title';
+    }
+
+    public static function readablePathValue($value){
+        $imageInfo = pathinfo($value);
+        $thumbName = config('image.defaultThumbName');
+        $path = Storage::disk(config('admin.upload.disk'))->url("{$imageInfo['dirname']}/{$imageInfo['filename']}-{$thumbName}.{$imageInfo['extension']}");
+        return '<img class="" src="'.$path.'" />';
     }
 
     private function setImageData($model)

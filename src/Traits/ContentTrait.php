@@ -60,4 +60,16 @@ trait ContentTrait {
         return $this->{static::getContentBaseColumn()};
     }
 
+    public static function getReadableValue($field, $value){
+
+        $field = ucfirst($field);
+        if (method_exists(__CLASS__, "readable{$field}Value")) return static::{"readable{$field}Value"}($value);
+        return $value;
+    }
+
+    public static function readableActiveValue($value){
+        return $value === 1 ? __('Yes') : __('No');
+    }
+
+
 }

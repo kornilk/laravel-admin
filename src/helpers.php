@@ -330,35 +330,35 @@ if (!function_exists('admin_get_route')) {
 }
 
 if (!function_exists('manageActionsByPermissions')) {
-function manageActionsByPermissions($body, $slug)
-{
-    if ($body instanceof \Encore\Admin\Show) {
-        $body->panel()->tools(function ($actions) use ($slug) {
-            disableActionsByPermissions($actions, $slug);
-        });
-    } else if ($body instanceof \Encore\Admin\Grid) {
-        $body->actions(function ($actions) use ($slug) {
-            disableActionsByPermissions($actions, $slug);
-        });
-        $body->batchActions(function ($actions) use ($slug) {
-            disableActionsByPermissions($actions, $slug);
-        });
-        if (!\Admin::user()->can($slug . '.create') && method_exists($body, 'disableCreateButton')) $body->disableCreateButton();
-    } else {
-        $body->tools(function ($actions) use ($slug) {
-            disableActionsByPermissions($actions, $slug);
-        });
+    function manageActionsByPermissions($body, $slug)
+    {
+        if ($body instanceof \Encore\Admin\Show) {
+            $body->panel()->tools(function ($actions) use ($slug) {
+                disableActionsByPermissions($actions, $slug);
+            });
+        } else if ($body instanceof \Encore\Admin\Grid) {
+            $body->actions(function ($actions) use ($slug) {
+                disableActionsByPermissions($actions, $slug);
+            });
+            $body->batchActions(function ($actions) use ($slug) {
+                disableActionsByPermissions($actions, $slug);
+            });
+            if (!\Admin::user()->can($slug . '.create') && method_exists($body, 'disableCreateButton')) $body->disableCreateButton();
+        } else {
+            $body->tools(function ($actions) use ($slug) {
+                disableActionsByPermissions($actions, $slug);
+            });
+        }
     }
-}
 }
 
 if (!function_exists('disableActionsByPermissions')) {
-function disableActionsByPermissions($actions, $slug)
-{
-    if (!\Admin::user()->can($slug . '.destroy') && method_exists($actions, 'disableDelete')) $actions->disableDelete();
-    if (!\Admin::user()->can($slug . '.destroy') && method_exists($actions, 'disableForceDelete')) $actions->disableForceDelete();
-    if (!\Admin::user()->can($slug . '.destroy') && method_exists($actions, 'disableRestore')) $actions->disableRestore();
-    if (!\Admin::user()->can($slug . '.edit') && method_exists($actions, 'disableEdit')) $actions->disableEdit();
-    if (!\Admin::user()->can($slug . '.show') && method_exists($actions, 'disableView')) $actions->disableView();
-}
+    function disableActionsByPermissions($actions, $slug)
+    {
+        if (!\Admin::user()->can($slug . '.destroy') && method_exists($actions, 'disableDelete')) $actions->disableDelete();
+        if (!\Admin::user()->can($slug . '.destroy') && method_exists($actions, 'disableForceDelete')) $actions->disableForceDelete();
+        if (!\Admin::user()->can($slug . '.destroy') && method_exists($actions, 'disableRestore')) $actions->disableRestore();
+        if (!\Admin::user()->can($slug . '.edit') && method_exists($actions, 'disableEdit')) $actions->disableEdit();
+        if (!\Admin::user()->can($slug . '.show') && method_exists($actions, 'disableView')) $actions->disableView();
+    }
 }

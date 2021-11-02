@@ -16,7 +16,7 @@ class ContentModel extends Model implements Recordable
     {
         return [
             'contentReadebleIdentifier' => $properties[$contentClass::getContentBaseColumn()],
-            'userReadebleIdentifier' => $user->contentReadableIdentifier,
+            'userReadebleIdentifier' => $user ? $user->contentReadableIdentifier : 'System',
         ];
     }
 }

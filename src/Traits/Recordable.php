@@ -12,8 +12,6 @@ trait Recordable
         gather as public parentGather;
     }
 
-    protected $excludeColumns = [];
-
     public function gather(string $event): array
     {
         $return = $this->parentGather($event);
@@ -21,9 +19,9 @@ trait Recordable
 
         $return['original'] = $this->getOriginal();
 
-        $return['properties'] = \Arr::except($return['properties'], array_merge(config('accountant.excludeColumns'), $this->excludeColumns));
-        $return['original'] = \Arr::except($return['original'], array_merge(config('accountant.excludeColumns'), $this->excludeColumns));
-        $return['modified'] = \Arr::except($return['modified'], array_merge(config('accountant.excludeColumns'), $this->excludeColumns));
+        $return['properties'] = \Arr::except($return['properties'], array_merge(config('accountant.excludeColumns'), property_exists($this, 'recordableExcludeColumns') ?$this->recordableExcludeColumns : []));
+        $return['original'] = \Arr::except($return['original'], array_merge(config('accountant.excludeColumns'), property_exists($this, 'recordableExcludeColumns') ?$this->recordableExcludeColumns : []));
+        $return['modified'] = \Arr::except($return['modified'], array_merge(config('accountant.excludeColumns'), property_exists($this, 'recordableExcludeColumns') ?$this->recordableExcludeColumns : []));
 
         $return['extra'] = $this->supplyExtraExtended($event, $return['properties'], $user, $this->getMorphClass(), $this->getIdentifier());
         

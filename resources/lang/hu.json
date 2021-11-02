@@ -61,5 +61,7 @@
     "HtmlText.value": "Tartalom",
     "Image.path": "Kép",
     "password": "Jelszó",
-    "password_confirmation": "Jelszó megerősítés"
+    "password_confirmation": "Jelszó megerősítés",
+    "Administrator": "Adminisztrátor",
+    "Administrators": "Adminisztrátorok"
 }

@@ -60,5 +60,7 @@
     "HtmlText.value": "Content",
     "Image.path": "Image",
     "password": "Password",
-    "password_confirmation": "Password confirmation"
+    "password_confirmation": "Password confirmation",
+    "Administrator": "Administrator",
+    "Administrators": "Administrators"
 }

@@ -28,6 +28,7 @@ class Administrator extends Model implements AuthenticatableContract, Recordable
     protected $fillable = ['email', 'password', 'name', 'avatar'];
     protected static $admin_permission_ids = [];
     protected static $admin_role_ids = [];
+    protected $recordableExcludeColumns = ['avatar'];
 
     /**
      * Create a new Eloquent model instance.
@@ -43,6 +44,13 @@ class Administrator extends Model implements AuthenticatableContract, Recordable
         $this->setTable(config('admin.database.users_table'));
 
         parent::__construct($attributes);
+    }
+
+    protected static function initStatic()
+    {
+        static::$contentTitle = __('Administrator');
+        static::$contentTitlePlural = __('Administrators');
+        static::$contentSlug = 'users';
     }
 
     public static function boot()

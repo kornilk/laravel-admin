@@ -16,6 +16,25 @@ class HomeController extends Controller
             ->title('Dashboard')
             ->row(function (Row $row) {
 
+                
+                $row->column(12, function ($column) {
+
+                    $grid = Cache::remember('dahborad_latest_activities', 60, function () {
+                        $grid = OperationLog::grid(config('admin.database.users_model'), \Admin::user()->id);
+                        $grid->model()->limit(30);
+                        $grid->disableExport();
+                        $grid->disablePagination();
+                        return $grid->render();
+                    });
+
+                    $box = new Box(__('admin.Latest operations'), $grid);
+
+                    $box->collapsable();
+                    $box->style('info');
+                    $box->solid();
+
+                    $column->append($box);
+                });
              
             });
     }

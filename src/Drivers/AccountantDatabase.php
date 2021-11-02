@@ -38,6 +38,7 @@ class AccountantDatabase extends Database
         $ledger = new $implementation();
 
         $data = $model->gather($event);
+        $related = null;
 
         if ($pivotRelation){
 
@@ -102,6 +103,12 @@ class AccountantDatabase extends Database
 
         }
 
+        if (in_array($data['event'], ['restored', 'deleted', 'forceDeleted'])){
+            $data['properties'] = [];
+            $data['modified'] = [];
+            $data['original'] = [];
+        }
+
         // Set the Ledger properties
         foreach ($data as $property => $value) {
             $ledger->setAttribute($property, $value);
@@ -115,12 +122,13 @@ class AccountantDatabase extends Database
         $ledger->setAttribute('pivot', $pivotRelation ? [
             'relation'   => $pivotRelation,
             'properties' => $pivotProperties,
+            'related' => get_class($related),
         ] : []);
 
         // Sign and store the record
         $ledger->setAttribute('signature', \call_user_func([$notary, 'sign'], $ledger->attributesToArray()));
 
-        if (!empty($data['modified'])) $ledger->save();
+        if (!empty($data['modified']) || in_array($data['event'], ['restored', 'deleted', 'forceDeleted'])) $ledger->save();
 
         return $ledger;
     }
