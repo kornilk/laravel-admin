@@ -42,7 +42,13 @@ class OperationLog
             }
 
             if ($content && method_exists($typeClass, 'getContentSlug')) {
-                $value = '<a title="' . $value . '" href="' . $typeClass::getContentAdminRoute('show', ['administrator' => $typeId]) . '"><i style="margin-right:5px;" class="fa fa-eye" aria-hidden="true"></i>' . $value . '</a>';
+                $url = $typeClass::getContentAdminRoute('show', [$typeId]);
+
+                if (\Admin::permission()::hasAccessBySlug($typeClass::getContentSlug().'.show') && \Admin::permission()::hasAccessByPath($url)){
+                    $value = '<a title="' . $value . '" href="' . $url . '"><i style="margin-right:5px;" class="fa fa-eye" aria-hidden="true"></i>' . $value . '</a>';
+                }
+
+                
             }
             return $value;
         });

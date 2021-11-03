@@ -2,8 +2,6 @@
 
 namespace Encore\Admin\Controllers;
 
-use Encore\Admin\Auth\Database\Permission;
-use Encore\Admin\Auth\Permission as AuthPermission;
 use Encore\Admin\Grid\Actions\BatchForceDelete;
 use Encore\Admin\Grid\Actions\BatchRestore;
 use Encore\Admin\Grid\Actions\ForceDelete;
@@ -38,15 +36,6 @@ class AdminController extends Controller
 
     protected $titlePlural;
     protected $slug;
-    protected $methodPermission = [
-        'index' => 'show',
-        'show' => 'show',
-        'create' => 'create',
-        'store' => 'create',
-        'edit' => 'edit',
-        'update' => 'edit',
-        'destroy' => 'destroy',
-    ];
 
     public function __construct()
     {
@@ -55,17 +44,13 @@ class AdminController extends Controller
         if (property_exists($this, 'model') && method_exists($this->model, 'getContentSlug')) $this->slug = $this->model::getContentSlug();
 
         $slug = $this->slug;
-        $methodPermission = $this->methodPermission;
 
-        $this->middleware(function ($request, $next) use($slug, $methodPermission) {
+        $this->middleware(function ($request, $next) use($slug) {
 
             if (empty($slug)) return $next($request);
 
-            $method = \Route::current()->getActionMethod();
-            $permission = "{$slug}." . (isset($methodPermission[$method]) ? $methodPermission[$method] : '');
-
-            if (Permission::isPermission($permission) && !\Admin::user()->can($permission)){
-                return AuthPermission::error();
+            if (!\Admin::permission()::hasAccessBySlug($slug)){
+                return \Admin::permission()::error();
             }
 
             return $next($request);

@@ -70,7 +70,7 @@ class AdminTablesSeeder extends Seeder
                 'name'        => 'Operation Log',
                 'slug'        => 'system.operation-logs',
                 'http_method' => '',
-                'http_path'   => "system/operation-logs*",
+                'http_path'   => "/system/operation-logs*",
             ],
         ]);
 

@@ -445,4 +445,15 @@ class Admin
             request()->headers->set('X-PJAX', false);
         }
     }
+
+    public function canAccessSlug($slug)
+    {
+        if (request()->pjax()) {
+            request()->headers->set('X-PJAX', false);
+        }
+    }
+
+    public function permission(){
+        return \Encore\Admin\Auth\Permission::class;
+    }
 }

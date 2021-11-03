@@ -98,6 +98,41 @@ class Permission extends Model
         return false;
     }
 
+    /**
+     * If request should pass through the current permission.
+     *
+     * @param string $path
+     *
+     * @return bool
+     */
+    public function shouldPassThroughPath(string $http_path): bool
+    {
+        if (empty($this->http_method) && empty($this->http_path)) {
+            return true;
+        }
+
+        $method = $this->http_method;
+
+        $matches = array_map(function ($path) use ($method) {
+            $path = trim(config('admin.route.prefix'), '/').$path;
+
+            if (Str::contains($path, ':')) {
+                list($method, $path) = explode(':', $path);
+                $method = explode(',', $method);
+            }
+
+            return compact('method', 'path');
+        }, explode("\n", $this->http_path));
+
+        foreach ($matches as $match) {
+            if ($this->matchPath($match, $http_path)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function getNameAttribute($name)
     {
         $name = preg_replace_callback(
@@ -148,6 +183,289 @@ class Permission extends Model
         });
 
         return $method->isEmpty() || $method->contains($request->method());
+    }
+
+    /**
+     * If a request match the specific HTTP method and path.
+     *
+     * @param array   $match
+     * @param string $path
+     *
+     * @return bool
+     */
+    protected function matchPath(array $match, $http_path): bool
+    {
+        if ($match['path'] == '/') {
+            $path = '/';
+        } else {
+            $path = trim($match['path'], '/');
+        }
+
+        if (!Str::is($path, $http_path)) {
+            return false;
+        }
+
+        $method = collect($match['method'])->filter()->map(function ($method) {
+            return strtoupper($method);
+        });
+
+        return $method->isEmpty() || $method->contains('GET');
+    }
+
+    /**
+     * @param $method
+     */
+    public function setHttpMethodAttribute($method)
+    {
+        if (is_array($method)) {
+            $this->attributes['http_method'] = implode(',', $method);
+        }
+    }
+
+    /**
+     * @param $method
+     *
+     * @return array
+     */
+    public function getHttpMethodAttribute($method)
+    {
+        if (is_string($method)) {
+            return array_filter(explode(',', $method));
+        }
+
+        return $method;
+    }
+
+    public static function isPermission($permission){
+        return static::where('slug', $permission)->exists();;
+    }
+
+    /**
+     * Detach models from the relationship.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($model) {
+            $model->roles()->detach();
+        });
+    }
+}
+<?php
+
+namespace Encore\Admin\Auth\Database;
+
+use Encore\Admin\Traits\ContentTrait;
+use Encore\Admin\Traits\DefaultDatetimeFormat;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
+class Permission extends Model
+{
+    use DefaultDatetimeFormat;
+    use ContentTrait;
+
+    /**
+     * @var array
+     */
+    protected $fillable = ['name', 'slug', 'http_method', 'http_path'];
+
+    /**
+     * @var array
+     */
+    public static $httpMethods = [
+        'GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD',
+    ];
+
+    /**
+     * Create a new Eloquent model instance.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        $connection = config('admin.database.connection') ?: config('database.default');
+
+        $this->setConnection($connection);
+
+        $this->setTable(config('admin.database.permissions_table'));
+
+        parent::__construct($attributes);
+    }
+
+    protected static function initStatic()
+    {
+        static::$contentTitle = __('admin.permission');
+        static::$contentTitlePlural = __('admin.permissions');
+        static::$contentSlug = 'permissions';
+    }
+
+    /**
+     * Permission belongs to many roles.
+     *
+     * @return BelongsToMany
+     */
+    public function roles(): BelongsToMany
+    {
+        $pivotTable = config('admin.database.role_permissions_table');
+
+        $relatedModel = config('admin.database.roles_model');
+
+        return $this->belongsToMany($relatedModel, $pivotTable, 'permission_id', 'role_id');
+    }
+
+    /**
+     * If request should pass through the current permission.
+     *
+     * @param Request $request
+     *
+     * @return bool
+     */
+    public function shouldPassThrough(Request $request): bool
+    {
+        if (empty($this->http_method) && empty($this->http_path)) {
+            return true;
+        }
+
+        $method = $this->http_method;
+
+        $matches = array_map(function ($path) use ($method) {
+            $path = trim(config('admin.route.prefix'), '/').$path;
+
+            if (Str::contains($path, ':')) {
+                list($method, $path) = explode(':', $path);
+                $method = explode(',', $method);
+            }
+
+            return compact('method', 'path');
+        }, explode("\n", $this->http_path));
+
+        foreach ($matches as $match) {
+            if ($this->matchRequest($match, $request)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * If request should pass through the current permission.
+     *
+     * @param string $path
+     *
+     * @return bool
+     */
+    public function shouldPassThroughPath(string $http_path): bool
+    {
+        if (empty($this->http_method) && empty($this->http_path)) {
+            return true;
+        }
+
+        $method = $this->http_method;
+
+        $matches = array_map(function ($path) use ($method) {
+            $path = trim(config('admin.route.prefix'), '/').$path;
+
+            if (Str::contains($path, ':')) {
+                list($method, $path) = explode(':', $path);
+                $method = explode(',', $method);
+            }
+
+            return compact('method', 'path');
+        }, explode("\n", $this->http_path));
+
+        foreach ($matches as $match) {
+            if ($this->matchPath($match, $http_path)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function getNameAttribute($name)
+    {
+        $name = preg_replace_callback(
+            '|\{([^}]+)\}|',
+            function ($matches) {
+                return \Lang::has("admin.{$matches[1]}") ? __("admin.{$matches[1]}") : __($matches[1]);
+            },
+            $name
+        );
+
+        return \Lang::has("admin.{$name}") ? __("admin.{$name}") : __($name);
+    }
+
+    /**
+     * filter \r.
+     *
+     * @param string $path
+     *
+     * @return mixed
+     */
+    public function getHttpPathAttribute($path)
+    {
+        return str_replace("\r\n", "\n", $path);
+    }
+
+    /**
+     * If a request match the specific HTTP method and path.
+     *
+     * @param array   $match
+     * @param Request $request
+     *
+     * @return bool
+     */
+    protected function matchRequest(array $match, Request $request): bool
+    {
+        if ($match['path'] == '/') {
+            $path = '/';
+        } else {
+            $path = trim($match['path'], '/');
+        }
+
+        if (!$request->is($path)) {
+            return false;
+        }
+
+        $method = collect($match['method'])->filter()->map(function ($method) {
+            return strtoupper($method);
+        });
+
+        return $method->isEmpty() || $method->contains($request->method());
+    }
+
+    /**
+     * If a request match the specific HTTP method and path.
+     *
+     * @param array   $match
+     * @param string $path
+     *
+     * @return bool
+     */
+    protected function matchPath(array $match, $http_path): bool
+    {
+        if ($match['path'] == '/') {
+            $path = '/';
+        } else {
+            $path = trim($match['path'], '/');
+        }
+
+        if (!Str::is($path, $http_path)) {
+            return false;
+        }
+
+        $method = collect($match['method'])->filter()->map(function ($method) {
+            return strtoupper($method);
+        });
+
+        return $method->isEmpty() || $method->contains('GET');
     }
 
     /**

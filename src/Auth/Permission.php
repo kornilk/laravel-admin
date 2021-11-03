@@ -2,11 +2,57 @@
 
 namespace Encore\Admin\Auth;
 
+use Encore\Admin\Auth\Database\Permission as DatabasePermission;
 use Encore\Admin\Facades\Admin;
 use Encore\Admin\Middleware\Pjax;
+use Illuminate\Http\Request;
 
 class Permission
 {
+    protected static $methodPermission = [
+        'index' => 'show',
+        'show' => 'show',
+        'create' => 'create',
+        'store' => 'create',
+        'edit' => 'edit',
+        'update' => 'edit',
+        'destroy' => 'destroy',
+    ];
+
+    public static function hasAccessBySlug($slug = null, $method = null){
+        if (empty($method)) $method = \Route::current()->getActionMethod();
+        if (empty($slug)) $slug = str_replace(config('admin.route.prefix') . '/', '', \Route::current()->uri);
+
+        $slug = str_replace('/', '.', $slug);
+
+        $permission = "{$slug}." . (isset(static::$methodPermission[$method]) ? static::$methodPermission[$method] : $method);
+
+        if (DatabasePermission::isPermission($permission)) return \Admin::user()->can($permission);
+
+        return true;
+    }
+
+    public static function hasAccessByPath($path = null){
+
+        if (empty($path)) $path = \Route::current()->uri;
+        $path = '/' . ltrim(parse_url($path, PHP_URL_PATH),"/");
+
+        $adminPrefix = config('admin.route.prefix');
+    
+        if (!empty($adminPrefix)) {
+            $path = ltrim($path, "/{$adminPrefix}");
+            $path = $adminPrefix . '/' . ltrim(parse_url($path, PHP_URL_PATH),"/");
+        }
+
+        foreach (\Admin::user()->allPermissions() as $permission){
+            if ($permission->shouldPassThroughPath($path)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     /**
      * Check permission.
      *
