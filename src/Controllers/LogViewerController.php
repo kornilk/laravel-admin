@@ -26,7 +26,7 @@ class LogViewerController extends Controller
                 'logFiles'  => $viewer->getLogFiles(),
                 'fileName'  => $viewer->file,
                 'end'       => $viewer->getFilesize(),
-                'tailPath'  => route('admin.log-viewer-tail', ['file' => $viewer->file]),
+                'tailPath'  => route('admin.system.system-log.tail', ['file' => $viewer->file]),
                 'prevUrl'   => $viewer->getPrevPageUrl(),
                 'nextUrl'   => $viewer->getNextPageUrl(),
                 'filePath'  => $viewer->getFilePath(),

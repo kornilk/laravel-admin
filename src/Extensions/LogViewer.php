@@ -133,7 +133,7 @@ class LogViewer extends Extension
             return false;
         }
 
-        return route('admin.log-viewer-file', [
+        return route('admin.system.system-log.file', [
             'file' => $this->file, 'offset' => $this->pageOffset['end'],
         ]);
     }
@@ -149,7 +149,7 @@ class LogViewer extends Extension
             return false;
         }
 
-        return route('admin.log-viewer-file', [
+        return route('admin.system.system-log.file', [
             'file' => $this->file, 'offset' => -$this->pageOffset['start'],
         ]);
     }

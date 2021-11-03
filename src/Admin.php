@@ -319,19 +319,19 @@ class Admin
             $router->namespace('\Encore\Admin\Controllers')->group(function ($router) {
 
                 /* @var \Illuminate\Routing\Router $router */
-                $router->resource('system/users', 'UserController')->names('auth.users');
-                $router->resource('system/roles', 'RoleController')->names('auth.roles');
-                $router->resource('system/permissions', 'PermissionController')->names('auth.permissions');
-                $router->resource('system/menu', 'MenuController', ['except' => ['create']])->names('auth.menu');
+                $router->resource('system/administrators', 'UserController')->names('system.administrators');
+                $router->resource('system/roles', 'RoleController')->names('system.roles');
+                $router->resource('system/permissions', 'PermissionController')->names('system.permissions');
+                $router->resource('system/menu', 'MenuController', ['except' => ['create']])->names('system.menu');
 
-                $router->get('system/system-logs', 'LogViewerController@index')->name('log-viewer-index');
-                $router->get('system/system-logs/{file}', 'LogViewerController@index')->name('log-viewer-file');
-                $router->get('system/system-logs/{file}/tail', 'LogViewerController@tail')->name('log-viewer-tail');
+                $router->get('system/system-logs', 'LogViewerController@index')->name('system.system-log.index');
+                $router->get('system/system-logs/{file}', 'LogViewerController@index')->name('system.system-log.file');
+                $router->get('system/system-logs/{file}/tail', 'LogViewerController@tail')->name('system.system-log.tail');
                 
-                $router->get('system/operation-logs', 'OperationLogController@index')->name('system.operation-log');
+                $router->get('system/operation-logs', 'OperationLogController@index')->name('system.operation-log.index');
 
-                $router->get('system/artisan', 'ArtisanController@artisan');
-                $router->post('system/artisan', 'ArtisanController@runArtisan');
+                $router->get('system/artisan', 'ArtisanController@artisan')->name('system.artisan.index');
+                $router->post('system/artisan', 'ArtisanController@runArtisan')->name('system.artisan.run');
 
                 $router->post('_handle_form_', 'HandleController@handleForm')->name('handle-form');
                 $router->post('_handle_action_', 'HandleController@handleAction')->name('handle-action');
