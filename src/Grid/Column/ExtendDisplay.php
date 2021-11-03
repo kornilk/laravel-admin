@@ -63,6 +63,7 @@ trait ExtendDisplay
         'gallery'       => Displayers\Gallery::class,
         'edit'          => Displayers\Edit::class,
         'stripTags'     => Displayers\StripTags::class,
+        'detail'        => Displayers\Detail::class,
     ];
 
     /**

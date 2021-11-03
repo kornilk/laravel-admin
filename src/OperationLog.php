@@ -29,12 +29,22 @@ class OperationLog
             return $typeClass::getContentTitle();
         });
 
-        $grid->column('recordable_type', __('admin.Identifier'))->display(function(){
+        $grid->column('recordable_type', __('admin.Identifier'))->display(function($value, $column){
             $typeClass = $this->recordable_type;
             $typeId = $this->recordable_id;
             if (empty($typeClass) || empty($typeId)) return '';
             $content = $typeClass::where('id', $typeId)->first();
-            return \Str::limit($content ? $content->contentReadableIdentifier : $this->extra['contentReadebleIdentifier'], 30);
+
+            $value = \Str::limit($this->extra['contentReadebleIdentifier'], 30);
+
+            if ($content && method_exists($typeClass, 'contentReadableIdentifier')) {
+                $value = \Str::limit($content->contentReadableIdentifier, 30);
+            }
+
+            if ($content && method_exists($typeClass, 'getContentSlug')) {
+                $value = '<a title="' . $value . '" href="' . $typeClass::getContentAdminRoute('show', ['administrator' => $typeId]) . '"><i style="margin-right:5px;" class="fa fa-eye" aria-hidden="true"></i>' . $value . '</a>';
+            }
+            return $value;
         });
 
         $that = $this;

@@ -32,6 +32,12 @@ trait ContentTrait {
         return static::$contentSlug;
     }
 
+    public static function getContentAdminRoute($method = 'show', $parameters = []){
+        if (!static::$initedContentVariables) static::initContentVariables();
+        $slug = str_replace("/", ".", static::getContentSlug());
+        return route("admin.{$slug}.{$method}", $parameters);
+    }
+
     public static function getContentFrontendSlug(){
         if (!static::$initedContentVariables) static::initContentVariables();
         return !empty(static::$contentFrontedSlug) ? static::$contentFrontedSlug : static::$contentSlug;
