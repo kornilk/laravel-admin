@@ -393,7 +393,7 @@ return [
             ],
 
             'auto_block' => [
-                'attempts' => 20,
+                'attempts' => 40,
                 'frequency' => 60 * 60,
                 'period' => 60 * 60 * 24 * 365 * 1000,
             ],
