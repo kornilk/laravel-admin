@@ -54,7 +54,7 @@ return [
         'firewall.session',
         'firewall.sqli',
         'firewall.swear',
-        // 'firewall.xss',
+        'firewall.xss',
         //'App\Http\Middleware\YourCustomRule',
     ],
 
@@ -371,7 +371,22 @@ return [
             'methods' => ['post', 'put', 'patch'],
 
             'routes' => [
-                'only' => [], // i.e. 'contact'
+                'only' => [
+                    'admin/login',
+                    'admin/login/*',
+                    'admin/auth/login',
+                    'admin/auth/login/*',
+                    'login',
+                    'login/*',
+                    'auth/login',
+                    'auth/login/*',
+                    'bejelentkezes',
+                    'bejelentkezes/*',
+                    'registration',
+                    'registration/*',
+                    'auth/registration',
+                    'auth/registration/*',
+                ], // i.e. 'contact'
                 'except' => [], // i.e. 'admin/*'
             ],
 
