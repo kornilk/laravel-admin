@@ -99,9 +99,9 @@ return [
             ],
 
             'auto_block' => [
-                'attempts' => 1,
-                'frequency' => 60 * 60 * 24 * 365 * 1000, // 1 minute
-                'period' => 60 * 60 * 24 * 365 * 1000, // 30 minutes
+                'attempts' => 3,
+                'frequency' => 60 * 60 * 24,
+                'period' => 60 * 60 * 24 * 365 * 1000,
             ],
         ],
 
@@ -120,8 +120,8 @@ return [
             ],
 
             'auto_block' => [
-                'attempts' => 1,
-                'frequency' => 60 * 60 * 24 * 365 * 1000,
+                'attempts' => 3,
+                'frequency' => 60 * 60 * 24,
                 'period' => 60 * 60 * 24 * 365 * 1000,
             ],
         ],
@@ -158,8 +158,8 @@ return [
             'service' => 'ipapi',
 
             'auto_block' => [
-                'attempts' => 1,
-                'frequency' => 60 * 60 * 24 * 365 * 1000,
+                'attempts' => 3,
+                'frequency' => 60 * 60 * 24,
                 'period' => 60 * 60 * 24 * 365 * 1000,
             ],
         ],
@@ -182,9 +182,9 @@ return [
             ],
 
             'auto_block' => [
-                'attempts' => 1,
-                'frequency' => 60 * 60 * 24 * 365 * 1000, // 5 minutes
-                'period' => 60 * 60 * 24 * 365 * 1000, // 30 minutes
+                'attempts' => 3,
+                'frequency' => 60 * 60 * 24,
+                'period' => 60 * 60 * 24 * 365 * 1000,
             ],
         ],
 
@@ -193,8 +193,8 @@ return [
 
             'auto_block' => [
                 'attempts' => 10,
-                'frequency' => 60 * 60, // 1 minute
-                'period' => 60 * 60 * 24, // 30 minutes
+                'frequency' => 60 * 60,
+                'period' => 60 * 60 * 24,
             ],
         ],
 
@@ -225,9 +225,9 @@ return [
             ],
 
             'auto_block' => [
-                'attempts' => 1,
-                'frequency' => 60 * 60 * 24 * 365 * 1000, // 5 minutes
-                'period' => 60 * 60 * 24 * 365 * 1000, // 30 minutes
+                'attempts' => 3,
+                'frequency' => 60 * 60 * 24,
+                'period' => 60 * 60 * 24 * 365 * 1000,
             ],
         ],
 
@@ -242,9 +242,9 @@ return [
             'blocked' => [],
 
             'auto_block' => [
-                'attempts' => 1,
-                'frequency' => 60 * 60 * 24 * 365 * 1000, // 5 minutes
-                'period' => 60 * 60 * 24 * 365 * 1000, // 30 minutes
+                'attempts' => 3,
+                'frequency' => 60 * 60 * 24,
+                'period' => 60 * 60 * 24 * 365 * 1000,
             ],
         ],
 
@@ -268,9 +268,9 @@ return [
             'exceptions' => [],
 
             'auto_block' => [
-                'attempts' => 1,
-                'frequency' => 60 * 60 * 24 * 365 * 1000, // 5 minutes
-                'period' => 60 * 60 * 24 * 365 * 1000 // 30 minutes
+                'attempts' => 3,
+                'frequency' => 60 * 60 * 24,
+                'period' => 60 * 60 * 24 * 365 * 1000,
             ],
         ],
 
@@ -293,8 +293,8 @@ return [
             ],
 
             'auto_block' => [
-                'attempts' => 1,
-                'frequency' => 60 * 60 * 24 * 365 * 1000,
+                'attempts' => 3,
+                'frequency' => 60 * 60 * 24,
                 'period' => 60 * 60 * 24 * 365 * 1000,
             ],
         ],
@@ -318,8 +318,8 @@ return [
             ],
 
             'auto_block' => [
-                'attempts' => 1,
-                'frequency' => 60 * 60 * 24 * 365 * 1000,
+                'attempts' => 3,
+                'frequency' => 60 * 60 * 24,
                 'period' => 60 * 60 * 24 * 365 * 1000,
             ],
         ],
@@ -340,8 +340,8 @@ return [
             'words' => [],
 
             'auto_block' => [
-                'attempts' => 1,
-                'frequency' => 60 * 60 * 24 * 365 * 1000,
+                'attempts' => 3,
+                'frequency' => 60 * 60 * 24,
                 'period' => 60 * 60 * 24 * 365 * 1000,
             ],
         ],
@@ -349,11 +349,11 @@ return [
         'url' => [
             'methods' => ['all'],
 
-            'inspections' => [], // i.e. 'admin'
+            'inspections' => ['wp-admin'], // i.e. 'admin'
 
             'auto_block' => [
                 'attempts' => 1,
-                'frequency' => 60 * 60 * 24 * 365 * 1000,
+                'frequency' => 60 * 60,
                 'period' => 60 * 60 * 24 * 365 * 1000,
             ],
         ],
@@ -393,8 +393,8 @@ return [
             ],
 
             'auto_block' => [
-                'attempts' => 1,
-                'frequency' => 60 * 60 * 24 * 365 * 1000,
+                'attempts' => 3,
+                'frequency' => 60 * 60 * 24,
                 'period' => 60 * 60 * 24 * 365 * 1000,
             ],
         ],
