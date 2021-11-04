@@ -54,7 +54,7 @@ return [
         'firewall.session',
         'firewall.sqli',
         'firewall.swear',
-        'firewall.xss',
+        // 'firewall.xss',
         //'App\Http\Middleware\YourCustomRule',
     ],
 
