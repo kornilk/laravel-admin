@@ -9,7 +9,7 @@ class SaveOrderBtn extends AbstractTool
 {
     protected function script()
     {
-        $route = route('laravel-admin-grid-sortable');
+        $route = route('admin.laravel-admin-grid-sortable');
 
         $class = get_class($this->getGrid()->model()->getOriginalModel());
 

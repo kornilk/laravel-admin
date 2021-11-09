@@ -954,7 +954,7 @@ class Grid
             $this->model()->ordered();
         }
 
-        $this->column($column, ' ')
+        $this->column(Grid\Column::SORT_COLUMN_NAME, ' ')
             ->displayUsing(DisplayersSortable::class);
     }
 }

@@ -80,6 +80,7 @@ trait HasAssets
      * @var array
      */
     public static $baseJs = [
+        'vendor/laravel-admin/jquery-ui/jquery-ui.min.js',
         'vendor/laravel-admin/AdminLTE/bootstrap/js/bootstrap.min.js',
         'vendor/laravel-admin/AdminLTE/plugins/slimScroll/jquery.slimscroll.min.js',
         'vendor/laravel-admin/AdminLTE/dist/js/app.min.js',
@@ -92,7 +93,6 @@ trait HasAssets
         'vendor/laravel-admin/laravel-admin/laravel-admin.js',
         'vendor/laravel-admin/magnific/jquery.magnific-popup.min.js',
         'vendor/laravel-admin/modal-form/js/modals-handling.js',
-        'vendor/laravel-admin/jquery-ui/jquery-ui.min.js',
         'vendor/laravel-admin/laravel-admin/laravel-admin-ext.js',
     ];
 
@@ -104,7 +104,9 @@ trait HasAssets
     /**
      * @var array
      */
-    public static $minifyIgnores = [];
+    public static $minifyIgnores = [
+        'vendor/laravel-admin-ext/ckeditor/ckeditor.js',
+    ];
 
     /**
      * Add css or get all css.

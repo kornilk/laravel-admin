@@ -184,6 +184,13 @@ form .fields-group .control-label h4 {
     font-size:14px;
 }
 
+table.table th.column-__row_selector__ {
+    width:40px;
+}
+
+table.table th.column-__sortable__ {
+    width:26px;
+}
 
 /*===== TRANSLATION =====================*/
 
