@@ -95,16 +95,16 @@ class ContentCommand extends GeneratorCommand
                         $this->line('');
                         $this->info("    \$router->resource('{$this->slug}', {$this->controllerName}::class);");
                         $this->line('');
-                        $this->comment('Add the following lines to the language files');
+                        $this->comment('Add the following lines to default language files (json)');
                         $this->line('');
-                        $this->info("    \"{$title}\" => \"{$title}\",");
-                        $this->info("    \"{$titlePlural}\" => \"{$titlePlural}\",");
+                        $this->info("    \"{$title}\" : \"{$title}\",");
+                        $this->info("    \"{$titlePlural}\" : \"{$titlePlural}\",");
                         foreach (Schema::getColumnListing($table) as $column){
                             if (in_array($column, $this->excludeColumnTranslations)) continue;
                             $column = \Str::of($column)->replaceLast('_id', '');
                             $label = $this->formatLabel($column);
                             $label = ucfirst(strtolower(\Str::headline($label)));
-                            $this->info("    \"{$this->modelName}.{$column}\" => \"{$label}\",");
+                            $this->info("    \"{$this->modelName}.{$column}\" : \"{$label}\",");
                         }
                     }
                     break;
