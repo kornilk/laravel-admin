@@ -16,6 +16,7 @@ class ColumnSelector extends AbstractTool
     protected static $ignored = [
         Grid\Column::SELECT_COLUMN_NAME,
         Grid\Column::ACTION_COLUMN_NAME,
+        Grid\Column::SORT_COLUMN_NAME,
     ];
 
     /**

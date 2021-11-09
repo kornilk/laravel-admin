@@ -338,6 +338,8 @@ class Admin
                 $router->get('_handle_selectable_', 'HandleController@handleSelectable')->name('handle-selectable');
                 $router->get('_handle_renderable_', 'HandleController@handleRenderable')->name('handle-renderable');
 
+                $router->post('_grid-sortable_', 'GridSortableController@sort')->name('laravel-admin-grid-sortable'); 
+
                 $router->resource('images', 'ImageController');
                 $router->resource('texts', 'TextController');
                 $router->resource('html-texts', 'HtmlTextController');

@@ -92,6 +92,7 @@ trait HasAssets
         'vendor/laravel-admin/laravel-admin/laravel-admin.js',
         'vendor/laravel-admin/magnific/jquery.magnific-popup.min.js',
         'vendor/laravel-admin/modal-form/js/modals-handling.js',
+        'vendor/laravel-admin/jquery-ui/jquery-ui.min.js',
         'vendor/laravel-admin/laravel-admin/laravel-admin-ext.js',
     ];
 

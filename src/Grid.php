@@ -7,9 +7,11 @@ use Encore\Admin\Exception\Handler;
 use Encore\Admin\Grid\Column;
 use Encore\Admin\Grid\Concerns;
 use Encore\Admin\Grid\Displayers;
+use Encore\Admin\Grid\Displayers\Sortable as DisplayersSortable;
 use Encore\Admin\Grid\Model;
 use Encore\Admin\Grid\Row;
 use Encore\Admin\Grid\Tools;
+use Encore\Admin\Grid\Tools\SaveOrderBtn;
 use Encore\Admin\Traits\ShouldSnakeAttributes;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\Relations;
@@ -17,6 +19,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Jenssegers\Mongodb\Eloquent\Model as MongodbModel;
+use Spatie\EloquentSortable\Sortable;
 
 class Grid
 {
@@ -935,5 +938,23 @@ class Grid
         $this->callRenderingCallback();
 
         return Admin::component($this->view, $this->variables());
+    }
+
+    public function sortable()
+    {
+        $this->tools(function (Grid\Tools $tools) {
+            $tools->append(new SaveOrderBtn());
+        });
+
+        $sortName = $this->model()->getSortName();
+
+        if (!request()->has($sortName)
+            && $this->model()->eloquent() instanceof Sortable
+        ) {
+            $this->model()->ordered();
+        }
+
+        $this->column($column, ' ')
+            ->displayUsing(DisplayersSortable::class);
     }
 }

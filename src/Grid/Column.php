@@ -22,6 +22,8 @@ class Column
 
     const ACTION_COLUMN_NAME = '__actions__';
 
+    const SORT_COLUMN_NAME = '__sortable__';
+
     /**
      * @var Grid
      */
