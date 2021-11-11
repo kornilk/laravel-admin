@@ -21,9 +21,7 @@ trait Recordable
 
         $return['properties'] = \Arr::except($return['properties'], array_merge(config('accountant.excludeColumns'), property_exists($this, 'recordableExcludeColumns') ?$this->recordableExcludeColumns : []));
         $return['original'] = \Arr::except($return['original'], array_merge(config('accountant.excludeColumns'), property_exists($this, 'recordableExcludeColumns') ?$this->recordableExcludeColumns : []));
-        $return['modified'] = \Arr::except($return['modified'], array_merge(config('accountant.excludeColumns'), property_exists($this, 'recordableExcludeColumns') ?$this->recordableExcludeColumns : []));
-
-        $return['extra'] = $this->supplyExtraExtended($event, $return['properties'], $user, $this->getMorphClass(), $this->getIdentifier());
+        $return['modified'] = array_diff($return['modified'], array_merge(config('accountant.excludeColumns'), property_exists($this, 'recordableExcludeColumns') ?$this->recordableExcludeColumns : []));
         
         return $return;
     }
