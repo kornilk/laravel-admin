@@ -1,7 +1,7 @@
 <?php
 
 return [
-
+ 
     'domain' => env('PROJECT_DOMAIN', 'localhost'),
     'subdomain_api' => env('SUBDOMAIN_API', 'api'),
     'subdomain_admin' => env('SUBDOMAIN_ADMIN', 'admin'),
