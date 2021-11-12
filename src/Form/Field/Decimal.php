@@ -22,8 +22,7 @@ class Decimal extends Text
     {
         $this->inputmask($this->options);
 
-        $this->prepend('<i class="fa '.$this->icon.' fa-fw"></i>')
-            ->defaultAttribute('style', 'width: 130px');
+        $this->prepend('<i class="fa '.$this->icon.' fa-fw"></i>');
 
         return parent::render();
     }

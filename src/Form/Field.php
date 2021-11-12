@@ -1216,7 +1216,7 @@ class Field implements Renderable
             ];
         }
 
-        return ['label' => $this->getLabelClass(), 'field' => '', 'form-group' => ''];
+        return ['label' => $this->getLabelClass(), 'field' => '', 'form-group' => "form-group-vertical {$this->getGroupClass(false)}"];
     }
 
     /**
@@ -1579,6 +1579,7 @@ class Field implements Renderable
             $field->setWidth($this->width['field'], $this->width['label']);
             $field->setLabelClass($this->labelClass);
             $field->setHelpArray($this->help);
+            $field->disableHorizontal($this->horizontal);
 
             if (method_exists($field, 'retainable') && property_exists($this, 'retainable')) $field->retainable($this->retainable);
             if (method_exists($field, 'removable') && property_exists($this, 'removable')) $field->removable($this->removable);

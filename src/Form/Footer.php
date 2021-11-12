@@ -202,6 +202,7 @@ EOT;
             'checkboxes'       => $this->checkboxes,
             'submit_redirects' => $submitRedirects,
             'default_check'    => $this->defaultCheck,
+            'hasHorizontalFields'    => $this->builder->form()->hasHorizontalFields(),
         ];
 
         return view($this->view, $data)->render();

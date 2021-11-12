@@ -2,10 +2,10 @@
 
     {{ csrf_field() }}
 
-    <div class="col-md-{{$width['label']}}">
+    <div class="{{ $hasHorizontalFields ? "col-md-{$width['label']}" : "" }}">
     </div>
 
-    <div class="col-md-{{$width['field']}}">
+    <div class="{{ $hasHorizontalFields ? "col-md-{$width['field']}" : "col-md-12" }}">
 
         @if(in_array('submit', $buttons))
         <div class="btn-group pull-right">

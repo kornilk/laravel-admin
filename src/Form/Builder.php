@@ -509,7 +509,7 @@ class Builder
 
         $attributes['action'] = $this->getAction();
         $attributes['method'] = Arr::get($options, 'method', 'post');
-        $attributes['class'] = implode(' ', ['form-horizontal', $this->formClass]);
+        $attributes['class'] = implode(' ', [$this->form->hasHorizontalFields() ? '' : 'has-vertical-fields', 'form-horizontal', $this->formClass]);
         $attributes['accept-charset'] = 'UTF-8';
 
         if ($this->hasFile()) {
@@ -695,5 +695,9 @@ SCRIPT;
         ];
 
         return view($this->view, $data)->render();
+    }
+
+    public function form(){
+        return $this->form;
     }
 }

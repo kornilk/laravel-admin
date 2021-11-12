@@ -120,6 +120,7 @@ class Form implements Renderable
     protected $modelIsTranslatable = false;
     protected $disableTranslate = false;
     protected $disableTranslatedFieldCopy = false;
+    protected $hasHorizontalFields = false;
 
     /**
      * Create a new form instance.
@@ -1572,6 +1573,9 @@ class Form implements Renderable
 
                 $originalElement = new $className($column, array_slice($arguments, 1));
                 $originalElement->setLabel($originalElement->label() . ' [' . strtoupper(config('i18n.default')) . ']');
+
+                if (!$this->hasHorizontalFields()) {$originalElement->disableHorizontal();}
+
                 $originalElement->translatedFields = [];
 
                 foreach (config('i18n.locales') as $locale) {
@@ -1596,6 +1600,7 @@ class Form implements Renderable
     
             } else {
                 $element = new $className($column, array_slice($arguments, 1));
+                if (!$this->hasHorizontalFields()) $element->disableHorizontal();
                 
                 $this->pushField($element);
             }
@@ -1639,5 +1644,13 @@ class Form implements Renderable
     public function enableColumnTranslate(){
         $this->disableTranslate = false;
         return $this;
+    }
+
+    public function hasHorizontalFields(){
+        return $this->hasHorizontalFields;
+    }
+
+    public function setHorizontalFields($boolean){
+        $this->hasHorizontalFields = $boolean;
     }
 }
