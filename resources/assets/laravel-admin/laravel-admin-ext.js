@@ -139,7 +139,7 @@ function browse_images(callback) {
                     source: data.source,
                     max_width: data.width,
                     max_height: data.height,
-                    src: '/storage/uploads/' + data.path
+                    src: '/storage/' + data.path
                 }
             );
         });

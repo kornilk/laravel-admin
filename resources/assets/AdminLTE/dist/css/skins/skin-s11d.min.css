@@ -1,0 +1,28 @@
+.skin-s11d .main-header .navbar{background-color:#3d657c}.skin-s11d .main-header .navbar .nav>li>a{color:#fff}.skin-s11d .main-header .navbar .nav>li>a:hover,.skin-s11d .main-header .navbar .nav>li>a:active,.skin-s11d .main-header .navbar .nav>li>a:focus,.skin-s11d .main-header .navbar .nav .open>a,.skin-s11d .main-header .navbar .nav .open>a:hover,.skin-s11d .main-header .navbar .nav .open>a:focus,.skin-s11d .main-header .navbar .nav>.active>a{background:rgba(0,0,0,0.1);color:#f6f6f6}.skin-s11d .main-header .navbar .sidebar-toggle{color:#fff}.skin-s11d .main-header .navbar .sidebar-toggle:hover{color:#f6f6f6;background:rgba(0,0,0,0.1)}.skin-s11d .main-header .navbar .sidebar-toggle{color:#fff}.skin-s11d .main-header .navbar .sidebar-toggle:hover{background-color:#265c7a}@media (max-width:767px){.skin-s11d .main-header .navbar .dropdown-menu li.divider{background-color:rgba(255,255,255,0.1)}.skin-s11d .main-header .navbar .dropdown-menu li a{color:#fff}.skin-s11d .main-header .navbar .dropdown-menu li a:hover{background:#265c7a}}.skin-s11d .main-header .logo{background-color:#3d657c;color:#fff;border-bottom:0 solid transparent}.skin-s11d .main-header .logo:hover{background-color:#265c7a}.skin-s11d .main-header li.user-header{background-color:#3d657c}.skin-s11d .content-header{background:transparent}.skin-s11d .wrapper,.skin-s11d .main-sidebar,.skin-s11d .left-side{background-color:#f9fafc}.skin-s11d .content-wrapper,.skin-s11d .main-footer{border-left:1px solid #d2d6de}.skin-s11d .user-panel>.info,.skin-s11d .user-panel>.info>a{color:#444}.skin-s11d .sidebar-menu>li{-webkit-transition:border-left-color .3s ease;-o-transition:border-left-color .3s ease;transition:border-left-color .3s ease}.skin-s11d .sidebar-menu>li.header{color:#848484;background:#f9fafc}.skin-s11d .sidebar-menu>li>a{border-left:3px solid transparent;font-weight:600}.skin-s11d .sidebar-menu>li:hover>a,.skin-s11d .sidebar-menu>li.active>a{color:#000;background:#f4f4f5}.skin-s11d .sidebar-menu>li.active{border-left-color:#3d657c}.skin-s11d .sidebar-menu>li.active>a{font-weight:600}.skin-s11d .sidebar-menu>li>.treeview-menu{background:#f4f4f5}.skin-s11d .sidebar a{color:#444}.skin-s11d .sidebar a:hover{text-decoration:none}.skin-s11d .treeview-menu>li>a{color:#777}.skin-s11d .treeview-menu>li.active>a,.skin-s11d .treeview-menu>li>a:hover{color:#000}.skin-s11d .treeview-menu>li.active>a{font-weight:600}.skin-s11d .sidebar-form{border-radius:3px;border:1px solid #d2d6de;margin:10px 10px}.skin-s11d .sidebar-form input[type="text"],.skin-s11d .sidebar-form .btn{box-shadow:none;background-color:#fff;border:1px solid transparent;height:35px;-webkit-transition:all .3s ease-in-out;-o-transition:all .3s ease-in-out;transition:all .3s ease-in-out}.skin-s11d .sidebar-form input[type="text"]{color:#666;border-top-left-radius:2px;border-top-right-radius:0;border-bottom-right-radius:0;border-bottom-left-radius:2px}.skin-s11d .sidebar-form input[type="text"]:focus,.skin-s11d .sidebar-form input[type="text"]:focus+.input-group-btn .btn{background-color:#fff;color:#666}.skin-s11d .sidebar-form input[type="text"]:focus+.input-group-btn .btn{border-left-color:#fff}.skin-s11d .sidebar-form .btn{color:#999;border-top-left-radius:0;border-top-right-radius:2px;border-bottom-right-radius:2px;border-bottom-left-radius:0}@media (min-width:768px){.skin-s11d.sidebar-mini.sidebar-collapse .sidebar-menu>li>.treeview-menu{border-left:1px solid #d2d6de}}.skin-s11d .main-footer{border-top-color:#d2d6de}.skin-blue.layout-top-nav .main-header>.logo{background-color:#3d657c;color:#fff;border-bottom:0 solid transparent}.skin-blue.layout-top-nav .main-header>.logo:hover{background-color:#265c7a}
+
+.skin-s11d .box.box-solid.box-primary>.box-header {
+    color: #fff;
+    background: #3e7ea3;
+    background-color: #3e7ea3;
+}
+
+.skin-s11d .btn-dropbox {
+    background-color: #3e7ea3;
+}
+
+.skin-s11d .btn-primary {
+    background-color: #3e7ea3;
+    color:#fff;
+}
+
+.skin-s11d .btn-primary:hover {
+    color:#fff;
+}
+
+/* .skin-s11d a {
+    color: #9d2408;
+}
+
+.skin-s11d a:hover {
+    color: #6c1906;
+} */

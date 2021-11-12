@@ -37,7 +37,7 @@
 .imageBoxContent {
     background:#f9fafc;
     border:1px solid #D2D6DE;
-    border-radius:6px;
+    border-radius:2px;
     margin:0;
     height:100%;
     display:flex;
@@ -52,7 +52,7 @@
     max-height: 150px !important;   
     background-color: transparent;
     border: none;
-    border-radius: 6px;
+    border-radius: 2px;
 }
 
 .imageBox .imageCont {
@@ -183,6 +183,7 @@ table.table th.column-__sortable__ {
 
 input.lead, textarea.lead {
     margin-bottom:0px;
+    font-weight:400;
 }
 
 .has-vertical-fields {

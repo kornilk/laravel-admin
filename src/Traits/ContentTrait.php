@@ -70,7 +70,17 @@ trait ContentTrait {
 
         $field = ucfirst($field);
         if (method_exists(__CLASS__, "readable{$field}Value")) return static::{"readable{$field}Value"}($value);
-        return $value;
+        $value = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $value);
+        return mb_strimwidth(strip_tags($value), 0, 1000, "...");
+    }
+
+    public static function readableImage_idValue($value){
+
+        $image = \Encore\Admin\Models\Image::where('id', $value)->first();
+
+        if (!$image) return '-';
+
+        return $image->readablePathValue($image->path);
     }
 
     public static function readableActiveValue($value){

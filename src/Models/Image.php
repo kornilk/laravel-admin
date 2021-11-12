@@ -16,7 +16,7 @@ class Image extends ContentModel
         'filename',
         'extension',
         'formats',
-        'imageClass',
+        'image_class',
     ];
 
     protected static function initStatic()

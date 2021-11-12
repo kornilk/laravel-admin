@@ -31,7 +31,7 @@ class HomeController extends Controller
                     $box = new Box(__('admin.Latest operations'), $grid);
 
                     $box->collapsable();
-                    $box->style('info');
+                    $box->style('primary');
                     $box->solid();
 
                     $column->append($box);
