@@ -308,7 +308,7 @@ class Admin
     {
         $attributes = [
             'prefix'        => config('admin.route.prefix'),
-            'domain'        => config('extend.subdomain_admin') . config('extend.domain'),
+            'domain'        => config('system.subdomain.admin') . config('system.domain'),
             'middleware'    => config('admin.route.middleware'),
             'as'            => 'admin.',
         ];
