@@ -362,3 +362,41 @@ if (!function_exists('disableActionsByPermissions')) {
         if (!\Admin::user()->can($slug . '.show') && method_exists($actions, 'disableView')) $actions->disableView();
     }
 }
+
+if (!function_exists('base64_url_encode')) {
+    function base64_url_encode($input)
+    {
+        return strtr(base64_encode($input), '+/=', '._-');
+    }
+}
+
+if (!function_exists('base64_url_decode')) {
+    function base64_url_decode($input)
+    {
+        return base64_decode(strtr($input, '._-', '+/='));
+    }
+}
+
+if (!function_exists('url_query')) {
+    function url_query($url, $queryArray)
+    {
+        $urlWithoutQuery = preg_replace('/\?.*/', '', $url);
+        $url = parse_url($url);
+
+        if (!isset($url['query'])) $url['query'] = '';
+        parse_str($url['query'], $oldQuery);
+
+        $query = array_merge(
+            $oldQuery,
+            $queryArray
+        );
+
+        $newQuery = array_filter($query, function($value) {
+            return !is_null($value) && $value !== '';
+        });
+
+        $newQuery = http_build_query($newQuery);
+
+        return "{$urlWithoutQuery}?{$newQuery}";
+    }
+}

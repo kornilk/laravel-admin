@@ -21,15 +21,10 @@ class Image extends File
      */
     protected $rules = 'image';
 
-    protected $imageSize = 'default';
-
     public function __construct($column = '', $arguments = [])
     {
         $this->retainable();
-        $this->thumbnail(config('image.sizes.' . $this->imageSize . '.thumbnails'));
-        $this->widen(config('image.sizes.' . $this->imageSize . '.max'), function ($constraint) {
-            $constraint->upsize();
-        })->orientate();
+        $this->orientate();
         $this->attribute(['accept' => 'image/*',  'capture' => 'camera']);
 
         parent::__construct($column, $arguments);
@@ -42,35 +37,48 @@ class Image extends File
      */
     public function prepare($image)
     {
+        $interventionMethods = [];
+        foreach ($this->interventionCalls as $int){
+            $interventionMethods[] = $int['method'];
+        }
+
+        if (!in_array('thumbnail', $interventionMethods)){
+            $this->thumbnail($this->form->model()::getThumbnails());
+        }
+
+        if (!in_array('widen', $interventionMethods) && !empty($maxSize = $this->form->model()::getMaxSize())){
+            $this->widen($maxSize, function ($constraint) {
+                $constraint->upsize();
+            });
+        }
+
         if (request()->has('watermark') && request()->watermark === 'on') {
-            
+
             try {
                 $width = ImageClass::make($image)->width();
-                
-                if ($width > config('image.sizes.' . $this->imageSize . '.max')) $width = config('image.sizes.' . $this->imageSize . '.max');
-    
+
+                if (!empty(($maxSize = $this->form->model()::getMaxSize())) && $width > $maxSize) $width = $maxSize;
+
                 $watermarkWidth = round($width / 10);
-    
-                if ($watermarkWidth < 150 ) $watermarkWidth = 150;
-    
+
+                if ($watermarkWidth < 150) $watermarkWidth = 150;
+
                 if ($width < $watermarkWidth) $watermarkWidth = $width;
-    
+
                 $offset = 15;
                 switch (true) {
-    
+
                     case $width >= 1000:
                         $offset = 50;
                         break;
                 }
-    
-                $watermark = ImageClass::make(config('image.watermark'))->widen($watermarkWidth, function ($constraint) {
+
+                $watermark = ImageClass::make($this->form->model()::getWatermark())->widen($watermarkWidth, function ($constraint) {
                     $constraint->upsize();
                 });
-    
-                $this->insert($watermark, 'bottom-right', $offset, $offset);
-    
-            } catch (\Throwable $th) {
 
+                $this->insert($watermark, 'bottom-right', $offset, $offset);
+            } catch (\Throwable $th) {
             }
         }
 
@@ -81,11 +89,11 @@ class Image extends File
         if (request()->has(static::FILE_DELETE_FLAG)) {
             return $this->destroy();
         }
-        
+
         $this->name = $this->getStoreName($image);
         $this->renameIfExists($image);
-
-        if (config('image.keepOriginal')) {
+        
+        if ($this->form->model()::getKeepOriginal()) {
             $pi = pathinfo($this->name);
             $this->uploadWithFilename($image, $pi['filename'] . '-original.' . $pi['extension']);
         }
@@ -129,7 +137,8 @@ class Image extends File
         return $extra;
     }
 
-    public function setImageSize(string $value){
+    public function setImageSize(string $value)
+    {
         $this->imageSize = $value;
 
         return $this;

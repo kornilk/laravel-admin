@@ -1,23 +1,10 @@
 <?php
 
-namespace Encore\Admin\Models;
+namespace Encore\Admin\Selectable;
 
-use Illuminate\Database\Eloquent\Builder;
+use Encore\Admin\Models\ImageMedium as ImageModel;
 
 class ImageMedium extends Image
 {
-    protected $table = 'images'; 
-
-    public static function boot()
-    {
-        parent::boot();
-
-        self::addGlobalScope('width', function (Builder $builder) {
-            $builder->where('width', '>=', config('image.rules.medium.minWidth'));
-        });
-
-        self::addGlobalScope('height', function (Builder $builder) {
-            $builder->where('height', '>=', config('image.rules.medium.minHeight'));
-        });
-    }
+    public $model = ImageModel::class;
 }

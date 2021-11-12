@@ -7,8 +7,10 @@ use Illuminate\Support\Facades\Storage;
 
 class Image extends AbstractDisplayer
 {
-    public function display($thumbnail = '', $popup = '', $width = 200, $height = 200)
+    public function display($thumbnail = null, $popup = '', $width = 200, $height = 200)
     {
+        if (empty($thumbnail)) $thumbnail = $this->row->image_class::getDefaultThumbName();
+
         if ($this->value instanceof Arrayable) {
             $this->value = $this->value->toArray();
         }
@@ -17,8 +19,6 @@ class Image extends AbstractDisplayer
             if (empty($path)) {
                 return '';
             }
-
-            if (empty($thumbnail)) $thumbnail = config('image.defaultThumbName');
 
             $image = pathinfo($path);
             $thumb = $image['dirname'] . '/' . $image['filename'] . '-' . $thumbnail . '.' . $image['extension'];

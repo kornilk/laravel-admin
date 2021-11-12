@@ -420,7 +420,14 @@ trait UploadField
     public function renameIfExists(UploadedFile $file)
     {
         if ($this->storage->exists("{$this->getDirectory()}/$this->name")) {
-            $this->name = $this->generateUniqueName($file);
+            $counter = 0;
+            $fileInfo = pathInfo($this->name);
+            $originalName = $fileInfo['filename'];
+            
+            do {
+                $counter++;
+                $this->name = "{$originalName}_{$counter}.{$fileInfo['extension']}";
+            } while ($this->storage->exists("{$this->getDirectory()}/$this->name"));
         }
     }
 

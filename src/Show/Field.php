@@ -214,13 +214,15 @@ class Field implements Renderable
     public function image($thumbnail = '', $popup = '', $width = 200, $height = 200)
     {
         return $this->unescape()->as(function ($images) use ($thumbnail, $popup, $width, $height) {
+
+            if (empty($thumbnail)) $thumbnail = $this->image_class::getDefaultThumbName();
+
             return collect($images)->map(function ($path) use ($thumbnail, $popup, $width, $height) {
                 if (empty($path)) {
                     return '';
                 }
 
-                if (empty($thumbnail)) $thumbnail = config('image.defaultThumbName');
-
+                
                 $image = pathinfo($path);
                 $thumb = $image['dirname'] . '/' . $image['filename'] . '-' . $thumbnail . '.' . $image['extension'];
 

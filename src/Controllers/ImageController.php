@@ -14,6 +14,21 @@ class ImageController extends AdminController
 {
     protected $model = Image::class;
 
+    public function __construct()
+    {
+        $model = \Request()->get('im');
+
+        if (!empty($model)){
+            $model = base64_url_decode($model);
+            if (class_exists($model)) $this->model = $model;
+        }
+
+        $this->minWidth = $this->model::getRules()['minWidth'];
+        $this->minHeight = $this->model::getRules()['minHeight'];
+
+        parent::__construct();
+    }
+
     /**
      * Make a grid builder.
      *
@@ -37,7 +52,8 @@ class ImageController extends AdminController
             $filter->where(function ($query) {
 
                 $query->where('title', 'like', "%{$this->input}%")
-                    ->orWhere('source', 'like', "%{$this->input}%");
+                    ->orWhere('source', 'like', "%{$this->input}%")
+                    ->orWhere('filename', 'like', "%{$this->input}%");
             }, __('admin.Search'));
         });
 
@@ -89,10 +105,17 @@ class ImageController extends AdminController
 
             if (!empty($rules)) {
                 $image->rules($rules);
+            } else {
+                $image->rules('dimensions:min_width=' . $this->minWidth . ',min_height=' . $this->minHeight . '');
             }
 
             if (!empty($help)) {
                 $image->help($help);
+            } else {
+                $image->help(__('admin.imageSizeHelp', [
+                    'width' => $this->minWidth,
+                    'height' => $this->minHeight
+                ]));
             }
         });
 
@@ -100,12 +123,14 @@ class ImageController extends AdminController
             $form->text('title', $this->model::label('title'))->rules('max:700');
             $form->text('source', $this->model::label('source'))->rules('max:150');
 
-            if (config('image.watermark')) {
+            if ($form->model()::getWatermark()) {
 
                 $form->switch('watermark', $this->model::label('watermark'))->states($this->getYesNoSwitch());
                 $form->ignore('watermark');
             }
         });
+        
+        $form->setAction(url_query($form->builder()->getAction(), ['im' => base64_url_encode($this->model)]));
 
         return $form;
     }
@@ -129,7 +154,11 @@ class ImageController extends AdminController
             if (!empty($rules)) $routeAttributes['rules'] = $rules;
             if (!empty($help)) $routeAttributes['help'] = $help;
 
-            $form->setAction(route('admin.image.modal.form.store', $routeAttributes));
+            $oldAction = parse_url($form->builder()->getAction());
+            if (!isset($oldAction['query'])) $oldAction['query'] = '';
+            
+            $form->setAction(url_query(route('admin.image.modal.form.store', $oldAction['query']), $routeAttributes));
+            // $form->setAction(route('admin.image.modal.form.store', $routeAttributes));
 
             $form->large();
 
@@ -143,7 +172,7 @@ class ImageController extends AdminController
         });
     }
 
-    public function browser(Request $request)
+    public function browser(Request $request) //Ckeditor
     {
         $grid = new Grid(new $this->model());
 
@@ -168,7 +197,8 @@ class ImageController extends AdminController
             $filter->where(function ($query) {
 
                 $query->where('title', 'like', "%{$this->input}%")
-                    ->orWhere('source', 'like', "%{$this->input}%");
+                    ->orWhere('source', 'like', "%{$this->input}%")
+                    ->orWhere('filename', 'like', "%{$this->input}%");
             }, __('admin.Search'));
         });
 
@@ -178,7 +208,7 @@ class ImageController extends AdminController
         $grid->disableCreateButton();
 
         if (\Admin::user()->can($this->slug . '.create')) {
-            $modalButton = new ModalButton(__('admin.new'), route('admin.image.modal.form', ['rules' => 'dimensions:min_width=' . config('image.rules.medium.minWidth') . ',min_height=' . config('image.rules.medium.minHeight') . '']));
+            $modalButton = new ModalButton(__('admin.new'), route('admin.image.modal.form', ['rules' => 'dimensions:min_width=' . $this->model::getRules()['minWidth'] . ',min_height=' . $this->model::getRules()['minHeight'] . '']));
             $modalButton->setClass('btn btn-primary btn-sm ml-5');
 
             $grid->tools(function ($tools) use ($modalButton) {
