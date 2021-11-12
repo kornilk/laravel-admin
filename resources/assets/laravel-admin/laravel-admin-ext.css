@@ -35,13 +35,14 @@
 }
 
 .imageBoxContent {
-    background:#f9fafc;
+    background:#ECF0F5;
     border:1px solid #D2D6DE;
     border-radius:2px;
     margin:0;
     height:100%;
     display:flex;
     flex-direction:column;
+    box-shadow: 2px 2px 5px rgb(0 0 0 / 10%);
 }
 
 
@@ -53,17 +54,19 @@
     background-color: transparent;
     border: none;
     border-radius: 2px;
+    padding:0px;
+    border: 1px solid #fff;
 }
 
 .imageBox .imageCont {
     margin:0px auto;
+    padding:4px;
 }
 
 .imageBox .imageBoxFooter {
     margin-top:auto;
     background:#ECF0F5;
-    border-top:1px solid #D2D6DE;
-    padding:15px;
+    padding: 8px;
 }
 
 .imageBox .title {

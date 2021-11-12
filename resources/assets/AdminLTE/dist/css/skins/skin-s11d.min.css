@@ -26,3 +26,8 @@
 .skin-s11d a:hover {
     color: #6c1906;
 } */
+
+.skin-s11d .box {
+    border-top: 1px solid #d2d6de;
+    box-shadow: 2px 2px 5px rgb(0 0 0 / 10%);
+}
