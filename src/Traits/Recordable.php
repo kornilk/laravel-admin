@@ -17,6 +17,8 @@ trait Recordable
         $return = $this->parentGather($event);
         $user = Resolve::user();
 
+        $return['extra'] = $this->supplyExtraExtended($event, $return['properties'], $user, $return['recordable_type'], $return['recordable_id']);
+
         $return['original'] = $this->getOriginal();
 
         $return['properties'] = \Arr::except($return['properties'], array_merge(config('accountant.excludeColumns'), property_exists($this, 'recordableExcludeColumns') ?$this->recordableExcludeColumns : []));
