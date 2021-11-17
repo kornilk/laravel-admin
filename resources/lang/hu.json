@@ -63,5 +63,6 @@
     "password": "Jelszó",
     "password_confirmation": "Jelszó megerősítés",
     "Administrator": "Adminisztrátor",
-    "Administrators": "Adminisztrátorok"
+    "Administrators": "Adminisztrátorok",
+    "active": "Aktív"
 }
