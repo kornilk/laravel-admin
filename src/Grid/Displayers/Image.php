@@ -11,8 +11,13 @@ class Image extends AbstractDisplayer
     {
         
         if (empty($thumbnail)) {
-            $relation = $this->column->getRelation();
-            $thumbnail = ($relation && $this->row->{$relation}) ? $this->row->{$relation}->image_class::getDefaultThumbName() : 'thumb';
+
+            if (property_exists($this->row, 'image_class') && method_exists($this->row->image_class, 'getDefaultThumbName')){
+                $thumbnail = $this->row->image_class::getDefaultThumbName();
+            } else {
+                $relation = $this->column->getRelation();
+                $thumbnail = ($relation && $this->row->{$relation}) ? $this->row->{$relation}->image_class::getDefaultThumbName() : 'thumb';
+            }
         }
 
         if ($this->value instanceof Arrayable) {

@@ -215,7 +215,14 @@ class Field implements Renderable
     {
         return $this->unescape()->as(function ($images) use ($thumbnail, $popup, $width, $height) {
 
-            if (empty($thumbnail)) $thumbnail = $this->image_class::getDefaultThumbName();
+            if (empty($thumbnail)) {
+
+                if (property_exists($this, 'image_class') && method_exists($this->image_class, 'getDefaultThumbName')){
+                    $thumbnail = $this->image_class::getDefaultThumbName();
+                } else {
+                    $thumbnail = 'thumb';
+                }
+            }
 
             return collect($images)->map(function ($path) use ($thumbnail, $popup, $width, $height) {
                 if (empty($path)) {
