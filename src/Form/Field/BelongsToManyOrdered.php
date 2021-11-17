@@ -61,9 +61,9 @@ class BelongsToManyOrdered extends MultipleSelect
 
             items = [];
             container.find('.selectable-item').each(function (index, item) {
-                if ($(item).find('.grid-row-remove').length > 0) {
+                //if ($(item).find('.grid-row-remove').length > 0) {
                     items['n'+$(item).find('.grid-row-remove').data('key')] = $(item);
-                }
+                //}
             });
   
             update(function(){});
@@ -149,7 +149,7 @@ class BelongsToManyOrdered extends MultipleSelect
         for (var i in val){
             if (selected.indexOf(val[i]) < 0) {
                 selected.push(val[i]);
-                items['n'+val[i]] = container.find('tbody tr[data-key="'+val[i]+'"]');
+                items['n'+val[i]] = container.find('.selectable-item[data-key="'+val[i]+'"]');
             }
         }
         load("{$this->getLoadUrl(1)}");
@@ -189,26 +189,25 @@ class BelongsToManyOrdered extends MultipleSelect
     grid.find('a[data-form="modal"]').on('modelCreated', (e) => {
                     
         var createdModelId = $(e.target).data('model-id');
-        
-        var input = $('.belongstomany-{$this->column()}').closest('.form-group').find('select.{$this->column()}');
-        var selected = input.val();
-    
+         
         if (typeof selected !== 'object' || selected === null ) selected = [];
-        selected.push(createdModelId);
-    
-        input
-        .select2({data: selected})
-        .val(selected)
-        .trigger('change')
-        .next()
-        .addClass('hide');
+            selected.push(createdModelId + '');
+
+        $("{$this->getElementClassSelector()}")
+            .select2({data: selected})
+            .val(selected)
+            .trigger('change')
+            .next()
+            .addClass('hide');
             
         container.find('.empty-grid').remove();
 
-        $.get("{$this->getLoadUrl(1)}&id=" + createdModelId, function(response){
+        $.get("{$this->getLoadUrl()}&id=" + createdModelId, function(response){
+            
             var item = $(response).find('.selectable-item:first');
             item.find('.column-__modal_selector__').remove();
             item.find('.grid-row-remove').removeClass('hide');
+            item.attr('data-key', createdModelId);
             container.append(item);
         });
 
