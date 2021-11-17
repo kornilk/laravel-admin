@@ -346,6 +346,11 @@ class Column
         return $this;
     }
 
+    public function getRelation()
+    {
+        return $this->relation;
+    }
+
     /**
      * If this column is relation column.
      *

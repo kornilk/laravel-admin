@@ -9,7 +9,11 @@ class Image extends AbstractDisplayer
 {
     public function display($thumbnail = null, $popup = '', $width = 200, $height = 200)
     {
-        if (empty($thumbnail)) $thumbnail = $this->row->image_class::getDefaultThumbName();
+        
+        if (empty($thumbnail)) {
+            $relation = $this->column->getRelation();
+            $thumbnail = ($relation && $this->row->{$relation}) ? $this->row->{$relation}->image_class::getDefaultThumbName() : 'thumb';
+        }
 
         if ($this->value instanceof Arrayable) {
             $this->value = $this->value->toArray();
