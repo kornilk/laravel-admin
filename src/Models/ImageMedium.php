@@ -1,6 +1,6 @@
 <?php
 
-namespace Encore\Admin\Selectable;
+namespace Encore\Admin\Models;
 
 use Encore\Admin\Models\ImageMedium as ImageModel;
 
