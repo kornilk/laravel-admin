@@ -47,7 +47,7 @@ class ImageController extends AdminController
 
         $grid->filter(function ($filter) {
 
-            $filter->disableIdFilter();
+            $filter->removeIDFilterIfNeeded();
 
             $filter->where(function ($query) {
 
@@ -191,7 +191,7 @@ class ImageController extends AdminController
 
         $grid->filter(function ($filter) {
 
-            $filter->disableIdFilter();
+            $filter->removeIDFilterIfNeeded();
             $filter->expand();
 
             $filter->where(function ($query) {

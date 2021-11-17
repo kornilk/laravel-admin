@@ -62,7 +62,7 @@ class PermissionController extends AdminController
 
         $grid->filter(function($filter){
 
-            $filter->disableIdFilter();
+            $filter->removeIDFilterIfNeeded();
 
             $filter->where(function ($query) {
 

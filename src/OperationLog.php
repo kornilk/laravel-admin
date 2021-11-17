@@ -99,7 +99,7 @@ class OperationLog
      
         $grid->filter(function($filter){
 
-            $filter->disableIdFilter();
+            $filter->removeIDFilterIfNeeded();
         
         });
 

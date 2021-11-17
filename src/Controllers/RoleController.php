@@ -46,7 +46,7 @@ class RoleController extends AdminController
 
         $grid->filter(function($filter){
 
-            $filter->disableIdFilter();
+            $filter->disabremoveIDFilterIfNeededleIdFilter();
 
             $filter->where(function ($query) {
 
