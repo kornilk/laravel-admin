@@ -184,7 +184,7 @@ class Modal {
 class FormInput{
     constructor(input) {
         this.$el = input
-        this.formGroup = this.$el.closest('.form-group');
+        this.formGroup = this.$el.closest('.form-field');
         this.inputGroup = this.formGroup.find('.input-group');
     }
 

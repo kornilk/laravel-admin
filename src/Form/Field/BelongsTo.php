@@ -96,7 +96,7 @@ class BelongsTo extends Select
                     
                 var createdModelId = $(e.target).data('model-id');
                 
-                var input = $('.belongstomany-{$this->column()}').closest('.form-group').find('select.{$this->column()}');
+                var input = $('.belongsto-{$this->column()}').closest('.form-field').find('select.{$this->column()}');
              
                 input
                 .select2({data: [createdModelId]})

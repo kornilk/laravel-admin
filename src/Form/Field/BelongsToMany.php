@@ -130,7 +130,7 @@ class BelongsToMany extends MultipleSelect
                     
         var createdModelId = $(e.target).data('model-id');
         
-        var input = $('.belongstomany-{$this->column()}').closest('.form-group').find('select.{$this->column()}');
+        var input = $('.belongstomany-{$this->column()}').closest('.form-field').find('select.{$this->column()}');
         var selected = input.val();
     
         if (typeof selected !== 'object' || selected === null ) selected = [];

@@ -1361,7 +1361,7 @@ class Field implements Renderable
      */
     protected function getGroupClass($default = false): string
     {
-        return ($default ? 'form-group ' : '').implode(' ', array_filter($this->groupClass));
+        return ($default ? 'form-group form-field' : 'form-field').implode(' ', array_filter($this->groupClass));
     }
 
     /**
