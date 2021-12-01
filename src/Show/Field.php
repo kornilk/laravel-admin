@@ -26,6 +26,13 @@ class Field implements Renderable
     protected $view = 'admin::show.field';
 
     /**
+     * Unique id.
+     *
+     * @var string
+     */
+    protected $id;
+
+    /**
      * Name of column.
      *
      * @var string
@@ -38,6 +45,20 @@ class Field implements Renderable
      * @var string
      */
     protected $label;
+
+    /**
+     * Scripts.
+     *
+     * @var array
+     */
+    protected $script = [];
+
+    /**
+     * Class.
+     *
+     * @var array
+     */
+    protected $class = [];
 
     /**
      * Width for label and field.
@@ -118,6 +139,8 @@ class Field implements Renderable
         $this->label = $this->formatLabel($label);
 
         $this->showAs = new Collection();
+
+        $this->id = $this->name . uniqid();
     }
 
     /**
@@ -476,6 +499,69 @@ HTML;
     }
 
     /**
+     * Set to artcle
+     *
+     * @return Field
+     */
+    public function article()
+    {
+        return $this->unescape()->addClass('article-style')->addScript(function(){
+            $id = $this->id;
+            return <<<SCRIPT
+                $('#$id div.article-element.article-object').each(function( index ) {
+                    var h = '';
+
+                    try {
+                        h = JSON.parse($(this).find('div.article-element').data('json'));
+                      }
+                      catch(err) {
+                      }
+
+                    $(this).after(h);
+                    $(this).remove();
+                });
+                new ObjectResize("#$id .article-style object", 700);
+                new ObjectResize("#$id .article-style iframe", 700);
+            SCRIPT;
+        });
+    }
+
+    /**
+     * Override class
+     *
+     * @return Field
+     */
+    public function class($value)
+    {
+        $this->class = [
+            $value
+        ];
+        return $this;
+    }
+
+    /**
+     * Add class
+     *
+     * @return Field
+     */
+    public function addClass($value)
+    {
+        $this->class[] = $value;
+        return $this;
+    }
+
+    /**
+     * Add script
+     *
+     * @return Field
+     */
+    public function addScript($closure)
+    {
+        $this->script[] = $closure;
+        return $this;
+    }
+
+    /**
      * Set value for this field.
      *
      * @param Model $model
@@ -632,6 +718,8 @@ HTML;
             'label'     => $this->getLabel(),
             'wrapped'   => $this->border,
             'width'     => $this->width,
+            'class'     => implode(' ', $this->class),
+            'id'        => $this->id,
         ];
     }
 
@@ -649,6 +737,10 @@ HTML;
                     $this->value
                 );
             });
+        }
+
+        foreach ($this->script as $scr){
+            \Admin::script($scr());
         }
 
         return view($this->view, $this->variables());

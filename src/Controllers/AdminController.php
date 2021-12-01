@@ -137,28 +137,6 @@ class AdminController extends Controller
 
         manageActionsByPermissions($body, $this->slug);
 
-        function inlineScript()
-        {
-
-            return <<<SCRIPT
-                var item = $('.detail-container div.article-element.article-object div.article-element').each(function( index ) {
-                    var h = '';
-
-                    try {
-                        h = JSON.parse(item.data('json'));
-                      }
-                      catch(err) {
-                      }
-
-                    $(this).html(h);
-                });
-
-                
-                SCRIPT;
-        }
-
-        \Admin::script(inlineScript());
-
         return $content
             ->title($this->title())
             ->body($body);

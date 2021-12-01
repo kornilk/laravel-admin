@@ -74,6 +74,7 @@ trait HasAssets
         'vendor/laravel-admin/AdminLTE/dist/css/AdminLTE.min.css',
         'vendor/laravel-admin/magnific/magnific-popup.css',
         'vendor/laravel-admin/laravel-admin/laravel-admin-ext.css',
+        'vendor/laravel-admin/laravel-admin/laravel-admin-article.css',
     ];
 
     /**

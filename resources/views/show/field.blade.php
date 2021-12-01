@@ -1,10 +1,10 @@
-<div class="form-group ">
+<div id="{{ $id }}" class="form-group ">
     <label class="col-sm-{{$width['label']}} control-label">{{ $label }}</label>
     <div class="col-sm-{{$width['field']}}">
         @if($wrapped)
         <div class="box box-solid box-default no-margin box-show">
             <!-- /.box-header -->
-            <div class="box-body">
+            <div class="box-body {{ $class }}">
                 @if($escape)
                     {{ $content }}&nbsp;
                 @else

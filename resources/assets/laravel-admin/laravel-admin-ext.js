@@ -162,3 +162,89 @@ $('body').on('click', '.grid-popup-link', function(e){
 $('.sidebar-menu .treeview').each(function () {
     if ($(this).first('.treeview-menu').find('li').length === 0) $(this).remove();
 });
+
+class ObjectResize {
+
+	constructor(selector, maxWidth, checkMaxHeight){
+
+        this.maxWidth = maxWidth;
+        this.checkMaxHeight = checkMaxHeight ? true : false;
+        if (this.maxWidth === 'number') this.maxWidth = parseInt(this.maxWidth);
+		this.selectedItems = document.querySelectorAll(selector);
+		this._initItems();
+		window.addEventListener('resize', evt => this._onResize(evt));
+		this._onResize();
+
+	}
+
+	_initItems() {
+
+		this.items = [];
+
+		for (let index = 0; index < this.selectedItems.length; ++index) {
+
+			let iWidth = parseInt(this.selectedItems[index].getAttribute('width'));
+			if (isNaN(iWidth)) iWidth = this.selectedItems[index].offsetWidth;
+
+			let iHeight = parseInt(this.selectedItems[index].getAttribute('height'));
+			if (isNaN(iHeight)) iHeight = this.selectedItems[index].offsetHeight;
+
+			if (!isNaN(iWidth) && !isNaN(iHeight)) {
+
+				iWidth = parseInt(iWidth, 10);
+				iHeight = parseInt(iHeight, 10);
+
+				this.items.push({
+					item: this.selectedItems[index],
+					ratio: iWidth / iHeight,
+					oWidth: iWidth
+				});
+
+			}
+		}
+
+	}
+
+	_onResize(evt) {
+		if (this.width !== window.innerWidth){
+			this.width = window.innerWidth;
+			this._calcNewSizes();
+		}
+	}
+
+	_calcNewSizes(){
+		for (let index in this.items){
+			let parent = this.items[index].item.parentElement;
+			let parentWidth = parent.offsetWidth;
+			let parentPaddingLeft = parseInt(window.getComputedStyle(parent, null).getPropertyValue('padding-left'))
+            let parentPaddingRight = parseInt(window.getComputedStyle(parent, null).getPropertyValue('padding-right'))
+
+            let parentHeight = parent.offsetHeight;
+			let parentPaddingTop = parseInt(window.getComputedStyle(parent, null).getPropertyValue('padding-top'))
+            let parentPaddingBottom = parseInt(window.getComputedStyle(parent, null).getPropertyValue('padding-bottom'))
+
+			parentWidth = parentWidth - parseFloat(parentPaddingLeft);
+            parentWidth = parentWidth - parseFloat(parentPaddingRight);
+
+            parentHeight = parentHeight - parseFloat(parentPaddingTop);
+            parentHeight = parentHeight - parseFloat(parentPaddingBottom);
+            
+            if (typeof this.maxWidth === 'number' && parentWidth > this.maxWidth) parentWidth = this.maxWidth;
+
+            let height = Math.round(parentWidth / this.items[index].ratio);
+            let width = parentWidth;
+
+            if (this.checkMaxHeight) {
+                if (parentHeight < height) {
+                    let diff = parentHeight / height;
+                    height = parentHeight;
+                    width = width * diff;
+                }
+            }
+
+			this.items[index].item.setAttribute('width', width);
+			this.items[index].item.setAttribute('height', height);
+
+		}
+	}
+}
