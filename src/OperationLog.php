@@ -26,7 +26,7 @@ class OperationLog
         $grid->column('content', __('admin.content'))->display(function(){
             $typeClass = $this->recordable_type;
             if (empty($typeClass) || !method_exists($typeClass, 'getContentTitle')) return '';
-            return $typeClass::getContentTitle();
+            return __($typeClass::getContentTitle());
         });
 
         $grid->column('recordable_type', __('admin.Identifier'))->display(function($value, $column){
@@ -137,7 +137,7 @@ class OperationLog
             }
 
             $data[] = [
-                $pivot['related']::getContentTitle(),
+                __($pivot['related']::getContentTitle()),
                 implode('<br>', $labels),
             ];
         } else {
