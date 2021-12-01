@@ -15,8 +15,8 @@ class Text extends ContentModel
 
     protected static function initStatic()
     {
-        static::$contentTitle = __('Text');
-        static::$contentTitlePlural = __('Texts');
+        static::$contentTitle = 'Text';
+        static::$contentTitlePlural = 'Texts';
         static::$contentSlug = 'texts';
     }
 }

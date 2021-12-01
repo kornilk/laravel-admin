@@ -10,8 +10,6 @@
     "title": "Title",
     "source": "Source",
     "watermark": "Watermark",
-    "Html Text": "Block",
-    "Html Texts": "Blocks",
     "Text": "Text",
     "Texts": "Texts",
     "Image": "Image",
@@ -63,5 +61,9 @@
     "password_confirmation": "Password confirmation",
     "Administrator": "Administrator",
     "Administrators": "Administrators",
-    "active": "Active"
+    "active": "Active",
+    "Block": "Block",
+    "Blocks": "Blocks",
+    "Page": "Page",
+    "Pages": "Pages"
 }

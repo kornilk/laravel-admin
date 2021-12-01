@@ -32,8 +32,8 @@ class Role extends Model
 
     protected static function initStatic()
     {
-        static::$contentTitle = __('admin.role');
-        static::$contentTitlePlural = __('admin.roles');
+        static::$contentTitle = 'Role';
+        static::$contentTitlePlural = 'Roles';
         static::$contentSlug = 'roles';
     }
 

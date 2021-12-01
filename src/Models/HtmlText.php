@@ -15,8 +15,8 @@ class HtmlText extends ContentModel
 
     protected static function initStatic()
     {
-        static::$contentTitle = __('Html Text');
-        static::$contentTitlePlural = __('Html Texts');
+        static::$contentTitle = 'Block';
+        static::$contentTitlePlural = 'Blocks';
         static::$contentSlug = 'html-texts';
     }
 }

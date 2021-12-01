@@ -11,8 +11,6 @@
     "title": "Cím",
     "source": "Forrás",
     "watermark": "Vízjel",
-    "Html Text": "Blokk",
-    "Html Texts": "Blokkok",
     "Text": "Szöveg",
     "Texts": "Szövegek",
     "Image": "Kép",
@@ -64,5 +62,9 @@
     "password_confirmation": "Jelszó megerősítés",
     "Administrator": "Adminisztrátor",
     "Administrators": "Adminisztrátorok",
-    "active": "Aktív"
+    "active": "Aktív",
+    "Block": "Blokk",
+    "Blocks": "Blokkok",
+    "Page": "Oldal",
+    "Pages": "Oldalak"
 }

@@ -44,8 +44,8 @@ class Permission extends Model
 
     protected static function initStatic()
     {
-        static::$contentTitle = __('admin.permission');
-        static::$contentTitlePlural = __('admin.permissions');
+        static::$contentTitle = 'Permission';
+        static::$contentTitlePlural = 'Permissions';
         static::$contentSlug = 'permissions';
     }
 

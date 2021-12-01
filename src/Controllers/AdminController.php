@@ -39,8 +39,8 @@ class AdminController extends Controller
 
     public function __construct()
     {
-        if (property_exists($this, 'model') && method_exists($this->model, 'getContentTitle')) $this->title = $this->model::getContentTitle();
-        if (property_exists($this, 'model') && method_exists($this->model, 'getContentTitlePlural')) $this->titlePlural = $this->model::getContentTitlePlural();
+        if (property_exists($this, 'model') && method_exists($this->model, 'getContentTitle')) $this->title = __($this->model::getContentTitle());
+        if (property_exists($this, 'model') && method_exists($this->model, 'getContentTitlePlural')) $this->titlePlural = __($this->model::getContentTitlePlural());
         if (property_exists($this, 'model') && method_exists($this->model, 'getContentSlug')) $this->slug = $this->model::getContentSlug();
 
         $slug = $this->slug;

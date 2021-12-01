@@ -14,8 +14,8 @@ class DummyModelName extends ContentModel
 
     protected static function initStatic()
     {
-        static::$contentTitle = __('DummyTitle');
-        static::$contentTitlePlural = __('DummyTitlePlural');
+        static::$contentTitle = 'DummyTitle';
+        static::$contentTitlePlural = 'DummyTitlePlural';
         static::$contentSlug = 'DummySlug';
     }
 }
