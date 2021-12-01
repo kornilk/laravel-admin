@@ -87,7 +87,7 @@ CKEDITOR.editorConfig = function( config ) {
             attributes: ['data-*', 'class', 'contenteditable']
         },
         span: {
-            classes: ['!article-element', 'node-link-element'],
+            classes: ['!article-element'],
             attributes: ['data-*', 'class']
         },
         script: {
