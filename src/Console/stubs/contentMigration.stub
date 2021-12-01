@@ -35,7 +35,7 @@ class DummyMigrationName extends Migration
             'title' => $this->namePlural,
             'icon' => 'fa-html5',
             'uri' => $this->slug,
-            'permission' => "{static::slug}.show",
+            'permission' => "{$this->slug}.show",
         ]);
 
         $this->addContentPermissions($this->slug, $this->namePlural)->createRoleByPermissionSlug("{$this->namePlural} - full access", "{$this->slug}_full_access", "{$this->slug}.%");
