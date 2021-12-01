@@ -84,9 +84,9 @@ class HtmlTextController extends AdminController
 
         $form->editor('value', $this->model::label('value'))->options()->rules('required');
        
-        $form->text('context', $this->model::label('context'))->rules('required|max:190');
+        $form->display('context', $this->model::label('context'))->rules('required|max:190');
 
-        $form->text('placeholder', $this->model::label('placeholder'))->rules('required|max:190');
+        $form->display('placeholder', $this->model::label('placeholder'))->rules('required|max:190');
 
         $form->footer(function ($footer) {
             $footer->disableCreatingCheck();

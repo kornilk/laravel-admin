@@ -84,9 +84,9 @@ class TextController extends AdminController
 
         $form->textarea('value', $this->model::label('value'))->rules('required');
        
-        $form->text('context', $this->model::label('context'))->rules('required|max:190');
+        $form->display('context', $this->model::label('context'))->rules('required|max:190');
 
-        $form->text('placeholder', $this->model::label('placeholder'))->rules('required|max:190');
+        $form->display('placeholder', $this->model::label('placeholder'))->rules('required|max:190');
 
         $form->footer(function ($footer) {
 
