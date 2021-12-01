@@ -11,7 +11,7 @@ CKEDITOR.plugins.add('insertobject', {
             button: editor.lang.insertobject.insertObject,
             requiredContent: 'div',
             dialog: 'insertobjectDialog',
-            template: '<div class="article-object article-element"><div class="article-element" data-json="">' + editor.lang.insertobject.objectBox + '</div><script type="text/javascript" objscript="true">if (typeof praseInlineObject === "function") praseInlineObject();</script></div>',
+            template: '<div class="article-object article-element"><div class="article-element" data-json="">' + editor.lang.insertobject.objectBox + '</div></div>',
             init: function () {
                 this.setData('JSON', this.element.getChild(0).getAttribute("data-json"));
             },
