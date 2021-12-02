@@ -202,3 +202,7 @@ input.lead, textarea.lead {
 .form-group-vertical {
     margin-bottom:15px;
 }
+
+.bootstrap-switch.bootstrap-switch-small .bootstrap-switch-handle-off, .bootstrap-switch.bootstrap-switch-small .bootstrap-switch-handle-on, .bootstrap-switch.bootstrap-switch-small .bootstrap-switch-label {
+    white-space: nowrap;
+}
