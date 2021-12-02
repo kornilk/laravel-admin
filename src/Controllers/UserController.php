@@ -151,7 +151,7 @@ class UserController extends AdminController
             ->creationRules(['required', 'email', 'max:190', "unique:{$connection}.{$userTable}"])
             ->updateRules(['required', 'email', 'max:190', "unique:{$connection}.{$userTable},email,{{id}}"]);
 
-        $form->image('avatar', trans('admin.avatar'));
+        $form->imageSimple('avatar', trans('admin.avatar'));
 
         $form->password('password', $userModel::label('password'))
             ->creationRules('required|confirmed|max:100')

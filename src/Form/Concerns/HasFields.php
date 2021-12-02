@@ -89,6 +89,7 @@ trait HasFields
         'hidden'            => Field\Hidden::class,
         'id'                => Field\Id::class,
         'image'             => Field\Image::class,
+        'imageSimple'       => Field\imageSimple::class,
         'ip'                => Field\Ip::class,
         'mobile'            => Field\Mobile::class,
         'month'             => Field\Month::class,
