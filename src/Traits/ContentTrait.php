@@ -68,9 +68,13 @@ trait ContentTrait {
 
     public static function getReadableValue($field, $value){
 
+        if (!is_string($value)) $value = @json_encode($value);
+        if (!is_string($value)) $value = '';
+
         $field = ucfirst($field);
         if (method_exists(__CLASS__, "readable{$field}Value")) return static::{"readable{$field}Value"}($value);
         $value = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $value);
+        
         return mb_strimwidth(strip_tags($value), 0, 1000, "...");
     }
 
