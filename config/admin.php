@@ -365,7 +365,9 @@ return [
     'minify_assets' => [
 
         // Assets will not be minified.
-        'excepts' => [],
+        'excepts' => [
+            'vendor/laravel-admin/ckeditor/ckeditor.js',
+        ],
 
     ],
 
