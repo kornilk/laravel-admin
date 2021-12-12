@@ -145,7 +145,7 @@ return [
             ],
 
             'countries' => [
-                'allow' => ['Hungary'], // i.e. 'Albania'
+                'allow' => [], // i.e. 'Albania'
                 'block' => [], // i.e. 'Madagascar'
             ],
 
