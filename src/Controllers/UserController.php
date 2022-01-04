@@ -56,8 +56,6 @@ class UserController extends AdminController
 
         $grid->filter(function ($filter) {
 
-            $filter->removeIDFilterIfNeeded();
-
             $filter->where(function ($query) {
 
                 $query->where('name', 'like', "%{$this->input}%")

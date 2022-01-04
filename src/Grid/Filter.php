@@ -157,7 +157,7 @@ class Filter implements Renderable
 
         $this->initLayout();
 
-        $this->equal($this->primaryKey, strtoupper($this->primaryKey));
+        $this->equal($this->primaryKey, strtoupper($this->primaryKey))->hide();
         $this->scopes = new Collection();
     }
 
@@ -257,17 +257,11 @@ class Filter implements Renderable
     }
 
     /**
-     * Remove ID filter if needed.
+     * Show Id Filter
      */
-    public function removeIDFilterIfNeeded()
+    public function showIdFilter()
     {
-        if (!$this->useIdFilter && !$this->idFilterRemoved) {
-            $this->removeDefaultIDFilter();
-
-            $this->layout->removeDefaultIDFilter();
-
-            $this->idFilterRemoved = true;
-        }
+        $this->filters[0]->hide(false);
     }
 
     /**
@@ -316,8 +310,6 @@ class Filter implements Renderable
         }
 
         $conditions = [];
-
-        $this->removeIDFilterIfNeeded();
 
         foreach ($this->filters() as $filter) {
             if (in_array($column = $filter->getColumn(), $this->layoutOnlyFilterColumns)) {
@@ -544,8 +536,6 @@ class Filter implements Renderable
      */
     public function render()
     {
-        $this->removeIDFilterIfNeeded();
-
         if (empty($this->filters)) {
             return '';
         }

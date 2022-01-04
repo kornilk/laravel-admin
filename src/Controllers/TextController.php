@@ -26,8 +26,6 @@ class TextController extends AdminController
        
         $grid->filter(function($filter){
 
-            $filter->removeIDFilterIfNeeded();
-
             $filter->where(function ($query) {
 
                 $query->where('value', 'like', "%{$this->input}%")

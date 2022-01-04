@@ -97,10 +97,15 @@ class OperationLog
 
         $grid->column('created_at', __('admin.created_at_date_time'));
      
-        $grid->filter(function($filter){
+        $grid->filter(function ($filter) {
 
-            $filter->removeIDFilterIfNeeded();
-        
+            $filter->where(function ($query) {
+
+                $query->where('properties', 'like', "%{$this->input}%")
+                    ->orWhere('modified', 'like', "%{$this->input}%")
+                    ->orWhere('pivot', 'like', "%{$this->input}%")
+                    ->orWhere('extra', 'like', "%{$this->input}%");
+            }, __('admin.Search'));
         });
 
         $grid->disableCreateButton();

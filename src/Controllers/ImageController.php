@@ -47,8 +47,6 @@ class ImageController extends AdminController
 
         $grid->filter(function ($filter) {
 
-            $filter->removeIDFilterIfNeeded();
-
             $filter->where(function ($query) {
 
                 $query->where('title', 'like', "%{$this->input}%")
@@ -191,7 +189,6 @@ class ImageController extends AdminController
 
         $grid->filter(function ($filter) {
 
-            $filter->removeIDFilterIfNeeded();
             $filter->expand();
 
             $filter->where(function ($query) {

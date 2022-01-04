@@ -45,8 +45,6 @@ class Image extends Selectable
 
         $this->filter(function ($filter) {
 
-            $filter->removeIDFilterIfNeeded();
-
             $filter->where(function ($query) {
 
                 $query->where('title', 'like', "%{$this->input}%")

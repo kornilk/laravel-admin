@@ -94,6 +94,11 @@ abstract class AbstractFilter
     protected $ignore = false;
 
     /**
+     * @var bool
+     */
+    protected $hide = false;
+
+    /**
      * AbstractFilter constructor.
      *
      * @param $column
@@ -167,6 +172,16 @@ abstract class AbstractFilter
     protected function formatId($columns)
     {
         return str_replace('.', '_', $columns);
+    }
+
+    /**
+     * @param bool $boolean
+     */
+    public function hide(bool $boolean = true)
+    {
+        $this->hide = $boolean;
+        
+        return $this;
     }
 
     /**
@@ -499,6 +514,7 @@ abstract class AbstractFilter
             'label'     => $this->label,
             'value'     => $this->value ?: $this->defaultValue,
             'presenter' => $this->presenter(),
+            'hide' => $this->hide,
         ], $this->presenter()->variables());
     }
 

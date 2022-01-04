@@ -46,8 +46,6 @@ class RoleController extends AdminController
 
         $grid->filter(function($filter){
 
-            $filter->disabremoveIDFilterIfNeededleIdFilter();
-
             $filter->where(function ($query) {
 
                 $query->where('slug', 'like', "%{$this->input}%")

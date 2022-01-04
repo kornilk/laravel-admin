@@ -62,8 +62,6 @@ class PermissionController extends AdminController
 
         $grid->filter(function($filter){
 
-            $filter->removeIDFilterIfNeeded();
-
             $filter->where(function ($query) {
 
                 $query->where('slug', 'like', "%{$this->input}%")
