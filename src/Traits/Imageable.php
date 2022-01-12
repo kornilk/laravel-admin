@@ -69,7 +69,15 @@ trait Imageable
 
         $path_parts = pathinfo($model->path);
         foreach (config('image.thumbnails') as $key => $thumb) {
-            $thumbnails[$key] = $path_parts['dirname'] . '/' . $path_parts['filename'] . '-' . $key . '.' . $path_parts['extension'];
+
+            $thumb_path = \Storage::disk(config('admin.upload.disk'))->path($path_parts['dirname'] . '/' . $path_parts['filename'] . '-' . $key . '.' . $path_parts['extension']);
+            list($width, $height) = getimagesize($thumb_path);
+
+            $thumbnails[$key] = [
+                'path' => $path_parts['dirname'] . '/' . $path_parts['filename'] . '-' . $key . '.' . $path_parts['extension'],
+                'width' => $width,
+                'height' => $height,
+            ];
         }
         $model->formats = json_encode($thumbnails);
     }
