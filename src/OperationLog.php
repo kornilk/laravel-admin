@@ -136,9 +136,9 @@ class OperationLog
 
         if (!empty($pivot)){
             $labels = [];
-
+            $pivotNameUcFirst = ucfirst($pivot['relation']);
             foreach ($values as $key => $value) {
-                $labels[] = method_exists($typeClass, "getRecordablePivot{$pivot['relation']}Value") ? $typeClass::{"getRecordablePivot{$pivot['relation']}Value"}($value) : '<span class="label label-success">'.$value['readableIdentifier'].'</span>';
+                $labels[] = method_exists($typeClass, "getRecordablePivot{$pivotNameUcFirst}Value") ? $typeClass::{"getRecordablePivot{$pivotNameUcFirst}Value"}($value) : '<span class="label label-success">'.$value['readableIdentifier'].'</span>';
             }
 
             $data[] = [
