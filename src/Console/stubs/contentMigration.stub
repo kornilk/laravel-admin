@@ -38,7 +38,7 @@ class DummyMigrationName extends Migration
             'permission' => "{$this->slug}.show",
         ]);
 
-        $this->addContentPermissions($this->slug, $this->namePlural)->createRoleByPermissionSlug("{$this->namePlural} - full access", "{$this->slug}_full_access", "{$this->slug}.%");
+        $this->addContentPermissions($this->slug, $this->namePlural)->createRoleByPermissionSlug("{{$this->namePlural}} - {full access}", "{$this->slug}_full_access", "{$this->slug}.%");
     }
 
     /**
