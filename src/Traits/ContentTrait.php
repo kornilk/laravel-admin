@@ -53,7 +53,7 @@ trait ContentTrait {
     }
 
     public static function label($field){
-        $class = \Str::afterLast(__CLASS__, '\\');
+        $class = \Str::afterLast(static::class, '\\');
         if (!static::$initedContentVariables) static::initContentVariables();
         $field = \Str::of($field)->replaceLast('_id', '');
         $fieldName = ucfirst(strtolower(\Str::headline($field)));
@@ -72,7 +72,7 @@ trait ContentTrait {
         if (!is_string($value)) $value = '';
 
         $field = ucfirst($field);
-        if (method_exists(__CLASS__, "readable{$field}Value")) return static::{"readable{$field}Value"}($value);
+        if (method_exists(static::class, "readable{$field}Value")) return static::{"readable{$field}Value"}($value);
         $value = preg_replace('#<script(.*?)>(.*?)</script>#is', '', $value);
         
         return mb_strimwidth(strip_tags($value), 0, 1000, "...");
