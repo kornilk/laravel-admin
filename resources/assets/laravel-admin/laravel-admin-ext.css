@@ -199,6 +199,10 @@ input.lead, textarea.lead {
     margin-bottom:5px !important;
 }
 
+.has-vertical-fields .radio-group-toggle label.btn {
+    padding-top:6px !important;
+}
+
 .form-group-vertical {
     margin-bottom:15px;
 }
