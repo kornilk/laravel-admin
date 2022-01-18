@@ -214,3 +214,10 @@ input.lead, textarea.lead {
 .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-off, .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-handle-on, .bootstrap-switch.bootstrap-switch-mini .bootstrap-switch-label {
     white-space: nowrap;
 }
+
+#toast-container>div {
+    opacity:.95;
+}
+#toast-container .toast-message {
+    font-weight:bold;
+}
