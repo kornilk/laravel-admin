@@ -130,6 +130,7 @@ class BelongsToMany extends MultipleSelect
         
         var input = $("{$this->getElementClassSelector()}");
         var selected = input.val();
+        if (typeof selected !== 'object' || selected === null ) selected = [];
 
         var isUpdated = selected.includes(itemId) || selected.includes(itemId + '');
     
