@@ -113,6 +113,48 @@ class Tab
             $this->tabs->offsetSet(0, $first);
         }
 
+        $columns = $this->form->getLayout()->columns();
+
+        if (count($columns) < 2) return $this->tabs;
+
+        $this->tabs = $this->tabs->map(function ($tab) {
+            
+            $tab['columns'] = [];
+
+            return $tab;
+        
+        });
+
+        foreach ($columns as $column) {
+
+            $fields = $column->fields();
+            $math = false;
+
+            foreach ($column->fields() as $field){
+
+                foreach ($this->tabs as $tab){
+                    $tabFields = $tab['fields']->toArray();
+                }
+
+                $this->tabs = $this->tabs->map(function ($tab) use($field, $column, &$math){
+                    
+                    $tabFields = $tab['fields']->toArray();
+        
+                    if (!$math && (array_search($field, $tabFields)) !== false) {
+                        $tab['columns'][] = $column;
+                        $math = true;
+                    }
+
+                    return $tab;
+                
+                });
+
+                if ($math) continue 2;
+
+            }
+
+        }
+
         return $this->tabs;
     }
 
