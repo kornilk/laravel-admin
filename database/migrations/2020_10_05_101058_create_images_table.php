@@ -51,14 +51,6 @@ class CreateImagesTable extends Migration
 
         $this->addContentPermissions('images', $this->namePlural)->createRoleByPermissionSlug("{{$this->namePlural}} - {full access}", 'images_full_access', 'images.%');
 
-        $this->updatePermission('images.show', [
-            'http_path' => "\n" . '/images-modal/browse'
-        ]);
-
-        $this->updatePermission('images.create', [
-            'http_path' => "\n" . '/images-modal/modal-form'
-        ]);
-
     }
 
     /**

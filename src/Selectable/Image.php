@@ -53,13 +53,7 @@ class Image extends Selectable
             }, __('admin.Search'));
         });
 
-        if (\Admin::user()->can('images.create')){
-            $modalButton = new ModalButton(__('admin.new'), route('admin.image.modal.form', $this->modalButtonAttributes));
-            $modalButton->setClass('btn btn-primary btn-sm ml-5');
-            $this->tools(function ($tools) use ($modalButton) {
-                $tools->append($modalButton);
-            });
-        }
+        $this->renderModalCreateButton($this->modalButtonAttributes);
 
         $this->model()->orderBy('created_at', 'desc');
 

@@ -1,5 +1,5 @@
 <script>
-    var ckeditorImageBrowseUrl = '{{ route("admin.image.modal.browser") }}';
+    var ckeditorImageBrowseUrl = '{{ route("admin.images.browse.modal") }}';
 </script>
 <div class="box box-info">
     <div class="box-header with-border">

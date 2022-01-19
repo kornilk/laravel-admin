@@ -76,10 +76,8 @@ class HtmlTextController extends AdminController
      *
      * @return Form
      */
-    protected function form()
+    protected function setForm($form)
     {
-        $form = new Form(new $this->model());
-
         $form->editor('value', $this->model::label('value'))->options(['customConfig' => '/vendor/laravel-admin/ckeditor/config_html-text.js'])->rules('required');
        
         $form->display('context', $this->model::label('context'))->rules('required|max:190');

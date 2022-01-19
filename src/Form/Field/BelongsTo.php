@@ -56,6 +56,7 @@ class BelongsTo extends Select
         
                     if (item) {
                         item.find('.grid-row-remove').removeClass('hide');
+                        item.find('.grid-row-edit').removeClass('hide');
                         item.find('.column-__modal_selector__').remove();
                         container.empty().append(item);
                     }
@@ -92,29 +93,32 @@ class BelongsTo extends Select
                 });
             };
 
-            grid.find('a[data-form="modal"]').on('modelCreated', (e) => {
-                    
-                var createdModelId = $(e.target).data('model-id');
+            var formResponse = function(e){
+                var itemId = $(e.target).data('model-id');
                 
-                var input = $('.belongsto-{$this->column()}').closest('.form-field').find('select.{$this->column()}');
+                var input = $("{$this->getElementClassSelector()}");
              
                 input
-                .select2({data: [createdModelId]})
-                .val([createdModelId])
+                .select2({data: [itemId]})
+                .val([itemId])
                 .trigger('change')
                 .next()
                 .addClass('hide');
                     
                 container.html('');
         
-                $.get("{$this->getLoadUrl()}&id=" + createdModelId, function(response){
+                $.get("{$this->getLoadUrl()}&id=" + itemId, function(response){
                     var item = $(response).find('.selectable-item:first');
                     item.find('.column-__modal_selector__').remove();
                     item.find('.grid-row-remove').removeClass('hide');
+                    item.find('.grid-row-edit').removeClass('hide');
+                    item.find('.grid-row-edit').on('formResponse', formResponse);
+                    
                     container.append(item);
                 });
-        
-            });
+            }
+
+            grid.find('a[data-form="modal"]').on('formResponse', formResponse);
         
             
         })();

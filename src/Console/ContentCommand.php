@@ -94,6 +94,10 @@ class ContentCommand extends GeneratorCommand
                         $this->comment('Add the following route to app/Admin/routes.php:');
                         $this->line('');
                         $this->info("    \$router->resource('{$this->slug}', {$this->controllerName}::class);");
+                        $this->info("    \$router->get('/{$this->slug}/create/modal', '{$this->controllerName}@formModal')->name('{$this->slug}.create.modal')");
+                        $this->info("    \$router->post('/{$this->slug}/create/modal', '{$this->controllerName}@storeModal')->name('{$this->slug}.store.modal')");
+                        $this->info("    \$router->get('/{$this->slug}/{id}/edit/modal', '{$this->controllerName}@formModal')->name('{$this->slug}.edit.modal')");
+                        $this->info("    \$router->put('/{$this->slug}/{id}/edit/modal', '{$this->controllerName}@storeModal')->name('{$this->slug}.update.modal')");
                         $this->line('');
                         $this->comment('Add the following lines to default language files (json)');
                         $this->line('');

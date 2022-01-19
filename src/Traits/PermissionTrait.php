@@ -108,7 +108,7 @@ trait PermissionTrait
             'name' => '{' . $name . '} - {create}',
             'slug' => '' . $slug . '.create',
             'http_method' => 'GET,HEAD,POST',
-            'http_path' => '/' . $slug . '/create' . "\n" . '/' . $slug,
+            'http_path' => '/' . $slug . '/create*' . "\n" . '/' . $slug,
         ]);
 
         \DB::table('admin_permissions')->insert([

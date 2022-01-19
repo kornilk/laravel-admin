@@ -51,7 +51,7 @@ class Modal {
                         that.$modalButton.data('model-data', result.data);
                     }
 
-                    that.$modalButton.trigger('modelCreated');
+                    that.$modalButton.trigger('formResponse');
                     that.dismiss();
                 }else{
                     that.$modalButton.trigger('modelValidationFailed');
@@ -129,6 +129,8 @@ class Modal {
         var that = this;
         this.modal.on('hidden.bs.modal', function () {
             
+            that.$modalButton.removeAttr('disabled');
+
             var index = modals.findIndex((element)=>{
                 return element.id === that.id;
             });
@@ -202,13 +204,12 @@ class FormInput{
     }
 }
 
-$('a[data-form="modal"]:not([data-form-event-attached])').each((key, element)=>{
-    var $modalButton = $(element);
-    $modalButton.attr('data-form-event-attached', true);
-}).click(function (e) {
+$('body').on('click', 'a[data-form="modal"]', (e) => {
+
     e.preventDefault();
-    var modalButton = $(e.target);
-    if(!modalButton.attr('disabled')){
+    var modalButton = $(e.currentTarget);
+    if (!modalButton.attr('disabled')) {
+        modalButton.attr('disabled', 'disabled');
         $.ajax({
             url: modalButton.attr('href'),
             method: 'GET'

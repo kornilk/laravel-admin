@@ -43,6 +43,8 @@ abstract class Selectable
      */
     protected $imageLayout = false;
 
+    protected $editable = false;
+
     /**
      * Selectable constructor.
      *
@@ -79,6 +81,11 @@ abstract class Selectable
         if ($this->imageLayout) {
             $this->setView('admin::grid.image', ['key' => $this->key]);
         } else {
+            
+            if ($this->editable) {
+                $this->appendEditBtn(true);
+            }
+
             $this->appendRemoveBtn(true);
         }
 
@@ -108,6 +115,10 @@ abstract class Selectable
     {
         $this->make();
 
+        if ($this->editable) {
+            $this->appendEditBtn(false);
+        }
+
         $this->appendRemoveBtn(false);
 
         $this->model()->whereKey(Arr::wrap($values));
@@ -136,7 +147,45 @@ abstract class Selectable
     <i class="fa fa-trash"></i>
 </a>
 BTN;
-        });
+        })->setAttributes(['style' => 'width:25px']);;
+    }
+
+    protected function appendEditBtn($hide = true) {
+        $hide = $hide ? 'hide' : '';
+        $key = $this->key;
+        $editRouteName = $this->getEditRouteName();
+
+        $this->column('__edit__', ' ')->display(function () use ($hide, $key, $editRouteName) {
+            $url = \Route::has($editRouteName) ? route($editRouteName, ['id' => $this->getAttribute($key)]) : '#';
+            return <<<BTN
+<a href="{$url}" data-form="modal" class="grid-row-edit {$hide}" data-key="{$this->getAttribute($key)}">
+    <i class="fa fa-pencil-square-o"></i>
+</a>
+BTN;
+        })->setAttributes(['style' => 'width:25px']);
+    }
+
+    protected function getEditRouteName() {
+
+        if (property_exists($this, 'model') && method_exists($this->model, 'getContentSlug')) {
+            return "admin.{$this->model::getContentSlug()}.edit.modal";
+        }
+
+        return null;
+    }
+
+    protected function renderModalCreateButton() {
+        if (\Admin::user()->can("{$this->getModelSlug()}.create")){
+            $modalButton = new \Encore\Admin\Extensions\ModalForm\Form\ModalButton(__('admin.new'), route("admin.{$this->getModelSlug()}.create.modal"));
+            $modalButton->setClass('btn btn-primary btn-sm ml-5');
+            $this->tools(function ($tools) use ($modalButton) {
+                $tools->append($modalButton);
+            });
+        }
+    }
+
+    protected function getModelSlug(){
+        return property_exists($this, 'model') && method_exists($this->model, 'getContentSlug') ? $this->model::getContentSlug() : null;
     }
 
     protected function initGrid()

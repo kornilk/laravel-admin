@@ -6,7 +6,6 @@ class Editor extends Textarea
 {
     protected static $js = [
         'vendor/laravel-admin/ckeditor/ckeditor.js',
-        'vendor/laravel-admin/modal-form/js/modal-form.js',
     ];
 
     public function __construct($column = '', $arguments = [])

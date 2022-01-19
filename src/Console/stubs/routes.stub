@@ -14,6 +14,15 @@ Route::group([
 
     $router->get('/', 'HomeController@index')->name('home');
 
+    foreach ([
+
+    ] as $modalFormRoute) {
+        $router->get("/{$modalFormRoute[0]}/create/modal", "{$modalFormRoute[1]}@formModal")->name("{$modalFormRoute[0]}.create.modal");
+        $router->post("/{$modalFormRoute[0]}/create/modal", "{$modalFormRoute[1]}@storeModal")->name("{$modalFormRoute[0]}.store.modal");
+        $router->get("/{$modalFormRoute[0]}/{id}/edit/modal", "{$modalFormRoute[1]}@formModal")->name("{$modalFormRoute[0]}.edit.modal");
+        $router->put("/{$modalFormRoute[0]}/{id}/edit/modal", "{$modalFormRoute[1]}@storeModal")->name("{$modalFormRoute[0]}.update.modal");
+    }
+
 });
 
 

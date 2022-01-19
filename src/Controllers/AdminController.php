@@ -2,6 +2,8 @@
 
 namespace Encore\Admin\Controllers;
 
+use Encore\Admin\Extensions\ModalForm\Form\ModalForm;
+use Encore\Admin\Form;
 use Encore\Admin\Grid\Actions\BatchForceDelete;
 use Encore\Admin\Grid\Actions\BatchRestore;
 use Encore\Admin\Grid\Actions\ForceDelete;
@@ -159,16 +161,7 @@ class AdminController extends Controller
 
         $form = $this->form()->edit($id);
 
-        $form->footer(function ($footer) {
-            $footer->disableReset();
-            $footer->disableViewCheck();
-            $footer->disableEditingCheck();
-            $footer->disableCreatingCheck();
-        });
-
-        manageActionsByPermissions($form, $this->slug);
-
-        $form->copyFieldAttributesToTranslatedFields();
+        $this->setFormDefaultSettings($form);
 
         return $content
             ->title($this->title())
@@ -189,6 +182,65 @@ class AdminController extends Controller
 
         if (!empty($this->description['create'])) $content->description($this->description['create']);
 
+        $this->setFormDefaultSettings($form);
+
+        return $content
+            ->title($this->title())
+            ->body($form);
+    }
+
+    /**
+     * Make a form builder.
+     *
+     * @return Form
+     */
+    protected function form()
+    {
+        $form = new Form(new $this->model());
+        
+        $this->setForm($form);
+
+        return $form;
+    }
+
+    protected function setForm($form){
+        
+        return $form;
+    }
+
+    public function formModal($id = null){
+
+        return new ModalForm(new $this->model(), function (ModalForm $form) use($id) {
+
+            $this->setForm($form);
+
+            $routeType = $id ? 'update' : 'store';
+            $parameters = [];
+
+            if ($id) $parameters['id'] = $id;
+
+            $form->setAction(route("admin.{$form->model()::getContentSlug()}.{$routeType}.modal", $parameters));
+
+            if ($id) $form->edit($id);
+
+            $form->large();
+
+            $this->setFormDefaultSettings($form);
+
+            $form->saved(function ($form) {
+                return $this->modalSaveRespose($form);
+            });
+        });
+
+    }
+
+    public function storeModal($id = null){
+
+        return $this->formModal($id)->store();
+
+    }
+
+    protected function setFormDefaultSettings($form){
         $form->footer(function ($footer) {
             $footer->disableReset();
             $footer->disableViewCheck();
@@ -200,12 +252,10 @@ class AdminController extends Controller
 
         $form->copyFieldAttributesToTranslatedFields();
 
-        return $content
-            ->title($this->title())
-            ->body($form);
+        return $form;
     }
 
-    public function getBreadcrumb($id = null, $data = null, $current = FALSE)
+    protected function getBreadcrumb($id = null, $data = null, $current = FALSE)
     {
         $breadcrumb = [
             ['text' => $this->title]
@@ -243,7 +293,7 @@ class AdminController extends Controller
         ];
     }
 
-    public function modalSaveRespose($form, $message = null)
+    protected function modalSaveRespose($form, $message = null)
     {
 
         if (empty($message)) $message = __('admin.save_succeeded');

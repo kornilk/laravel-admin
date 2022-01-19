@@ -78,23 +78,8 @@ class ImageController extends AdminController
         return $show;
     }
 
-    /**
-     * Make a form builder.
-     *
-     * @return Form
-     */
-    protected function form()
+    protected function setForm($form)
     {
-        $form = new Form(new $this->model());
-
-        $this->setForm($form);
-
-        return $form;
-    }
-
-    private function setForm(&$form)
-    {
-
         $rules = request('rules');
         $help = request('help');
 
@@ -133,12 +118,7 @@ class ImageController extends AdminController
         return $form;
     }
 
-    public function ModalFormSore()
-    {
-        return $this->ModalForm()->store();
-    }
-
-    public function ModalForm()
+    public function formModal($id = null)
     {
         return new ModalForm(new $this->model(), function (ModalForm $form) {
 
@@ -155,10 +135,11 @@ class ImageController extends AdminController
             $oldAction = parse_url($form->builder()->getAction());
             if (!isset($oldAction['query'])) $oldAction['query'] = '';
             
-            $form->setAction(url_query(route('admin.image.modal.form.store', $oldAction['query']), $routeAttributes));
-            // $form->setAction(route('admin.image.modal.form.store', $routeAttributes));
+            $form->setAction(url_query(route('admin.images.store.modal', $oldAction['query']), $routeAttributes));
 
             $form->large();
+
+            $this->setFormDefaultSettings($form);
 
             $form->footer(function ($footer) {
                 $footer->disableReset();
@@ -205,7 +186,7 @@ class ImageController extends AdminController
         $grid->disableCreateButton();
 
         if (\Admin::user()->can($this->slug . '.create')) {
-            $modalButton = new ModalButton(__('admin.new'), route('admin.image.modal.form', ['rules' => 'dimensions:min_width=' . $this->model::getRules()['minWidth'] . ',min_height=' . $this->model::getRules()['minHeight'] . '']));
+            $modalButton = new ModalButton(__('admin.new'), route('admin.images.browse.modal', ['rules' => 'dimensions:min_width=' . $this->model::getRules()['minWidth'] . ',min_height=' . $this->model::getRules()['minHeight'] . '']));
             $modalButton->setClass('btn btn-primary btn-sm ml-5');
 
             $grid->tools(function ($tools) use ($modalButton) {

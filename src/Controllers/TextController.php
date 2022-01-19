@@ -76,10 +76,8 @@ class TextController extends AdminController
      *
      * @return Form
      */
-    protected function form()
+    protected function setForm($form)
     {
-        $form = new Form(new $this->model());
-
         $form->textarea('value', $this->model::label('value'))->rules('required');
        
         $form->display('context', $this->model::label('context'))->rules('required|max:190');

@@ -58,9 +58,8 @@ DummyShow
      *
      * @return Form
      */
-    protected function form()
+    protected function setForm($form)
     {
-        $form = new Form(new $this->model());
 
 DummyForm
 

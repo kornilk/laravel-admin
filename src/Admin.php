@@ -344,9 +344,11 @@ class Admin
                 $router->resource('texts', 'TextController');
                 $router->resource('html-texts', 'HtmlTextController');
 
-                $router->get('/images-modal/browse', 'ImageController@browser')->name('image.modal.browser');
-                $router->get('/images-modal/modal-form', 'ImageController@ModalForm')->name('image.modal.form');
-                $router->post('/images-modal/modal-form', 'ImageController@ModalFormSore')->name('image.modal.form.store');
+                $router->get('/images/browse/modal', 'ImageController@browser')->name('images.browse.modal');
+                $router->get('/images/create/modal', 'ImageController@formModal')->name('images.create.modal');
+                $router->post('/images/create/modal', 'ImageController@storeModal')->name('images.store.modal');
+                $router->get('/images/{id}/edit/modal', 'ImageController@formModal')->name('images.edit.modal');
+                $router->put('/images/{id}/edit/modal', 'ImageController@storeModal')->name('images.update.modal');
 
   
             });
