@@ -139,6 +139,7 @@ class BelongsToManyOrdered extends MultipleSelect
             item.find('.grid-row-remove').removeClass('hide');
             item.find('.grid-row-edit').removeClass('hide');
             item.find('.column-__modal_selector__').remove();
+            item.find('.grid-row-edit').on('formResponse', formResponse);
             container.append(item);
         });
 
