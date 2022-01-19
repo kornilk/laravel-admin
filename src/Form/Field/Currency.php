@@ -26,6 +26,8 @@ class Currency extends Text
         'radixPoint'         => '.',
         'prefix'             => '',
         'removeMaskOnSubmit' => true,
+        'groupSeparator'     => ' ',
+        'autoGroup'          => true,
     ];
 
     /**
