@@ -61,7 +61,7 @@ class Currency extends Text
      */
     public function prepare($value)
     {
-        return (float) $value;
+        return (float) preg_replace('/[^0-9.,]/', '', $value);;
     }
 
     /**
