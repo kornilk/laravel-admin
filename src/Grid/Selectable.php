@@ -44,6 +44,7 @@ abstract class Selectable
     protected $imageLayout = false;
 
     protected $editable = false;
+    protected $disableSelectButton = false;
 
     /**
      * Selectable constructor.
@@ -81,7 +82,7 @@ abstract class Selectable
         if ($this->imageLayout) {
             $this->setView('admin::grid.image', ['key' => $this->key]);
         } else {
-            
+
             if ($this->editable) {
                 $this->appendEditBtn(true);
             }
@@ -111,6 +112,11 @@ abstract class Selectable
             ->disablePerPageSelector();
     }
 
+    public function disableSelectButton($boolean = true)
+    {
+        $this->disableSelectButton = $boolean;
+    }
+
     public function renderFormGrid($values)
     {
         $this->make();
@@ -129,9 +135,11 @@ abstract class Selectable
             $this->disablePagination();
         }
 
-        $this->tools(function (Tools $tools) {
-            $tools->append(new Grid\Selectable\BrowserBtn());
-        });
+        if (!$this->disableSelectButton) {
+            $this->tools(function (Tools $tools) {
+                $tools->append(new Grid\Selectable\BrowserBtn());
+            });
+        }
 
         return $this->grid;
     }
@@ -150,7 +158,8 @@ BTN;
         })->setAttributes(['style' => 'width:25px']);;
     }
 
-    protected function appendEditBtn($hide = true) {
+    protected function appendEditBtn($hide = true)
+    {
         $hide = $hide ? 'hide' : '';
         $key = $this->key;
         $editRouteName = $this->getEditRouteName();
@@ -165,7 +174,8 @@ BTN;
         })->setAttributes(['style' => 'width:25px']);
     }
 
-    protected function getEditRouteName() {
+    protected function getEditRouteName()
+    {
 
         if (property_exists($this, 'model') && method_exists($this->model, 'getContentSlug')) {
             return "admin.{$this->model::getContentSlug()}.edit.modal";
@@ -174,8 +184,9 @@ BTN;
         return null;
     }
 
-    protected function renderModalCreateButton() {
-        if (\Admin::user()->can("{$this->getModelSlug()}.create")){
+    protected function renderModalCreateButton()
+    {
+        if (\Admin::user()->can("{$this->getModelSlug()}.create")) {
             $modalButton = new \Encore\Admin\Extensions\ModalForm\Form\ModalButton(__('admin.new'), route("admin.{$this->getModelSlug()}.create.modal"));
             $modalButton->setClass('btn btn-primary btn-sm ml-5');
             $this->tools(function ($tools) use ($modalButton) {
@@ -184,7 +195,8 @@ BTN;
         }
     }
 
-    protected function getModelSlug(){
+    protected function getModelSlug()
+    {
         return property_exists($this, 'model') && method_exists($this->model, 'getContentSlug') ? $this->model::getContentSlug() : null;
     }
 

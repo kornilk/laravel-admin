@@ -38,6 +38,8 @@ class AdminController extends Controller
 
     protected $titlePlural;
     protected $slug;
+    protected $id;
+    protected $form;
 
     public function __construct()
     {
@@ -132,6 +134,7 @@ class AdminController extends Controller
      */
     public function show($id, Content $content)
     {
+        $this->id = $id;
         $body = $this->detail($id);
         $content->breadcrumb(...$this->getBreadcrumb($id, $body));
 
@@ -154,6 +157,7 @@ class AdminController extends Controller
      */
     public function edit($id, Content $content)
     {
+        $this->id = $id;
         $body = $this->detail($id);
         $content->breadcrumb(...$this->getBreadcrumb($id, $body, __('admin.edit')));
 
@@ -210,6 +214,7 @@ class AdminController extends Controller
 
     public function formModal($id = null){
 
+        $this->id = $id;
         return new ModalForm(new $this->model(), function (ModalForm $form) use($id) {
 
             $this->setForm($form);
@@ -236,6 +241,7 @@ class AdminController extends Controller
 
     public function storeModal($id = null){
 
+        $this->id = $id;
         return $this->formModal($id)->store();
 
     }
