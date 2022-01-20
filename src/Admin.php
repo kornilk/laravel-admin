@@ -322,7 +322,7 @@ class Admin
                 $router->resource('system/administrators', 'UserController')->names('system.administrators');
                 $router->resource('system/roles', 'RoleController')->names('system.roles');
                 $router->resource('system/permissions', 'PermissionController')->names('system.permissions');
-                $router->resource('system/menu', 'MenuController', ['except' => ['create']])->names('system.menu');
+                $router->resource('system/menu', 'MenuController')->names('system.menu');
 
                 $router->get('system/system-logs', 'LogViewerController@index')->name('system.system-log.index');
                 $router->get('system/system-logs/{file}', 'LogViewerController@index')->name('system.system-log.file');
