@@ -133,15 +133,7 @@ function browse_images(callback) {
 
     if (modal.length === 0) {
         modal = createBrowseModal('imageBrowser', ckeditorImageBrowseUrl, function (data) {
-            callback(
-                {
-                    description: data.title,
-                    source: data.source,
-                    max_width: data.width,
-                    max_height: data.height,
-                    src: '/storage/' + data.path
-                }
-            );
+            callback(data);
         });
     }
 

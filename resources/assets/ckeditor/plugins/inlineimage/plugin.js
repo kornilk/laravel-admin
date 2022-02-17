@@ -16,8 +16,8 @@ CKEDITOR.plugins.add('inlineimage', {
                     var image_source = '';
                     var image_text_cont = '';
 
-                    if (response.description !== undefined && response.description !== '' && response.description !== null)
-                        image_text = '<div data-tabu="true" class="image-text article-element">' + response.description + '</div>';
+                    if (response.title !== undefined && response.title !== '' && response.title !== null)
+                        image_text = '<div data-tabu="true" class="image-text article-element">' + response.title + '</div>';
 
                     if (response.source !== undefined && response.source !== '' && response.source !== null)
                         image_source = '<div data-tabu="true" class="image-source article-element"><div data-tabu="true" class="image-source-text article-element">Forrás: ' + response.source + '</div></div>';
@@ -25,10 +25,29 @@ CKEDITOR.plugins.add('inlineimage', {
                     if (image_text !== '' || image_source !== '')
                         image_text_cont = '<div data-tabu="true" class="article-image-text article-element">' + image_text + image_source + '</div>';
 
-                    if (response.description === undefined || response.description === null) response.description = '';
+                    if (response.title === undefined || response.title === null) response.title = '';
                     if (response.source === undefined || response.source === null) response.source = '';
 
-                    var element = CKEDITOR.dom.element.createFromHtml('<div data-tabu="true" class="article-element article-image"><div data-tabu="true" class="image-wrapper article-element"><img data-tabu="true" data-max-height="' + response.max_height + '" data-max-width="' + response.max_width + '" alt="' + response.description + '" src="' + response.src + '" title="Forrás: ' + response.source + '"/>' + image_text_cont + '</div></div>');
+                    $img = '<img data-tabu="true" width="' + response.picture.default.width + '" height="' + response.picture.default.height + '" data-max-height="' + response.height + '" data-max-width="' + response.width + '" alt="' + response.title + '" src="' + response.picture.default.path + '" data-original="' + response.path + '" title="Forrás: ' + response.source + '"/>';
+
+                    $sources = '';
+                    
+                    function reverseForIn(obj, f) {
+                        var arr = [];
+                        for (var key in obj) {
+                          // add hasOwnPropertyCheck if needed
+                          arr.push(key);
+                        }
+                        for (var i=arr.length-1; i>=0; i--) {
+                          f.call(obj, arr[i]);
+                        }
+                    }
+                    
+                    reverseForIn(response.picture.sources, function (i) { 
+                        $sources += '<source media="(min-width:'+i+'px)" width="'+response.picture.sources[i].width+'" height="'+response.picture.sources[i].height+'" srcSet="'+response.picture.sources[i].path+'"/>'
+                     });
+     
+                    var element = CKEDITOR.dom.element.createFromHtml('<div data-tabu="true" class="article-element article-image"><div data-tabu="true" class="image-wrapper article-element"><picture>'+$sources+$img+'</picture>' + image_text_cont + '</div></div>');
 
                     editor.insertElement(element);
                     editor.widgets.initOn(element, 'inlineimage');

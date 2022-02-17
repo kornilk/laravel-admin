@@ -3,7 +3,7 @@
  * For licensing, see https://ckeditor.com/legal/ckeditor-oss-license
  */
 
-CKEDITOR.editorConfig = function( config ) {
+ CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here.
 	// For complete reference see:
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
@@ -68,15 +68,15 @@ CKEDITOR.editorConfig = function( config ) {
             attributes: ['data-*', 'class', 'contenteditable'],
             classes: 'insertobject'
         },
-        'em u sub s sup ul li ol blockquote b strong figure figcaption': true,
+        'em u sub s sup ul li ol blockquote b strong figure figcaption picture': true,
         img: {
             attributes: ['!src', 'class', 'id', 'style', 'width', 'height', 'alt', 'title', 'data-*']
         },
+        source: {
+            attributes: ['srcset', 'media', 'width', 'height', 'data-*']
+        },
         video: {
             attributes: ['class', 'id', 'style', 'width', 'height', 'autoplay', 'controls', 'muted', 'loop', 'preload']
-        },
-        source: {
-            attributes: ['!src', '!type']
         },
         a: {
             attributes: ['!href', 'class', 'id', 'style', 'target']

@@ -13,6 +13,8 @@ return [
         'medium-r' => [750, 750, 'fit'],
     ],
 
+    'ckeditorPicture' => null, //['default' => thumb, 'sources' => [1000 => 'medium', 1900 => null]]
+
     'maxSize' => 1920,
 
     'keepOriginal' => false,
