@@ -30,6 +30,13 @@ class Field implements Renderable
     protected $id;
 
     /**
+     * Unique.
+     *
+     * @var integer
+     */
+    protected $uniqueId;
+
+    /**
      * Element value.
      *
      * @var mixed
@@ -269,6 +276,17 @@ class Field implements Renderable
         $this->column = $this->formatColumn($column);
         $this->label = $this->formatLabel($arguments);
         $this->id = $this->formatId($column);
+    }
+
+    public function setUniqueId($uniqueId)
+    {
+        $this->uniqueId = $uniqueId;
+        return $this;
+    }
+
+    public function getUniqueId()
+    {
+        return $this->uniqueId;
     }
 
     /**

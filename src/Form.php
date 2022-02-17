@@ -1594,10 +1594,11 @@ class Form implements Renderable
     {
         if ($className = static::findFieldClass($method)) {
             $column = \Arr::get($arguments, 0, ''); //[0];
-
+            
             if (!$this->disableTranslate && $this->modelIsTranslatable && is_string($column) && in_array($column, $this->model->getTranslatableAttributes())) {
 
                 $originalElement = new $className($column, array_slice($arguments, 1));
+                $originalElement->setUniqueId();
                 $originalElement->setLabel($originalElement->label() . ' [' . strtoupper(config('i18n.default')) . ']');
 
                 if (!$this->hasHorizontalFields()) {$originalElement->disableHorizontal();}
@@ -1614,6 +1615,7 @@ class Form implements Renderable
                         $this->pushField($originalElement);
                     } else {
                         $element = new $className($column . '_' . $locale, array_slice($arguments, 1));
+                        $element->setUniqueId();
                         $element->setLabel($element->label() . ' [' . strtoupper($locale) . ']');
                         $originalElement->translatedFields[$locale] = $element;
                         $this->pushField($element);
@@ -1626,6 +1628,7 @@ class Form implements Renderable
     
             } else {
                 $element = new $className($column, array_slice($arguments, 1));
+                $element->setUniqueId();
                 if (!$this->hasHorizontalFields()) $element->disableHorizontal();
                 
                 $this->pushField($element);
