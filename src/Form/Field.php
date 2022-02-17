@@ -278,9 +278,9 @@ class Field implements Renderable
         $this->id = $this->formatId($column);
     }
 
-    public function setUniqueId($uniqueId)
+    public function setUniqueId($uniqueId = null)
     {
-        $this->uniqueId = $uniqueId;
+        $this->uniqueId = $uniqueId ? $uniqueId : uniqid() . random_int(1000, 9999);
         return $this;
     }
 
