@@ -27,6 +27,10 @@ trait BelongsToRelation
     {
         $this->setSelectable($arguments[0]);
 
+        $old = old($column);
+
+        if ($old) $this->value=$old;
+
         parent::__construct($column, array_slice($arguments, 1));
     }
 
