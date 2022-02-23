@@ -52,10 +52,10 @@ class Delete extends RowAction
 
     protected function authorize($user, $model){
 
-        $slug = method_exists($model, 'getContentSlug') ? $this->slug = $model::getContentSlug() : null;
-        if (empty($slug)) return true;
+        $permissionName = method_exists($model, 'getContentPermissionName') ? $model::getContentPermissionName() : null;
+        if (empty($permissionName)) return true;
 
-        $permission = "{$slug}.destroy";
+        $permission = "{$permissionName}.destroy";
 
         if (Permission::isPermission($permission) && !$user->can($permission)){
             return false;

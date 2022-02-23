@@ -31,11 +31,11 @@ class BatchRestore extends BatchAction
             $model = $model[0];
         }
 
-        $slug = method_exists($model, 'getContentSlug') ? $this->slug = $model::getContentSlug() : null;
+        $permissionName = method_exists($model, 'getContentPermissionName') ? $model::getContentPermissionName() : null;
 
-        if (empty($slug)) return true;
+        if (empty($permissionName)) return true;
 
-        $permission = "{$slug}.destroy";
+        $permission = "{$permissionName}.destroy";
 
         if (Permission::isPermission($permission) && !$user->can($permission)){
             return false;

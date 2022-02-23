@@ -38,6 +38,7 @@ class AdminController extends Controller
 
     protected $titlePlural;
     protected $slug;
+    protected $permissionName;
     protected $id;
     protected $form;
 
@@ -46,14 +47,15 @@ class AdminController extends Controller
         if (property_exists($this, 'model') && method_exists($this->model, 'getContentTitle')) $this->title = __($this->model::getContentTitle());
         if (property_exists($this, 'model') && method_exists($this->model, 'getContentTitlePlural')) $this->titlePlural = __($this->model::getContentTitlePlural());
         if (property_exists($this, 'model') && method_exists($this->model, 'getContentSlug')) $this->slug = $this->model::getContentSlug();
+        if (property_exists($this, 'model') && method_exists($this->model, 'getContentPermissionName')) $this->permissionName = $this->model::getContentPermissionName();
 
-        $slug = $this->slug;
+        $permissionName = $this->permissionName;
 
-        $this->middleware(function ($request, $next) use($slug) {
+        $this->middleware(function ($request, $next) use($permissionName) {
 
-            if (empty($slug)) return $next($request);
+            if (empty($permissionName)) return $next($request);
 
-            if (!\Admin::permission()::hasAccessBySlug($slug)){
+            if (!\Admin::permission()::hasAccessBySlug($permissionName)){
                 return \Admin::permission()::error();
             }
 
@@ -117,7 +119,7 @@ class AdminController extends Controller
             }
         });
 
-        manageActionsByPermissions($body, $this->slug);
+        manageActionsByPermissions($body, $this->permissionName);
 
         return $content
             ->title($this->title())
@@ -140,7 +142,7 @@ class AdminController extends Controller
 
         if (!empty($this->description['show'])) $content->description($this->description['show']);
 
-        manageActionsByPermissions($body, $this->slug);
+        manageActionsByPermissions($body, $this->permissionName);
 
         return $content
             ->title($this->title())
@@ -254,7 +256,7 @@ class AdminController extends Controller
             $footer->disableCreatingCheck();
         });
 
-        manageActionsByPermissions($form, $this->slug);
+        manageActionsByPermissions($form, $this->permissionName);
 
         $form->copyFieldAttributesToTranslatedFields();
 

@@ -7,6 +7,7 @@ trait ContentTrait {
     protected static $contentTitle;
     protected static $contentTitlePlural;
     protected static $contentSlug;
+    protected static $contentPermissionName = null;
     protected static $contentFrontedSlug;
     protected static $initedContentVariables = false;
 
@@ -30,6 +31,11 @@ trait ContentTrait {
     public static function getContentSlug(){
         if (!static::$initedContentVariables) static::initContentVariables();
         return static::$contentSlug;
+    }
+
+    public static function getContentPermissionName(){
+        if (!static::$initedContentVariables) static::initContentVariables();
+        return static::$contentPermissionName ? static::$contentPermissionName : static::getContentSlug() ;
     }
 
     public static function getContentAdminRoute($method = 'show', $parameters = []){

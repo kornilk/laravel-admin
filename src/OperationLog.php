@@ -41,10 +41,10 @@ class OperationLog
                 $value = \Str::limit($content->contentReadableIdentifier, 30);
             }
 
-            if ($content && method_exists($typeClass, 'getContentSlug')) {
+            if ($content && method_exists($typeClass, 'getContentPermissionName')) {
                 $url = $typeClass::getContentAdminRoute('show', [$typeId]);
 
-                if (\Admin::permission()::hasAccessBySlug($typeClass::getContentSlug().'.show') && \Admin::permission()::hasAccessByPath($url)){
+                if (\Admin::permission()::hasAccessBySlug($typeClass::getContentPermissionName().'.show') && \Admin::permission()::hasAccessByPath($url)){
                     $value = '<a title="' . $value . '" href="' . $url . '"><i style="margin-right:5px;" class="fa fa-eye" aria-hidden="true"></i>' . $value . '</a>';
                 }
 
