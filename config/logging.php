@@ -50,7 +50,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single', env('APP_ENV') === 'production' ? 'discord' : null],
+            'channels' => ['single', env('APP_ENV') !== 'local' ? 'discord' : null],
             'ignore_exceptions' => false,
         ],
 
