@@ -87,9 +87,9 @@ function createBrowseModalLoad($url, callback, modal) {
     });
 }
 
-function createBrowseModal(id, url, callback) {
+function createBrowseModal(id, url, callback, title) {
     
-    modal = $('<div class="modal fade in" id="'+id+'" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content" style="border-radius: 5px;"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">Képek</h4></div><div class="modal-body"></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Mégsem</button></div></div></div></div>');
+    modal = $('<div class="modal fade in" id="'+id+'" tabindex="-1" role="dialog"><div class="modal-dialog modal-lg" role="document"><div class="modal-content" style="border-radius: 5px;"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title">'+title+'</h4></div><div class="modal-body"></div><div class="modal-footer"><button type="button" class="btn btn-default" data-dismiss="modal">Mégsem</button></div></div></div></div>');
 
     var lastModal = $('body .wrapper>.modal:last');
 
@@ -134,7 +134,7 @@ function browse_images(callback) {
     if (modal.length === 0) {
         modal = createBrowseModal('imageBrowser', ckeditorImageBrowseUrl, function (data) {
             callback(data);
-        });
+        }, 'Képek');
     }
 
     modal.modal('show');
