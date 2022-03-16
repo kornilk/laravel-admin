@@ -301,9 +301,10 @@ trait ModelTree
 
         static::saving(function (Model $branch) {
             $parentColumn = $branch->getParentColumn();
+            $parentId = Request::input($parentColumn);
 
-            if (Request::has($parentColumn) && Request::input($parentColumn) == $branch->getKey()) {
-                throw new \Exception(trans('admin.parent_select_error'));
+            if ($parentId && $parentId == $branch->getKey()) {
+                $branch->{$parentColumn} = null;
             }
 
             if (Request::has('_order')) {

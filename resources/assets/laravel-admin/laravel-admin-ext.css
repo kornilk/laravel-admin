@@ -221,3 +221,12 @@ input.lead, textarea.lead {
 #toast-container .toast-message {
     font-weight:bold;
 }
+
+.table-tree .dd-item > button {
+    font-size: 18px;
+    width:20px;
+    margin-top:9px;
+    background:#ccc;
+    margin-right:5px;
+    margin-left:5px;
+}

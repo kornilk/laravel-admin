@@ -117,7 +117,7 @@ class Tree implements Renderable
                 $key = $branch[$this->model->getKeyName()];
                 $title = $branch[$this->model->getTitleColumn()];
 
-                return "$key - $title";
+                return "$title";
             };
         }
     }
