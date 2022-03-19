@@ -40,6 +40,7 @@ class ImageSimple extends File
         }
 
         $this->name = $this->getStoreName($image);
+        $this->name = \Str::camel($this->name);
 
         $this->callInterventionMethods($image->getRealPath());
 

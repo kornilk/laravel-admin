@@ -91,6 +91,7 @@ class Image extends File
         }
 
         $this->name = $this->getStoreName($image);
+        $this->name = \Str::camel($this->name);
         $this->renameIfExists($image);
         
         if ($this->form->model()::getKeepOriginal()) {

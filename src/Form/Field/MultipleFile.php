@@ -179,6 +179,7 @@ class MultipleFile extends Field
     protected function prepareForeach(UploadedFile $file = null)
     {
         $this->name = $this->getStoreName($file);
+        $this->name = \Str::camel($this->name);
 
         return tap($this->upload($file), function () {
             $this->name = null;

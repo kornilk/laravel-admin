@@ -111,6 +111,7 @@ class File extends Field
         }
 
         $this->name = $this->getStoreName($file);
+        $this->name = \Str::camel($this->name);
 
         return $this->uploadAndDeleteOriginal($file);
     }
