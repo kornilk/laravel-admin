@@ -21,11 +21,12 @@
 		'/',
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
 		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
+        { name: 'styles' }
     ];
     
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
-    config.removeButtons = 'Underline,Subscript,Superscript,Anchor,Table,Image';
+    config.removeButtons = 'Underline,Subscript,Superscript,Anchor,Table,Image,Styles';
     config.extraPlugins = 'inlineimage,insertobject,widget,justify,magicline',
     config.resize_dir = 'both',
     config.resize_minWidth = 300,
@@ -68,7 +69,7 @@
             attributes: ['data-*', 'class', 'contenteditable'],
             classes: 'insertobject'
         },
-        'em u sub s sup ul li ol blockquote b strong figure figcaption picture': true,
+        'em h2 h3 u sub s sup ul li ol blockquote b strong figure figcaption picture': true,
         img: {
             attributes: ['!src', 'class', 'id', 'style', 'width', 'height', 'alt', 'title', 'data-*']
         },

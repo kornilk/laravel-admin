@@ -4,6 +4,8 @@ return [
 
     'defaultThumbName' => 'thumb',
 
+    'useFilenameAsImageTitle' => true,
+
     'watermark' => null, //public_path() .'/admin-assets/images/watermark.png',
 
     'thumbnails' => [

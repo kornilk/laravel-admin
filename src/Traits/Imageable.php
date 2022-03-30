@@ -81,7 +81,7 @@ trait Imageable
         }
         $model->formats = json_encode($thumbnails);
 
-        if (empty($model->title)) {
+        if (config('image.useFilenameAsImageTitle') && empty($model->title)) {
             $model->title = \Str::headline($model->filename);
         }
     }
