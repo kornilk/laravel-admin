@@ -94,7 +94,7 @@ class Image extends ContentModel
         if (empty($thumb)) {
 
             return [
-                'path' => \Storage::disk(config('admin.upload.disk'))->url($model->original),
+                'path' => \Storage::disk(config('admin.upload.disk'))->url($model->path),
                 'width' => $model->width,
                 'height' => $model->height,
             ];
