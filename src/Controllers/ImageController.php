@@ -186,7 +186,7 @@ class ImageController extends AdminController
         $grid->disableCreateButton();
 
         if (\Admin::user()->can($this->slug . '.create')) {
-            $modalButton = new ModalButton(__('admin.new'), route('admin.images.browse.modal', ['rules' => 'dimensions:min_width=' . $this->model::getRules()['minWidth'] . ',min_height=' . $this->model::getRules()['minHeight'] . '']));
+            $modalButton = new ModalButton(__('admin.new'), route('admin.images.create.modal', ['rules' => 'dimensions:min_width=' . $this->model::getRules()['minWidth'] . ',min_height=' . $this->model::getRules()['minHeight'] . '']));
             $modalButton->setClass('btn btn-primary btn-sm ml-5');
 
             $grid->tools(function ($tools) use ($modalButton) {
