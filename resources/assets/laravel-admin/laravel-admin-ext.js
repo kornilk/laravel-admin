@@ -65,19 +65,6 @@ function createBrowseModalLoad($url, callback, modal) {
         modal.find('a[data-form="modal"]:not([data-form-event-attached])').each((key, element)=>{
             var $modalButton = $(element);
             $modalButton.attr('data-form-event-attached', true);
-        }).click(function (e) {
-            e.preventDefault();
-            var modalButton = $(e.target);
-            if(!modalButton.attr('disabled')){
-                $.ajax({
-                    url: modalButton.attr('href'),
-                    method: 'GET'
-                }).success(function (result) {
-                    var modal = new Modal(result);
-                    modals.push(modal);
-                    modal.setButton(modalButton);
-                });
-            }
         }).on('formResponse', (e) => {
             var data = $(e.target).data('model-data');
             callback(data);
