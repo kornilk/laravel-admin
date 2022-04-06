@@ -23,7 +23,7 @@
 
             @foreach ($grid->rows() as $row)
 
-                <div data-picture={{ json_encode($row->picture) }} data-path="{{ \Storage::disk(config('admin.upload.disk'))->url($row->original) }}" data-title="{{ $row->title }}" data-source="{{ $row->source }}" data-width="{{ $row->width }}" data-height="{{ $row->height }}" class="imageBox data-container">
+                <div data-picture={{ json_encode($row->picture) }} data-path="{{ $row->storage_path }}" data-storage_path="{{ $row->storage_path }}" data-title="{{ $row->title }}" data-source="{{ $row->source }}" data-width="{{ $row->width }}" data-height="{{ $row->height }}" class="imageBox data-container">
                     <div class="imageBoxContent">
                         <span class="imageCont">
                             {!! $row->path !!}

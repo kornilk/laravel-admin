@@ -193,10 +193,12 @@ trait ImageField
 
             $action = $size[2] ?? 'resize';
             $position = $size[3] ?? 'center';
+            $upscale = $size[4] ?? false;
             // Resize image with aspect ratio
-            $image->$action($size[0], $size[1], function (Constraint $constraint) {
+            $image->$action($size[0], $size[1], function (Constraint $constraint) use($upscale) {
                 $constraint->aspectRatio();
-            }, $position)->resizeCanvas($size[0], $size[1], $position, false, '#ffffff');
+                if ($upscale) $constraint->upsize();
+            }, $position);
 
             if (!is_null($this->storagePermission)) {
                 $this->storage->put("{$this->getDirectory()}/{$path}", $image->encode(), $this->storagePermission);

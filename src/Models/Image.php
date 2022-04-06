@@ -18,8 +18,12 @@ class Image extends ContentModel
         'formats',
         'image_class',
         'picture',
+        'storage_path',
     ];
-    protected $appends = ['picture'];
+    protected $appends = [
+        'picture',
+        'storage_path',
+    ];
 
     protected static function initStatic()
     {
@@ -39,6 +43,11 @@ class Image extends ContentModel
         $thumbName = static::getDefaultThumbName();
         $path = str_replace(\URL::to('/'), '', Storage::disk(config('admin.upload.disk'))->url("{$imageInfo['dirname']}/{$imageInfo['filename']}-{$thumbName}.{$imageInfo['extension']}"));
         return '<img class="" src="' . $path . '" />';
+    }
+
+    public function getStoragePathAttribute()
+    {
+        return str_replace(\URL::to('/'), '', Storage::disk(config('admin.upload.disk'))->url($this->path));
     }
 
     public function getPictureAttribute()
@@ -81,8 +90,8 @@ class Image extends ContentModel
             'default' => $this->getPictureData($picture['default'], $this),
             'sources' => [],
         ];
-      
-        foreach ($picture['sources'] as $key => $value){
+
+        foreach ($picture['sources'] as $key => $value) {
             $p['sources'][$key] = $this->getPictureData($value, $this);
         }
 

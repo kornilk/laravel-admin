@@ -28,7 +28,7 @@ CKEDITOR.plugins.add('inlineimage', {
                     if (response.title === undefined || response.title === null) response.title = '';
                     if (response.source === undefined || response.source === null) response.source = '';
 
-                    $img = '<img data-tabu="true" width="' + response.picture.default.width + '" height="' + response.picture.default.height + '" data-max-height="' + response.height + '" data-max-width="' + response.width + '" alt="' + response.title + '" src="' + response.picture.default.path + '" data-original="' + response.path + '" title="Forrás: ' + response.source + '"/>';
+                    $img = '<img data-tabu="true" width="' + response.picture.default.width + '" height="' + response.picture.default.height + '" data-max-height="' + response.height + '" data-max-width="' + response.width + '" alt="' + response.title + '" src="' + response.picture.default.path + '" data-original="' + response.storage_path + '" title="Forrás: ' + response.source + '"/>';
 
                     $sources = '';
                     
