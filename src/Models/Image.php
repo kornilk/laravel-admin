@@ -37,7 +37,7 @@ class Image extends ContentModel
     {
         $imageInfo = pathinfo($value);
         $thumbName = static::getDefaultThumbName();
-        $path = Storage::disk(config('admin.upload.disk'))->url("{$imageInfo['dirname']}/{$imageInfo['filename']}-{$thumbName}.{$imageInfo['extension']}");
+        $path = str_replace(\URL::to('/'), '', Storage::disk(config('admin.upload.disk'))->url("{$imageInfo['dirname']}/{$imageInfo['filename']}-{$thumbName}.{$imageInfo['extension']}"));
         return '<img class="" src="' . $path . '" />';
     }
 
@@ -94,14 +94,14 @@ class Image extends ContentModel
         if (empty($thumb)) {
 
             return [
-                'path' => \Storage::disk(config('admin.upload.disk'))->url($model->path),
+                'path' => str_replace(\URL::to('/'), '', \Storage::disk(config('admin.upload.disk'))->url($model->path)),
                 'width' => $model->width,
                 'height' => $model->height,
             ];
         } else {
             $formats = json_decode($model->formats);
             $return = $formats->{$thumb};
-            $return->path = \Storage::disk(config('admin.upload.disk'))->url($return->path);
+            $return->path = str_replace(\URL::to('/'), '', \Storage::disk(config('admin.upload.disk'))->url($return->path));
             return $return;
         }
     }
