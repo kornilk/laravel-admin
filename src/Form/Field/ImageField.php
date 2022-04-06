@@ -192,10 +192,11 @@ trait ImageField
             $image = InterventionImage::make($file);
 
             $action = $size[2] ?? 'resize';
+            $position = $size[3] ?? 'center';
             // Resize image with aspect ratio
             $image->$action($size[0], $size[1], function (Constraint $constraint) {
                 $constraint->aspectRatio();
-            })->resizeCanvas($size[0], $size[1], 'center', false, '#ffffff');
+            }, $position)->resizeCanvas($size[0], $size[1], $position, false, '#ffffff');
 
             if (!is_null($this->storagePermission)) {
                 $this->storage->put("{$this->getDirectory()}/{$path}", $image->encode(), $this->storagePermission);
