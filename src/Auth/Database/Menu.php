@@ -101,4 +101,9 @@ class Menu extends Model
             $model->roles()->detach();
         });
     }
+
+    public function setParentIdAttribute($value){
+        if (is_null($value)) $value = 0;
+        $this->parent_id = $value;
+    }
 }
