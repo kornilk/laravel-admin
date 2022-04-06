@@ -104,6 +104,6 @@ class Menu extends Model
 
     public function setParentIdAttribute($value){
         if (is_null($value)) $value = 0;
-        $this->parent_id = $value;
+        $this->attributes['parent_id'] = $value;
     }
 }
