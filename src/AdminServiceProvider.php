@@ -6,6 +6,7 @@ use Encore\Admin\Layout\Content;
 use Encore\Admin\Models\HtmlText;
 use Encore\Admin\Models\Image;
 use Encore\Admin\Models\Text;
+use Encore\Admin\Models\Translation;
 use Encore\Admin\Observers\CacheObserver;
 use Encore\Admin\Translator\Collection as TranslatorCollection;
 use Illuminate\Routing\Router;
@@ -103,6 +104,7 @@ class AdminServiceProvider extends ServiceProvider
         Text::observe(CacheObserver::class);
         HtmlText::observe(CacheObserver::class);
         Image::observe(CacheObserver::class);
+        Translation::observe(CacheObserver::class);
 
         $this->bootTranslatorCollectionMacros();
     }
