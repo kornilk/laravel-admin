@@ -51,6 +51,7 @@ class Administrator extends Model implements AuthenticatableContract, Recordable
         static::$contentTitle = 'Administrator';
         static::$contentTitlePlural = 'Administrators';
         static::$contentSlug = 'system/administrators';
+        static::$contentPermissionName = 'auth.management';
     }
 
     public static function boot()

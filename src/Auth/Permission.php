@@ -27,7 +27,11 @@ class Permission
 
         $permission = "{$slug}." . (isset(static::$methodPermission[$method]) ? static::$methodPermission[$method] : $method);
 
-        if (DatabasePermission::isPermission($permission)) return \Admin::user()->can($permission);
+        if (DatabasePermission::isPermission($permission)) {
+            return \Admin::user()->can($permission);
+        } elseif (DatabasePermission::isPermission($slug)) {
+            return \Admin::user()->can($slug);
+        }
 
         return true;
     }

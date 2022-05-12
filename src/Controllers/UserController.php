@@ -9,12 +9,14 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends AdminController
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function title()
+
+    protected $disablePermissionCheck = true;
+
+    public function __construct()
     {
-        return trans('admin.administrator');
+        $this->model = config('admin.database.users_model');
+        parent::__construct();
+
     }
 
     /**
@@ -24,9 +26,7 @@ class UserController extends AdminController
      */
     protected function grid()
     {
-        $userModel = config('admin.database.users_model');
-
-        $grid = new Grid(new $userModel());
+        $grid = new Grid(new $this->model());
 
         if (!\Auth::guard('admin')->user()->isAdministrator()) {
             $grid->model()->whereDoesntHave('roles', function ($query) {
@@ -36,8 +36,8 @@ class UserController extends AdminController
             });
         }
 
-        $grid->column('name', $userModel::label('name'))->sortable()->edit();
-        $grid->column('email', $userModel::label('email'))->sortable();
+        $grid->column('name', $this->model::label('name'))->sortable()->edit();
+        $grid->column('email', $this->model::label('email'))->sortable();
         $grid->column('created_at', trans('admin.created_at'));
 
         $grid->actions(function (Grid\Displayers\Actions $actions) {
@@ -75,16 +75,14 @@ class UserController extends AdminController
      */
     protected function detail($id)
     {
-        $userModel = config('admin.database.users_model');
+        $show = new Show($this->model::findOrFail($id));
 
-        $show = new Show($userModel::findOrFail($id));
-
-        if ($userModel::where('id', $id)->first()->isAdministrator() && !\Auth::guard('admin')->user()->isAdministrator()) {
+        if ($this->model::where('id', $id)->first()->isAdministrator() && !\Auth::guard('admin')->user()->isAdministrator()) {
             \Encore\Admin\Auth\Permission::error();
         }
 
-        $show->field('name', $userModel::label('name'));
-        $show->field('email', $userModel::label('email'));
+        $show->field('name', $this->model::label('name'));
+        $show->field('email', $this->model::label('email'));
 
         $show->field('roles', trans('admin.roles'))->as(function ($roles) {
             return $roles->pluck('name');
@@ -107,11 +105,10 @@ class UserController extends AdminController
      */
     protected function form()
     {
-        $userModel = config('admin.database.users_model');
         $permissionModel = config('admin.database.permissions_model');
         $roleModel = config('admin.database.roles_model');
 
-        $form = new Form(new $userModel());
+        $form = new Form(new $this->model());
 
         $form->editing(function (Form $form) {
             if ($form->model()->isAdministrator() && !\Auth::guard('admin')->user()->isAdministrator()) {
@@ -145,16 +142,16 @@ class UserController extends AdminController
 
         $form->text('name', trans('admin.name'))->rules('required');
 
-        $form->text('email', $userModel::label('email'))
+        $form->text('email', $this->model::label('email'))
             ->creationRules(['required', 'email', 'max:190', "unique:{$connection}.{$userTable}"])
             ->updateRules(['required', 'email', 'max:190', "unique:{$connection}.{$userTable},email,{{id}}"]);
 
         $form->imageSimple('avatar', trans('admin.avatar'));
 
-        $form->password('password', $userModel::label('password'))
+        $form->password('password', $this->model::label('password'))
             ->creationRules('required|confirmed|max:100')
             ->updateRules('sometimes|confirmed|max:100');
-        $form->password('password_confirmation', $userModel::label('password_confirmation'))
+        $form->password('password_confirmation', $this->model::label('password_confirmation'))
             ->creationRules('required');
 
         $form->ignore(['password_confirmation']);

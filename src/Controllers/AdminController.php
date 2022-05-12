@@ -41,6 +41,7 @@ class AdminController extends Controller
     protected $permissionName;
     protected $id;
     protected $form;
+    protected $disablePermissionCheck = false;
 
     public function __construct()
     {
@@ -51,18 +52,16 @@ class AdminController extends Controller
 
         $permissionName = $this->permissionName;
 
-        $this->middleware(function ($request, $next) use($permissionName) {
+        $this->middleware(function ($request, $next) use ($permissionName) {
 
             if (empty($permissionName)) return $next($request);
 
-            if (!\Admin::permission()::hasAccessBySlug($permissionName)){
+            if (!\Admin::permission()::hasAccessBySlug($permissionName)) {
                 return \Admin::permission()::error();
             }
 
             return $next($request);
         });
-
-
     }
 
     /**
@@ -106,12 +105,11 @@ class AdminController extends Controller
                 $actions->disableView();
                 $actions->add(new Restore($actions->getKey()));
                 $actions->add(new ForceDelete($actions->getKey()));
-               
             }
         });
 
         $body->batchActions(function ($batch) {
- 
+
             if (\request('_scope_') == 'trashed') {
                 $batch->disableDelete();
                 $batch->add(new BatchRestore());
@@ -119,7 +117,8 @@ class AdminController extends Controller
             }
         });
 
-        manageActionsByPermissions($body, $this->permissionName);
+        if (!$this->disablePermissionCheck)
+            manageActionsByPermissions($body, $this->permissionName);
 
         return $content
             ->title($this->title())
@@ -142,7 +141,8 @@ class AdminController extends Controller
 
         if (!empty($this->description['show'])) $content->description($this->description['show']);
 
-        manageActionsByPermissions($body, $this->permissionName);
+        if (!$this->disablePermissionCheck)
+            manageActionsByPermissions($body, $this->permissionName);
 
         return $content
             ->title($this->title())
@@ -203,21 +203,23 @@ class AdminController extends Controller
     protected function form()
     {
         $form = new Form(new $this->model());
-        
+
         $this->setForm($form);
 
         return $form;
     }
 
-    protected function setForm($form){
-        
+    protected function setForm($form)
+    {
+
         return $form;
     }
 
-    public function formModal($id = null){
+    public function formModal($id = null)
+    {
 
         $this->id = $id;
-        return new ModalForm(new $this->model(), function (ModalForm $form) use($id) {
+        return new ModalForm(new $this->model(), function (ModalForm $form) use ($id) {
 
             $this->setForm($form);
 
@@ -238,17 +240,17 @@ class AdminController extends Controller
                 return $this->modalSaveRespose($form);
             });
         });
-
     }
 
-    public function storeModal($id = null){
+    public function storeModal($id = null)
+    {
 
         $this->id = $id;
         return $this->formModal($id)->store();
-
     }
 
-    protected function setFormDefaultSettings($form){
+    protected function setFormDefaultSettings($form)
+    {
         $form->footer(function ($footer) {
             $footer->disableReset();
             $footer->disableViewCheck();
@@ -256,7 +258,8 @@ class AdminController extends Controller
             $footer->disableCreatingCheck();
         });
 
-        manageActionsByPermissions($form, $this->permissionName);
+        if (!$this->disablePermissionCheck)
+            manageActionsByPermissions($form, $this->permissionName);
 
         $form->copyFieldAttributesToTranslatedFields();
 
