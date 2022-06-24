@@ -70,7 +70,7 @@ class ContentCommand extends GeneratorCommand
 
         $table = Str::snake(Str::pluralStudly(class_basename($this->modelName)));
 
-        $date = date('Y_m_d_his');
+        $date = date('Y_m_d_His');
 
         $this->call('admin:migration', [
             'name' => $this->modelName,
