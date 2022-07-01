@@ -184,10 +184,10 @@ BTN;
         return null;
     }
 
-    protected function renderModalCreateButton()
+    protected function renderModalCreateButton($attibutes = [])
     {
         if (\Admin::user()->can("{$this->getModelPermissionName()}.create")) {
-            $modalButton = new \Encore\Admin\Extensions\ModalForm\Form\ModalButton(__('admin.new'), route("admin.{$this->getModelSlug()}.create.modal"));
+            $modalButton = new \Encore\Admin\Extensions\ModalForm\Form\ModalButton(__('admin.new'), route("admin.{$this->getModelSlug()}.create.modal", $attibutes));
             $modalButton->setClass('btn btn-primary btn-sm ml-5');
             $this->tools(function ($tools) use ($modalButton) {
                 $tools->append($modalButton);
