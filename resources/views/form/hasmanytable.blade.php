@@ -4,8 +4,8 @@
     }
 </style>
 
-<div class="row">
-    <div class="{{$viewClass['label']}}"><h4 class="pull-right">{{ $label }}</h4></div>
+<div class="{{$viewClass['form-group']}}">
+    <div class="{{$viewClass['label']}}"><h4 class="">{{ $label }}</h4></div>
     <div class="{{$viewClass['field']}}">
         <div id="has-many-{{$column}}" style="margin-top: 15px;">
             <table class="table table-has-many has-many-{{$column}}">
@@ -66,7 +66,7 @@
             </template>
 
             @if($options['allowCreate'])
-                <div class="form-group">
+                <div class="">
                     <div class="{{$viewClass['field']}}">
                         <div class="add btn btn-success btn-sm"><i class="fa fa-save"></i>&nbsp;{{ trans('admin.new') }}</div>
                     </div>
