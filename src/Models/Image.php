@@ -100,6 +100,10 @@ class Image extends ContentModel
 
     public function getPictureData($thumb = '', $model)
     {
+
+        if (is_null($model)) $model = $this;
+
+
         if (empty($thumb)) {
 
             return [
