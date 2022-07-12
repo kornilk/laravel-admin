@@ -2,7 +2,7 @@
 
 return [
 
-    'enabled' => env('FIREWALL_ENABLED', env('APP_ENV') === 'product' ? true : false),
+    'enabled' => env('FIREWALL_ENABLED', env('APP_ENV') === 'production' ? true : false),
 
     'whitelist' => [env('FIREWALL_WHITELIST', '')],
 
