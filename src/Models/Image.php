@@ -98,11 +98,9 @@ class Image extends ContentModel
         return $p;
     }
 
-    public function getPictureData($thumb = '', $model)
+    public function getPictureData($thumb = '', $model = null)
     {
-
         if (is_null($model)) $model = $this;
-
 
         if (empty($thumb)) {
 
@@ -117,5 +115,10 @@ class Image extends ContentModel
             $return->path = str_replace(\URL::to('/'), '', \Storage::disk(config('admin.upload.disk'))->url($return->path));
             return $return;
         }
+    }
+
+    public function size($thumb = '')
+    {
+        return $this->getPictureData($thumb);
     }
 }
