@@ -42,6 +42,7 @@ class AdminController extends Controller
     protected $id;
     protected $form;
     protected $disablePermissionCheck = false;
+    protected $disableExport = true;
 
     public function __construct()
     {
@@ -84,7 +85,7 @@ class AdminController extends Controller
     public function index(Content $content)
     {
         $body = $this->grid();
-        $body->disableExport();
+        if ($this->disableExport) $body->disableExport();
         $content->breadcrumb(...$this->getBreadcrumb());
 
         if (!empty($this->description['index'])) $content->description($this->description['index']);
