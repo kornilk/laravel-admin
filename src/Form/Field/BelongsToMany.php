@@ -63,6 +63,10 @@ class BelongsToMany extends MultipleSelect
                 radioClass:'iradio_minimal-blue',
                 checkboxClass:'icheckbox_minimal-blue'
             });
+            modal.find('.filter-box .icheck').iCheck({
+                radioClass:'iradio_minimal-blue',
+                checkboxClass:'icheckbox_minimal-blue'
+            });
             modal.find('.box-header:first').hide();
 
             modal.find('input.select').each(function (index, el) {
