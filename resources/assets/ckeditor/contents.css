@@ -317,3 +317,7 @@ img.inline-video{
     height: auto !important;
     object-fit: contain;
 }
+
+table {
+    width:100%;
+}

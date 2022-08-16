@@ -69,6 +69,30 @@
             attributes: ['data-*', 'class', 'contenteditable'],
             classes: 'insertobject'
         },
+        // table: {
+        //     styles: ['*'],
+        //     attributes: ['style', 'class', 'cellpadding', 'cellspasing', 'width', 'height', 'align', 'border']
+        // },
+        // tr: {
+        //     styles: ['*'],
+        //     attributes: ['style', 'class', 'width', 'height', 'align']
+        // },
+        // td: {
+        //     styles: ['*'],
+        //     attributes: ['style', 'class', 'width', 'height', 'align']
+        // },
+        // th: {
+        //     styles: ['*'],
+        //     attributes: ['style', 'class', 'width', 'height', 'align']
+        // },
+        // tbody: {
+        //     styles: ['*'],
+        //     attributes: ['style', 'class', 'width', 'height', 'align']
+        // },
+        // thead: {
+        //     styles: ['*'],
+        //     attributes: ['style', 'class', 'width', 'height', 'align']
+        // },
         'em h2 h3 u sub s sup ul li ol blockquote b strong figure figcaption picture': true,
         img: {
             attributes: ['!src', 'class', 'id', 'style', 'width', 'height', 'alt', 'title', 'data-*']
