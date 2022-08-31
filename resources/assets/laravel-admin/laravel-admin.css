@@ -36,6 +36,11 @@ a.editable-empty {
     color: red;
 }
 
+.form-group-vertical > label.asterisk:before {
+    content: "* ";
+    color: red;
+}
+
 .mailbox-attachments li {
     width: 300px !important;
 }

@@ -340,15 +340,15 @@ class Admin
 
                 $router->post('_grid-sortable_', 'GridSortableController@sort')->name('laravel-admin-grid-sortable'); 
 
-                $router->resource('images', 'ImageController');
-                $router->resource('texts', 'TextController');
-                $router->resource('html-texts', 'HtmlTextController');
+                $router->resource('images', config('admin.contents.image.controller'));
+                $router->resource('texts', config('admin.contents.text.controller'));
+                $router->resource('html-texts', config('admin.contents.html_text.controller'));
 
-                $router->get('/images/browse/modal', 'ImageController@browser')->name('images.browse.modal');
-                $router->get('/images/create/modal', 'ImageController@formModal')->name('images.create.modal');
-                $router->post('/images/create/modal', 'ImageController@storeModal')->name('images.store.modal');
-                $router->get('/images/{id}/edit/modal', 'ImageController@formModal')->name('images.edit.modal');
-                $router->put('/images/{id}/edit/modal', 'ImageController@storeModal')->name('images.update.modal');
+                $router->get('/images/browse/modal', [config('admin.contents.image.controller'), 'browser'])->name('images.browse.modal');
+                $router->get('/images/create/modal', [config('admin.contents.image.controller'), 'formModal'])->name('images.create.modal');
+                $router->post('/images/create/modal', [config('admin.contents.image.controller'), 'storeModal'])->name('images.store.modal');
+                $router->get('/images/{id}/edit/modal', [config('admin.contents.image.controller'), 'formModal'])->name('images.edit.modal');
+                $router->put('/images/{id}/edit/modal', [config('admin.contents.image.controller'), 'storeModal'])->name('images.update.modal');
 
   
             });

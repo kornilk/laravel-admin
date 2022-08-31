@@ -426,4 +426,23 @@ return [
             'config' => [],
         ]
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Settings for contents.
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'contents' => [
+        'image' => [
+            'controller' => Encore\Admin\Controllers\ImageController::class
+        ],
+        'text' => [
+            'controller' => Encore\Admin\Controllers\TextController::class
+        ],
+        'html-text' => [
+            'controller' => Encore\Admin\Controllers\HtmlTextController::class
+        ],
+    ]
 ];

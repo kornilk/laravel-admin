@@ -37,15 +37,19 @@ class HtmlTextController extends AdminController
         
         });
 
-        $grid->actions(function ($actions) {
-            $actions->disableDelete();
-        });
+        if (config('admin.contents.html_text.disable_delete', true)){
+            $grid->actions(function ($actions) {
+                $actions->disableDelete();
+            });
 
-        $grid->batchActions(function ($batch) {
-            $batch->disableDelete();
-        });
+            $grid->batchActions(function ($batch) {
+                $batch->disableDelete();
+            });
+        }
 
-        $grid->disableCreateButton();
+        if (config('admin.contents.html_text.disable_create', true)){
+            $grid->disableCreateButton();
+        }
 
         return $grid;
     }
@@ -65,7 +69,9 @@ class HtmlTextController extends AdminController
         $show->field('placeholder', $this->model::label('placeholder'));
 
         $show->panel()->tools(function ($tools) {
-            $tools->disableDelete();
+            if (config('admin.contents.html_text.disable_delete', true)){
+                $tools->disableDelete();
+            }
         });
        
         return $show;
@@ -78,18 +84,22 @@ class HtmlTextController extends AdminController
      */
     protected function setForm($form)
     {
-        $form->editor('value', $this->model::label('value'))->options(['customConfig' => '/vendor/laravel-admin/ckeditor/config_html-text.js'])->rules('required');
+        $form->editor('value', $this->model::label('value'))->options(['customConfig' => '/vendor/laravel-admin/ckeditor/config_html-text.js'])->required();
        
-        $form->display('context', $this->model::label('context'))->rules('required|max:190');
+        $form->display('context', $this->model::label('context'))->required()->rules('max:190');
 
-        $form->display('placeholder', $this->model::label('placeholder'))->rules('required|max:190');
+        $form->display('placeholder', $this->model::label('placeholder'))->required()->rules('max:190');
 
         $form->footer(function ($footer) {
-            $footer->disableCreatingCheck();
+            if (config('admin.contents.html_text.disable_create', true)){
+                $footer->disableCreatingCheck();
+            }
         });
 
         $form->tools(function (Form\Tools $tools) {
-            $tools->disableDelete();
+            if (config('admin.contents.html_text.disable_delete', true)){
+                $tools->disableDelete();
+            }
         });
         
         return $form;
