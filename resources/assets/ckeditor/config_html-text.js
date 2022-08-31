@@ -21,12 +21,13 @@
 		'/',
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
 		{ name: 'paragraph',   groups: [ 'list', 'indent', 'align', 'bidi' ] },
+        // { name: 'colors' }
     ];
     
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
     config.removeButtons = 'Underline,Subscript,Superscript,Anchor,Table,Image';
-    config.extraPlugins = 'justify,notification',
+    config.extraPlugins = 'justify,notification', //colorbutton
     config.resize_dir = 'both',
     config.resize_minWidth = 300,
     config.height = 100,
@@ -65,7 +66,7 @@
         'p': {
             styles: ['text-align']
         },
-        'em u sub s sup b strong span ul ol li': true,
+        'em u sub s sup b strong ul ol li': true,
         a: {
             attributes: ['!href', 'class', 'id', 'style', 'target']
         },
@@ -76,7 +77,11 @@
         },
         a: {
             attributes: ['!href', 'class', 'id', 'style', 'target']
-        }
+        },
+        span: {
+            attributes: ['style'],
+            styles: ['color'],
+        },
     },
-    config.fillEmptyBlocks = false
+    config.fillEmptyBlocks = true
 };
