@@ -439,10 +439,14 @@ return [
             'controller' => Encore\Admin\Controllers\ImageController::class
         ],
         'text' => [
-            'controller' => Encore\Admin\Controllers\TextController::class
+            'controller' => Encore\Admin\Controllers\TextController::class,
+            'disable_create' => true,
+            'disable_delete' => true,
         ],
         'html-text' => [
-            'controller' => Encore\Admin\Controllers\HtmlTextController::class
+            'controller' => Encore\Admin\Controllers\HtmlTextController::class,
+            'disable_create' => true,
+            'disable_delete' => true,
         ],
     ]
 ];
