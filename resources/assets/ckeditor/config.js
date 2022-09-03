@@ -120,5 +120,5 @@
             attributes: ['!type', '!objscript']
         }
     },
-    config.fillEmptyBlocks = true
+    config.fillEmptyBlocks = false
 };

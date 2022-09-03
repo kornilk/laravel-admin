@@ -86,5 +86,5 @@
             attributes: ['class']
         }
     },
-    config.fillEmptyBlocks = true
+    config.fillEmptyBlocks = false
 };
