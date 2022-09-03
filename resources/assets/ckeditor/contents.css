@@ -321,3 +321,8 @@ img.inline-video{
 table {
     width:100%;
 }
+
+p {
+    margin-bottom:0px;
+    padding-bottom:16px;
+}

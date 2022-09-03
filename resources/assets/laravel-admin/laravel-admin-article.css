@@ -1,5 +1,6 @@
 .article-style p {
-	margin: 16px 0px !important;
+	margin: 0px !important;
+    padding-bottom:16px;
 }
 
 .article-style blockquote {
