@@ -443,7 +443,7 @@ return [
             'disable_create' => true,
             'disable_delete' => true,
         ],
-        'html-text' => [
+        'html_text' => [
             'controller' => Encore\Admin\Controllers\HtmlTextController::class,
             'disable_create' => true,
             'disable_delete' => true,
