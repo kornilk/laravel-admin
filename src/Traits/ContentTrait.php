@@ -63,9 +63,11 @@ trait ContentTrait {
         if (!static::$initedContentVariables) static::initContentVariables();
         $field = \Str::of($field)->replaceLast('_id', '');
         $fieldName = ucfirst(strtolower(\Str::headline($field)));
+        $ucField = ucfirst($field);
         return \Lang::has("{$class}.{$field}") ? __("{$class}.{$field}") : (
-            \Lang::has("{$field}") ? __("{$field}") : $fieldName
-        );
+            \Lang::has("{$class}.{$fieldName}") ? __("{$class}.{$fieldName}") : (
+            \Lang::has("{$field}") ? __("{$field}") : (\Lang::has("{$ucField}") ? __("{$ucField}") : $fieldName)
+        ));
     }
 
     public function getContentReadableIdentifierAttribute(){

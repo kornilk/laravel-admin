@@ -15,7 +15,7 @@ class Tagging extends MultipleSelect
         $this->config('tags', true);
         $this->config('column', 'name');
 
-        parent::__construct($column, array_slice($arguments, 1));
+        parent::__construct($column, $arguments);
     }
 
         /**
