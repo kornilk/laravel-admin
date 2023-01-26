@@ -44,14 +44,16 @@ class Tagging extends MultipleSelect
                 "[Relation [{$this->column}] must be BelongsToMany type"
             );
         }
-        
+
         $this->tagModel = $relation->getQuery()->getModel();
         $this->tagClass = get_class($this->tagModel);
 
         $tagModel = $this->tagModel;
         $column = $this->config['column'];
-
+   
         $this->options(function ($values) use($tagModel, $column) {
+
+            if (empty($values)) return [];
 
             $tags = $tagModel::whereIn('id', $values)->get();
 
