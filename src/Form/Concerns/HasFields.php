@@ -111,6 +111,7 @@ trait HasFields
         'year'              => Field\Year::class,
         'html'              => Field\Html::class,
         'tags'              => Field\Tags::class,
+        'tagging'           => Field\Tagging::class,
         'icon'              => Field\Icon::class,
         'multipleFile'      => Field\MultipleFile::class,
         'multipleImage'     => Field\MultipleImage::class,

@@ -350,6 +350,8 @@ class Admin
                 $router->get('/images/{id}/edit/modal', [config('admin.contents.image.controller'), 'formModal'])->name('images.edit.modal');
                 $router->put('/images/{id}/edit/modal', [config('admin.contents.image.controller'), 'storeModal'])->name('images.update.modal');
 
+                $router->get('/ajax/tagging/{model}', 'AdminController@getTaggingItems')->name('getTaggingItems');
+
   
             });
 

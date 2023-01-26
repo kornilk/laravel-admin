@@ -319,4 +319,9 @@ class AdminController extends Controller
         $res->header('Content-Type', 'application/json');
         return $res;
     }
+
+    public function getTaggingItems($model){
+        $model = new $model;
+        return new Response(json_encode(['data' => $model::all()->toArray()]));
+    }
 }
