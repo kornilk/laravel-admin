@@ -400,3 +400,9 @@ if (!function_exists('url_query')) {
         return "{$urlWithoutQuery}?{$newQuery}";
     }
 }
+
+if (!function_exists('getImagePath')) {
+    function getImagePath($model, $relationName, $thumb='', $default = null) {
+        return $model->{$relationName} ? $model->{$relationName}->size($thumb)->path : $default;
+    }
+}

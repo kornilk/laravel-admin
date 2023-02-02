@@ -102,15 +102,16 @@ class Image extends ContentModel
     {
         if (is_null($model)) $model = $this;
 
-        if (empty($thumb)) {
+        $formats = json_decode($model->formats);
 
-            return [
+        if (empty($thumb) || !property_exists($formats, $thumb)) {
+
+            return (object)[
                 'path' => str_replace(\URL::to('/'), '', \Storage::disk(config('admin.upload.disk'))->url($model->path)),
                 'width' => $model->width,
                 'height' => $model->height,
             ];
         } else {
-            $formats = json_decode($model->formats);
             $return = $formats->{$thumb};
             $return->path = str_replace(\URL::to('/'), '', \Storage::disk(config('admin.upload.disk'))->url($return->path));
             return $return;
