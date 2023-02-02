@@ -320,8 +320,10 @@ class AdminController extends Controller
         return $res;
     }
 
-    public function getTaggingItems($model){
-        $model = new $model;
-        return new Response(json_encode(['data' => $model::all()->toArray()]));
+    public function getTaggingItems($model, \Illuminate\Http\Request $request){
+        $q = $request->get('q');
+        $model = $model::query();
+        if (!empty($q)) $model->where('name', 'like', "%{$q}%");
+        return new Response(json_encode(['data' => $model->get()->toArray()]));
     }
 }
