@@ -46,7 +46,7 @@
                 @endif
 
                 @foreach($grid->rows() as $row)
-                <tr class="selectable-item" {!! $row->getRowAttributes() !!}>
+                <tr {!! $row->getRowAttributes() !!}>
                     @foreach($grid->visibleColumnNames() as $name)
                     <td {!! $row->getColumnAttributes($name) !!}>
                         {!! $row->column($name) !!}

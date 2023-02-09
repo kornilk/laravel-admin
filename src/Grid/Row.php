@@ -29,7 +29,9 @@ class Row
      *
      * @var array
      */
-    protected $attributes = [];
+    protected $attributes = [
+        'class' => 'selectable-item'
+    ];
 
     /**
      * @var string
