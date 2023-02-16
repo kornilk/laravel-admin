@@ -141,6 +141,7 @@ return [
             '_handle_action_',
             '_grid-sortable_',
             'locale',
+            'ajax/tagging/*'
         ],
 
         'default_permissions' => [
