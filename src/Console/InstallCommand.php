@@ -46,8 +46,8 @@ class InstallCommand extends Command
      */
     public function initDatabase()
     {
-        $this->call('migrate', ['--path' => 'database/migrations/2014_10_12_000000_create_users_table.php']);
-        $this->call('migrate', ['--path' => 'database/migrations/2014_10_12_100000_create_password_resets_table.php']);
+        // $this->call('migrate', ['--path' => 'database/migrations/2014_10_12_000000_create_users_table.php']);
+        // $this->call('migrate', ['--path' => 'database/migrations/2014_10_12_100000_create_password_resets_table.php']);
         $this->call('migrate', ['--path' => 'database/migrations/2016_01_04_173148_create_admin_tables.php']);
 
         $userModel = config('admin.database.users_model');
