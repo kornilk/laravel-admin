@@ -253,6 +253,9 @@ img.inline-video{
     display:table-caption;
     caption-side: bottom;
 }
+.article-element.article-image .article-image-text:empty {
+    display:none;
+}
 .article-element.article-image .article-image-text .image-text{
     display:block;
 }

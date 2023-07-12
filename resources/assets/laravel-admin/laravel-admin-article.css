@@ -184,6 +184,9 @@
 	display: table-caption;
 	caption-side: bottom;
 }
+.article-style .article-element.article-image .article-image-text:empty {
+    display:none;
+}
 .article-style .article-element.article-image .article-image-text .image-text {
 	display: block;
 }

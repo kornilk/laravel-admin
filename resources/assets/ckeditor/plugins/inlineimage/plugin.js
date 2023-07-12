@@ -78,7 +78,7 @@ CKEDITOR.plugins.add('inlineimage', {
             exec: function (editor) {
                 var selection = editor.getSelection();
                 var element = selection.getStartElement();
-                element = element.remove();
+                element = element.getAscendant( { div:1} ).remove();
             }
         });
 
