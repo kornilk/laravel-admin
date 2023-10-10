@@ -1598,6 +1598,7 @@ class Field implements Renderable
             $field->setLabelClass($this->labelClass);
             $field->setHelpArray($this->help);
             $field->disableHorizontal($this->horizontal);
+            $field->options($this->options);
 
             if (method_exists($field, 'retainable') && property_exists($this, 'retainable')) $field->retainable($this->retainable);
             if (method_exists($field, 'removable') && property_exists($this, 'removable')) $field->removable($this->removable);
