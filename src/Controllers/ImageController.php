@@ -49,7 +49,7 @@ class ImageController extends AdminController
 
             $filter->where(function ($query) {
 
-                $query->where('title', 'like', "%{$this->input}%")
+                $query->whereTranslation('title', 'like', "%{$this->input}%")
                     ->orWhere('source', 'like', "%{$this->input}%")
                     ->orWhere('filename', 'like', "%{$this->input}%");
             }, __('admin.Search'));
