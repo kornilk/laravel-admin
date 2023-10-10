@@ -28,7 +28,8 @@ class HtmlTextController extends AdminController
 
             $filter->where(function ($query) {
 
-                $query->whereTranslation('value', 'like', "%{$this->input}%")
+                $decoded = htmlentities($this->input);
+                $query->whereTranslation('value', 'like', "%{$decoded}%")
                     ->orWhere('context', 'like', "%{$this->input}%")
                     ->orWhere('placeholder', 'like', "%{$this->input}%");
             
