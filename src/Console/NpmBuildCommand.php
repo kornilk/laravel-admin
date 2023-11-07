@@ -68,7 +68,7 @@ class NpmBuildCommand extends Command
 
     private function runPull()
     {
-        $process = new Process(['npm', 'run build']);
+        $process = new Process(['npm', 'run', 'build']);
         $this->info("Running 'npm run build'");
 
         $process->run(function($type, $buffer) {

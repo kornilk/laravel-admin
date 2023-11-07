@@ -79,7 +79,7 @@ class GitPullCommand extends Command
 
     private function runPull()
     {
-        $process = new Process(['git', 'pull origin $(git rev-parse --abbrev-ref HEAD)']);
+        $process = new Process(['git', 'pull', 'origin', '$(git rev-parse --abbrev-ref HEAD)']);
         $this->info("Running 'git pull'");
 
         $process->run(function($type, $buffer) {
