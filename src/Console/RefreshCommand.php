@@ -3,7 +3,6 @@
 namespace Encore\Admin\Console;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Process\Process;
 
 class RefreshCommand extends Command
 {
@@ -38,11 +37,12 @@ class RefreshCommand extends Command
      */
     public function handle()
     {
+
         if (!$this->call('git:pull')) {
             return;
         }
 
-        if (!$this->call('app:refresh')) {
+        if (!$this->call('npm:build')) {
             return;
         }
 

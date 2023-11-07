@@ -3,7 +3,7 @@
 namespace Encore\Admin\Console;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Process;
 
 class NpmBuildCommand extends Command
 {
@@ -20,14 +20,6 @@ class NpmBuildCommand extends Command
      * @var string
      */
     protected $description = 'Build the application with NPM';
-
-
-    /**
-     * Log from process
-     * 
-     * @var array
-     */
-    private $log = [];
 
     /**
      * Create a new command instance.
@@ -50,14 +42,11 @@ class NpmBuildCommand extends Command
 
             $this->error("An error occurred while executing 'npm run build'. \nLogs:");
 
-            foreach($this->log as $logLine) {
-                $this->info($logLine);
-            }
-
             return;
         }
 
         $this->info("Succesfully builded the application.");
+        return 1;
     }
 
     /**
@@ -66,16 +55,14 @@ class NpmBuildCommand extends Command
      * @return boolean
      */
 
-    private function runPull()
+    private function runBuild()
     {
-        $process = new Process(['npm', 'run', 'build']);
         $this->info("Running 'npm run build'");
-
-        $process->run(function($type, $buffer) {
-            $this->log[] = $buffer;
-            
+        $that = $this;
+        $process = Process::run('npm run build', function (string $type, string $output) use($that) {
+            $that->line($output);
         });
 
-        return $process->isSuccessful();
+        return $process->successful();
     }
 }

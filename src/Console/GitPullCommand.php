@@ -3,7 +3,7 @@
 namespace Encore\Admin\Console;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Process;
 
 class GitPullCommand extends Command
 {
@@ -22,20 +22,6 @@ class GitPullCommand extends Command
     protected $description = 'Pull files from GIT';
 
     /**
-     * Is the code already updated or not
-     * 
-     * @var boolean
-     */
-    private $alreadyUpToDate;
-
-    /**
-     * Log from git pull
-     * 
-     * @var array
-     */
-    private $pullLog = [];
-
-    /**
      * Create a new command instance.
      *
      * @return void
@@ -52,23 +38,15 @@ class GitPullCommand extends Command
      */
     public function handle()
     {
-        if(!$this->runPull()) {
+        if (!$this->runPull()) {
 
             $this->error("An error occurred while executing 'git pull'. \nLogs:");
 
-            foreach($this->pullLog as $logLine) {
-                $this->info($logLine);
-            }
-
-            return;
-        }
-
-        if($this->alreadyUpToDate) {
-            $this->info("The application is already up-to-date");
             return;
         }
 
         $this->info("Succesfully updated the application.");
+        return 1;
     }
 
     /**
@@ -79,18 +57,12 @@ class GitPullCommand extends Command
 
     private function runPull()
     {
-        $process = new Process(['git', 'pull', 'origin', '$(git rev-parse --abbrev-ref HEAD)']);
         $this->info("Running 'git pull'");
-
-        $process->run(function($type, $buffer) {
-            $this->pullLog[] = $buffer;
-
-            if($buffer == "Already up to date.\n") {
-                $this->alreadyUpToDate = TRUE;
-            }
-            
+        $that = $this;
+        $process = Process::run('git pull origin $(git rev-parse --abbrev-ref HEAD)', function (string $type, string $output) use($that) {
+            $that->line($output);
         });
 
-        return $process->isSuccessful();
+        return $process->successful();
     }
 }
