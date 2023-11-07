@@ -28,7 +28,7 @@ class NpmBuildCommand extends Command
      */
     protected $commands = [
         'npm',
-        '~/bin/npm',
+        'sh vendor/kornilk/laravel-admin/shell/npm.sh',
     ];
 
     /**
@@ -71,15 +71,21 @@ class NpmBuildCommand extends Command
         $NpmCommand = null;
 
         foreach ($this->commands as $command) {
+            
             $process = Process::run("{$command} -v");
+
+            $this->info("Try command '{$command} -v'");
+
             if ($process->successful()) {
                 $NpmCommand = $command;
                 break;
+            } else {
+                $this->error($process->errorOutput());
             }
         }
 
         if (!$NpmCommand) {
-            $this->error("Npm command not found");
+            $this->error("Valid npm command not found");
             return false;
         }
 
