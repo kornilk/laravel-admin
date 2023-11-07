@@ -43,6 +43,7 @@ class AdminServiceProvider extends ServiceProvider
         Console\ModelCommand::class,
         Console\ContentCommand::class,
         Console\MigrationCommand::class,
+        Console\GitPullCommand::class,
     ];
 
     /**
