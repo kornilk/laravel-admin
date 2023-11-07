@@ -40,7 +40,7 @@ class GitPullCommand extends Command
     {
         if (!$this->runPull()) {
 
-            $this->error("An error occurred while executing 'git pull'. \nLogs:");
+            $this->error("An error occurred while executing 'git pull'");
 
             return;
         }

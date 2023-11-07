@@ -22,6 +22,16 @@ class NpmBuildCommand extends Command
     protected $description = 'Build the application with NPM';
 
     /**
+     * Npm commands
+     *
+     * @var array
+     */
+    protected $commands = [
+        'npm',
+        '~/bin/npm',
+    ];
+
+    /**
      * Create a new command instance.
      *
      * @return void
@@ -40,7 +50,7 @@ class NpmBuildCommand extends Command
     {
         if(!$this->runBuild()) {
 
-            $this->error("An error occurred while executing 'npm run build'. \nLogs:");
+            $this->error("An error occurred while executing 'npm run build'.");
 
             return;
         }
@@ -57,9 +67,22 @@ class NpmBuildCommand extends Command
 
     private function runBuild()
     {
-        $this->info("Running 'npm run build'");
         $that = $this;
-        $process = Process::run('npm run build', function (string $type, string $output) use($that) {
+        $command = null;
+
+        foreach ($this->commands as $command) {
+            $process = Process::run("{$command} -v");
+            if ($process->successful()) break;
+        }
+
+        if (!$command) {
+            $this->error("Npm command not found");
+            return false;
+        }
+
+        $this->info("Running '{$command} run build'");
+
+        $process = Process::run("{$command} run build", function (string $type, string $output) use($that) {
             $that->line($output);
         });
 
