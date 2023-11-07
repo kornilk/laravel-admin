@@ -12,7 +12,7 @@ class GitPullCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'admin:pull';
+    protected $signature = 'git:pull';
 
     /**
      * The console command description.
@@ -79,7 +79,7 @@ class GitPullCommand extends Command
 
     private function runPull()
     {
-        $process = new Process(['git', 'pull']);
+        $process = new Process(['git', 'pull origin $(git rev-parse --abbrev-ref HEAD)']);
         $this->info("Running 'git pull'");
 
         $process->run(function($type, $buffer) {
