@@ -68,21 +68,24 @@ class NpmBuildCommand extends Command
     private function runBuild()
     {
         $that = $this;
-        $command = null;
+        $NpmCommand = null;
 
         foreach ($this->commands as $command) {
             $process = Process::run("{$command} -v");
-            if ($process->successful()) break;
+            if ($process->successful()) {
+                $NpmCommand = $command;
+                break;
+            }
         }
 
-        if (!$command) {
+        if (!$NpmCommand) {
             $this->error("Npm command not found");
             return false;
         }
 
-        $this->info("Running '{$command} run build'");
+        $this->info("Running '{$NpmCommand} run build'");
 
-        $process = Process::run("{$command} run build", function (string $type, string $output) use($that) {
+        $process = Process::run("{$NpmCommand} run build", function (string $type, string $output) use($that) {
             $that->line($output);
         });
 
