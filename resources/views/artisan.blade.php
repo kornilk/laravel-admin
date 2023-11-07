@@ -61,7 +61,26 @@
         var send = function () {
     
             var $input = $('#terminal-query');
-    
+
+
+            // swal({
+            //     title: 'Command: ' + $input.val(),
+            //     type: "warning",
+            //     showCancelButton: false,
+            //     text: "Please wait...",
+            //     showLoader: true,
+            //     showConfirmButton: false,
+            //     allowOutsideClick: false,
+            // });
+
+            Swal.fire({
+                title: 'Execute: ' + $input.val(),
+                text: "Please wait...",
+                allowOutsideClick: false,
+                onBeforeOpen: () => {
+                    Swal.showLoading()
+                },
+            });
             $.ajax({
                 url:location.pathname,
                 method: 'post',
@@ -79,8 +98,33 @@
                         .slimScroll({ scrollTo: $("#terminal-box")[0].scrollHeight });
     
                     $input.val('');
+
+                    swal.close();
                 }
             });
+
+
+
+    
+            // $.ajax({
+            //     url:location.pathname,
+            //     method: 'post',
+            //     data: {
+            //         c: $input.val(),
+            //         _token: LA.token
+            //     },
+            //     success: function (response) {
+    
+            //         history.push($input.val());
+    
+            //         $('#terminal-box')
+            //             .append('<div class="item"><small class="label label-default"> > artisan '+$input.val()+'<\/small><\/div>')
+            //             .append('<div class="item">'+response+'<\/div>')
+            //             .slimScroll({ scrollTo: $("#terminal-box")[0].scrollHeight });
+    
+            //         $input.val('');
+            //     }
+            // });
         };
     
         $('#terminal-query').on('keyup', function (e) {
@@ -121,7 +165,7 @@
         <div class="box-header with-border">
             <i class="fa fa-terminal"></i>
         </div>
-        <div class="box-body chat" id="terminal-box">
+        <div style="min-height:50vh" class="box-body chat" id="terminal-box">
             <!-- chat item -->
     
             <!-- /.item -->

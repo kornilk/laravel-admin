@@ -52,11 +52,11 @@ class NpmBuildCommand extends Command
 
             $this->error("An error occurred while executing 'npm run build'.");
 
-            return;
+            return 1;
         }
 
         $this->info("Succesfully builded the application.");
-        return 1;
+        return 0;
     }
 
     /**

@@ -38,15 +38,15 @@ class RefreshCommand extends Command
     public function handle()
     {
 
-        if (!$this->call('git:pull')) {
-            return;
+        if ($this->call('git:pull') !== 0) {
+            return 1;
         }
 
-        if (!$this->call('npm:build')) {
-            return;
+        if (!$this->call('npm:build') !== 0) {
+            return 1;
         }
 
         $this->info("Succesfully refreshed the application.");
-        return 1;
+        return 0;
     }
 }

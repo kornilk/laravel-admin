@@ -42,11 +42,11 @@ class GitPullCommand extends Command
 
             $this->error("An error occurred while executing 'git pull'");
 
-            return;
+            return 1;
         }
 
         $this->info("Succesfully updated the application.");
-        return 1;
+        return 0;
     }
 
     /**
