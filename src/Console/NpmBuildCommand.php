@@ -28,7 +28,7 @@ class NpmBuildCommand extends Command
      */
     protected $commands = [
         'npm',
-        'sh vendor/kornilk/laravel-admin/shell/npm.sh',
+        'sh vendor/kornilk/laravel-admin/scripts/npm.sh',
     ];
 
     /**
@@ -71,7 +71,7 @@ class NpmBuildCommand extends Command
         $NpmCommand = null;
 
         foreach ($this->commands as $command) {
-            
+
             $process = Process::run("{$command} -v");
 
             $this->info("Try command '{$command} -v'");
