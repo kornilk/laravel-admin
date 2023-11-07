@@ -47,5 +47,6 @@ class RefreshCommand extends Command
         }
 
         $this->info("Succesfully refreshed the application.");
+        return 1;
     }
 }

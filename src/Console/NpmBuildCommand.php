@@ -28,7 +28,7 @@ class NpmBuildCommand extends Command
      */
     protected $commands = [
         'npm',
-        'sh vendor/kornilk/laravel-admin/scripts/npm.sh',
+        'export PATH=$PATH:~/bin && npm',
     ];
 
     /**
