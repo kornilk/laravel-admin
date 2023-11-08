@@ -62,17 +62,6 @@
     
             var $input = $('#terminal-query');
 
-
-            // swal({
-            //     title: 'Command: ' + $input.val(),
-            //     type: "warning",
-            //     showCancelButton: false,
-            //     text: "Please wait...",
-            //     showLoader: true,
-            //     showConfirmButton: false,
-            //     allowOutsideClick: false,
-            // });
-
             Swal.fire({
                 title: 'Execute: ' + $input.val(),
                 text: "Please wait...",
@@ -103,28 +92,6 @@
                 }
             });
 
-
-
-    
-            // $.ajax({
-            //     url:location.pathname,
-            //     method: 'post',
-            //     data: {
-            //         c: $input.val(),
-            //         _token: LA.token
-            //     },
-            //     success: function (response) {
-    
-            //         history.push($input.val());
-    
-            //         $('#terminal-box')
-            //             .append('<div class="item"><small class="label label-default"> > artisan '+$input.val()+'<\/small><\/div>')
-            //             .append('<div class="item">'+response+'<\/div>')
-            //             .slimScroll({ scrollTo: $("#terminal-box")[0].scrollHeight });
-    
-            //         $input.val('');
-            //     }
-            // });
         };
     
         $('#terminal-query').on('keyup', function (e) {

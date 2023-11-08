@@ -38,6 +38,7 @@ class NpmBuildCommand extends Command
      */
     public function __construct()
     {
+        $this->commands = array_filter(config('update.npm.commands'));
         parent::__construct();
     }
 
@@ -48,7 +49,7 @@ class NpmBuildCommand extends Command
      */
     public function handle()
     {
-        if(!$this->runBuild()) {
+        if (!$this->runBuild()) {
 
             $this->error("An error occurred while executing 'npm run build'.");
 
@@ -72,16 +73,30 @@ class NpmBuildCommand extends Command
 
         foreach ($this->commands as $command) {
 
-            $process = Process::run("{$command} -v");
+            $output = null;
+            $retval = null;
+            $testCommand = str_replace('{COMMAND}', $command, config('update.npm.test'));
+            exec($testCommand, $output, $retval);
 
-            $this->info("Try command '{$command} -v'");
+            $this->info("Try command '{$testCommand}'");
 
-            if ($process->successful()) {
+            if ($retval === 0) {
                 $NpmCommand = $command;
                 break;
             } else {
-                $this->error($process->errorOutput());
+                $this->error($output[0]);
             }
+
+            // $process = Process::run("{$command} -v");
+
+            // $this->info("Try command '{$command} -v'");
+
+            // if ($process->successful()) {
+            //     $NpmCommand = $command;
+            //     break;
+            // } else {
+            //     $this->error($process->errorOutput());
+            // }
         }
 
         if (!$NpmCommand) {
@@ -91,10 +106,20 @@ class NpmBuildCommand extends Command
 
         $this->info("Running '{$NpmCommand} run build'");
 
-        $process = Process::run("{$NpmCommand} run build", function (string $type, string $output) use($that) {
-            $that->line($output);
-        });
+        $output=null;
+        $retval=null;
+        exec(str_replace('{COMMAND}', $command, config('update.npm.command')), $output, $retval);
+       
+        foreach ($output as $line) {
+            $that->info($line);
+        }
 
-        return $process->successful();
+        // $process = Process::run("{$NpmCommand} run build", function (string $type, string $output) use ($that) {
+        //     $that->line($output);
+        // });
+
+        // return $process->successful();
+
+        return $retval === 0;
     }
 }

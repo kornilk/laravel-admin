@@ -4,14 +4,14 @@ namespace Encore\Admin\Console;
 
 use Illuminate\Console\Command;
 
-class RefreshCommand extends Command
+class UpdateCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'app:refresh';
+    protected $signature = 'app:update';
 
     /**
      * The console command description.

@@ -59,10 +59,21 @@ class GitPullCommand extends Command
     {
         $this->info("Running 'git pull'");
         $that = $this;
-        $process = Process::run('git pull origin $(git rev-parse --abbrev-ref HEAD)', function (string $type, string $output) use($that) {
-            $that->line($output);
-        });
 
-        return $process->successful();
+        $output=null;
+        $retval=null;
+        exec(config('update.git.command'), $output, $retval);
+       
+        foreach ($output as $line) {
+            $that->info($line);
+        }
+
+        // $process = Process::run('git pull origin $(git rev-parse --abbrev-ref HEAD)', function (string $type, string $output) use($that) {
+        //     $that->line($output);
+        // });
+
+        // return $process->successful();
+
+        return $retval === 0;
     }
 }

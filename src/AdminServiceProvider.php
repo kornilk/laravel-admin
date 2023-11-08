@@ -45,7 +45,7 @@ class AdminServiceProvider extends ServiceProvider
         Console\MigrationCommand::class,
         Console\GitPullCommand::class,
         Console\NpmBuildCommand::class,
-        Console\RefreshCommand::class,
+        Console\UpdateCommand::class,
     ];
 
     /**
