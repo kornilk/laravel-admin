@@ -13,7 +13,9 @@ CKEDITOR.plugins.add('insertobject', {
             dialog: 'insertobjectDialog',
             template: '<div class="article-object article-element"><div class="article-element" data-json="">' + editor.lang.insertobject.objectBox + '</div></div>',
             init: function () {
-                this.setData('JSON', this.element.getChild(0).getAttribute("data-json"));
+                $data = this.element.getChild(0).getAttribute("data-json");
+                if (typeof $data === 'string') $data = $data.replace('data-cke-saved-src=\\', '');
+                this.setData('JSON', $data);
             },
             data: function () {
                 if (this.data.JSON)
