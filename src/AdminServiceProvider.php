@@ -46,6 +46,7 @@ class AdminServiceProvider extends ServiceProvider
         Console\GitPullCommand::class,
         Console\NpmBuildCommand::class,
         Console\UpdateCommand::class,
+        Console\RegenerateImage::class,
     ];
 
     /**
