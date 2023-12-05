@@ -38,7 +38,9 @@ class NpmBuildCommand extends Command
      */
     public function __construct()
     {
-        $this->commands = array_filter(config('update.npm.commands'));
+        $commands = config('update.npm.commands');
+        if (is_array($commands))
+            $this->commands = array_filter(config('update.npm.commands'));
         parent::__construct();
     }
 
