@@ -6,10 +6,10 @@
     "homepage": "https://github.com/kornilk/laravel-admin",
     "license": "MIT",
     "require": {
-        "php": ">=7.0.0",
+        "php": ">=8.0",
         "symfony/dom-crawler": "~3.1|~4.0|~5.0",
         "laravel/framework": ">=5.5",
-        "doctrine/dbal": "2.*|3.*",
+        "doctrine/dbal": "3.*",
         "altek/eventually": "^3.0",
         "altek/accountant": "^4.0",
         "intervention/image": "^2.7",
@@ -20,7 +20,7 @@
 
     },
     "require-dev": {
-        "laravel/laravel": ">=5.5",
+        "laravel/laravel": ">=10.0",
         "fzaninotto/faker": "~1.4",
         "laravel/browser-kit-testing": "^6.0",
         "spatie/phpunit-watcher": "^1.22.0"
