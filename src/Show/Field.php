@@ -425,7 +425,7 @@ HTML;
      *
      * @return Field
      */
-    public function number($decimals = 0, $decimal_seperator = '.', $thousands_seperator = ',')
+    public function number($decimals = 0, $decimal_seperator = ',', $thousands_seperator = ' ')
     {
         return $this->unescape()->as(function ($value) use ($decimals, $decimal_seperator, $thousands_seperator) {
             return number_format($value, $decimals, $decimal_seperator, $thousands_seperator);

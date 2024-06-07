@@ -7,7 +7,7 @@ class Currency extends Text
     /**
      * @var string
      */
-    protected $symbol = '$';
+    protected $symbol = 'HUF';
 
     /**
      * @var array
@@ -23,7 +23,7 @@ class Currency extends Text
      */
     protected $options = [
         'alias'              => 'currency',
-        'radixPoint'         => '.',
+        'radixPoint'         => ',',
         'prefix'             => '',
         'removeMaskOnSubmit' => true,
         'groupSeparator'     => ' ',
