@@ -62,6 +62,8 @@ trait ExtendDisplay
         'lightbox'      => Displayers\Lightbox::class,
         'gallery'       => Displayers\Gallery::class,
         'edit'          => Displayers\Edit::class,
+        'number'        => Displayers\Number::class,
+        'currency'      => Displayers\Currency::class,
         'stripTags'     => Displayers\StripTags::class,
         'detail'        => Displayers\Detail::class,
     ];

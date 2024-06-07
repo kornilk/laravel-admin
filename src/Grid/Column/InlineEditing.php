@@ -175,12 +175,16 @@ trait InlineEditing
      *
      * @return $this
      */
-    public function currency()
+    public function currencyInline($affix = ' Ft', $prefix="", $decimals = 0, $decimal_separator = ',', $thousands_separator = ' ')
     {
+        $this->currency($affix = ' Ft', $prefix="", $decimals = 0, $decimal_separator = ',', $thousands_separator = ' ');
         return $this->input([
             'alias'              => 'currency',
-            'radixPoint'         => '.',
-            'prefix'             => '',
+            'digits'           => $decimals,
+            'radixPoint'         => $decimal_separator,
+            'groupSeparator' => $thousands_separator,
+            'prefix'             => $prefix,
+            'suffix'              => $affix,
             'removeMaskOnSubmit' => true,
         ]);
     }
