@@ -3,7 +3,6 @@
 namespace Encore\Admin\Grid\Displayers;
 
 use Encore\Admin\Grid\Displayers\AbstractDisplayer;
-use Str;
 
 class Currency extends AbstractDisplayer
 {

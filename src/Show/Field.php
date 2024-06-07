@@ -417,6 +417,50 @@ HTML;
     }
 
     /**
+     * Add suffix to string.
+     *
+     * @param string $string
+     *
+     * @return Field
+     */
+    public function suffix($string = '')
+    {
+        return $this->as(function($value) use ($string){
+            return $value . $string;
+        });
+    }
+
+        /**
+     * Add prefix to string.
+     *
+     * @param string $string
+     *
+     * @return Field
+     */
+    public function prefix($string = '')
+    {
+        return $this->as(function($value) use ($string){
+            return $string . $value;
+        });
+    }
+
+     /**
+     * Show field as currency.
+     *
+     * @param string $affix
+     * @param string $prefix
+     * @param int    $decimals
+     * @param string $decimal_seperator
+     * @param string $thousands_seperator
+     *
+     * @return Field
+     */
+    public function currency($affix = ' Ft', $prefix="", $decimals = 0, $decimal_separator = ',', $thousands_separator = ' ')
+    {
+        return $this->unescape()->number($decimals = 0, $decimal_separator = ',', $thousands_separator = ' ')->suffix($affix)->perfix($prefix);
+    }
+
+    /**
      * Show field as number.
      *
      * @param int    $decimals
