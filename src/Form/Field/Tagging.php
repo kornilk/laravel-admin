@@ -18,7 +18,7 @@ class Tagging extends MultipleSelect
         parent::__construct($column, $arguments);
     }
 
-        /**
+    /**
      * @param Form $form
      *
      * @return $this
@@ -60,7 +60,9 @@ class Tagging extends MultipleSelect
             return $tags->pluck($column, 'id');
         });
 
-        $this->ajax('/' . config('admin.route.prefix') . '/ajax/tagging/' . urlencode($this->tagClass), 'id', $this->config['column']);
+        $this->ajax(route('admin.getTaggingItems', [
+            'model' => urlencode($this->tagClass),
+        ]), 'id', $this->config['column']);
 
         return $this;
     }

@@ -15,12 +15,12 @@ class ButtonActions extends Actions
         'view' => [
             'label' => '',
             'icon'  => 'fa fa-eye',
-            'class' => 'btn btn-sm btn-info',
+            'class' => 'btn btn-sm btn-primary',
         ],
         'edit' => [
             'label' => '',
             'icon'  => 'fa fa-edit',
-            'class' => 'btn btn-sm btn-warning',
+            'class' => 'btn btn-sm btn-success',
         ],
         'delete' => [
             'label' => '',

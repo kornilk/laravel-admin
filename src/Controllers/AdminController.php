@@ -321,9 +321,29 @@ class AdminController extends Controller
     }
 
     public function getTaggingItems($model, \Illuminate\Http\Request $request){
-        $q = $request->get('q');
-        $model = $model::query();
-        if (!empty($q)) $model->where('name', 'like', "%{$q}%");
-        return new Response(json_encode(['data' => $model->get()->toArray()]));
+        if (\Admin::user()->can("{$model::getContentPermissionName()}.show")) {
+            $q = $request->get('q');
+            $model = $model::query();
+            if (!empty($q)) $model->where('name', 'like', "%{$q}%");
+            return new Response(json_encode(['data' => $model->get()->toArray()]));
+        }
+    }
+
+    public function getRelationSelectItems($model, $primaryKey='id', $column="title", \Illuminate\Http\Request $request){
+        if (\Admin::user()->can("{$model::getContentPermissionName()}.show")) {
+            $q = $request->get('q');
+            $model = $model::query();
+            if (!empty($q)) $model->where($column, 'like', "%{$q}%");
+            return new Response(json_encode(['data' => $model->select($primaryKey, $column)->get()]));
+        }
+    }
+
+    public function getRelationSelectItem($model, $primaryKey='id', $column="title", \Illuminate\Http\Request $request){
+        if (\Admin::user()->can("{$model::getContentPermissionName()}.show")) {
+            $id = $request->get('id');
+            $model = $model::query();
+            $model = $model->where($primaryKey, $id);
+            return response()->json(['data' => $model->select($primaryKey, "{$column} AS text")->first()]);
+        }
     }
 }

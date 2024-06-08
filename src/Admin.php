@@ -341,6 +341,8 @@ class Admin
                 $router->post('_grid-sortable_', 'GridSortableController@sort')->name('laravel-admin-grid-sortable'); 
 
                 $router->get('/ajax/tagging/{model}', 'AdminController@getTaggingItems')->name('getTaggingItems');
+                $router->get('/ajax/relation-select-items/{model}/{primaryKey}/{column}', 'AdminController@getRelationSelectItems')->name('getRelationSelectItems');
+                $router->get('/ajax/relation-select-item/{model}/{primaryKey}/{column}', 'AdminController@getRelationSelectItem')->name('getRelationSelectItem');
 
   
             });
