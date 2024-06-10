@@ -160,4 +160,5 @@ return [
     'No additional information available.' => 'További információ nem áll rendelkezésre.',
     'Latest operations' => 'Utolsó műveletek',
     'Identifier' => 'Azonosító',
+    'Enabled' => 'Engedélyezve',
 ];

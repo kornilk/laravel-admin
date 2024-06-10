@@ -160,4 +160,5 @@ return [
     'No additional information available.' => 'No additional information available.',
     'Latest operations' => 'Latest operations',
     'Identifier' => 'Identifier',
+    'Enabled' => 'Enabled',
 ];

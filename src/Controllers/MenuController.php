@@ -123,19 +123,34 @@ class MenuController extends Controller
 
         $form = new Form(new $menuModel());
 
-        $form->display('id', 'ID');
+        $form->column(4, function ($form) {
+            $form->text('title', trans('admin.title'))->rules('required');
+        });
 
-        $form->select('parent_id', trans('admin.parent_id'))->options($menuModel::selectOptions());
-        $form->text('title', trans('admin.title'))->rules('required');
-        $form->icon('icon', trans('admin.icon'))->default('fa-bars')->rules('required')->help($this->iconHelp());
-        $form->text('uri', trans('admin.uri'));
-        $form->multipleSelect('roles', trans('admin.roles'))->options($roleModel::all()->pluck('name', 'id'));
-        if ($form->model()->withPermission()) {
-            $form->select('permission', trans('admin.permission'))->options($permissionModel::pluck('name', 'slug'));
-        }
+        $form->column(4, function ($form) use($menuModel) {
+            $form->select('parent_id', trans('admin.parent_id'))->options($menuModel::selectOptions());
+        });
 
-        $form->display('created_at', trans('admin.created_at'));
-        $form->display('updated_at', trans('admin.updated_at'));
+
+        $form->column(4, function ($form) {
+            $form->icon('icon', trans('admin.icon'))->default('fa-bars')->rules('required')->help($this->iconHelp());
+        });
+
+        $form->column(4, function ($form) {
+            $form->text('uri', trans('admin.uri'));
+        });
+        $form->column(4, function ($form) {
+            $form->switch('enabled', trans('admin.Enabled'))->default(1);
+        });
+
+        $form->column(12, function ($form) use($roleModel) {
+            $form->multipleSelect('roles', trans('admin.roles'))->options($roleModel::all()->pluck('name', 'id'));
+        });
+        $form->column(12, function ($form) use($permissionModel) {
+            if ($form->model()->withPermission()) {
+                $form->select('permission', trans('admin.permission'))->options($permissionModel::pluck('name', 'slug'));
+            }
+        });
 
         return $form;
     }

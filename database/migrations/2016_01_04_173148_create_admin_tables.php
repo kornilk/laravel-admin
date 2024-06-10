@@ -55,6 +55,7 @@ class CreateAdminTables extends Migration
             $table->string('icon', 50);
             $table->string('uri')->nullable();
             $table->string('permission')->nullable();
+            $table->boolean('enabled')->default(1);
 
             $table->timestamps();
         });
