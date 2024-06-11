@@ -121,7 +121,7 @@ return [
     'Search' => 'Search',
     'Recycle Bin' => 'Recycle Bin',
     'Are you sure you want to restore?' => 'Are you sure you want to restore?',
-    'Are you sure you want to delete permanently' => 'Are you sure you want to delete permanently',
+    'Are you sure you want to delete permanently?' => 'Are you sure you want to delete permanently',
     'Permanently deleted' => 'Permanently deleted',
     'Are you sure you want to resume?' => 'Are you sure you want to resume?',
     'Restored' => 'Restored',

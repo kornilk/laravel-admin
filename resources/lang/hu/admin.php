@@ -121,7 +121,7 @@ return [
     'Search' => 'Keresés',
     'Recycle Bin' => 'Kuka',
     'Are you sure you want to restore?' => 'Biztos visszaállítja?',
-    'Are you sure you want to delete permanently' => 'Biztos véglegesen törli?',
+    'Are you sure you want to delete permanently?' => 'Biztos véglegesen törli?',
     'Permanently deleted' => 'Véglegesen törölve',
     'Are you sure you want to resume?' => 'Folytatja?',
     'Restored' => 'Restored',

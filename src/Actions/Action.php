@@ -2,6 +2,7 @@
 
 namespace Encore\Admin\Actions;
 
+use Closure;
 use Encore\Admin\Admin;
 use Encore\Admin\Form\Field;
 use Illuminate\Contracts\Support\Renderable;
@@ -67,6 +68,11 @@ abstract class Action implements Renderable
     protected $attributes = [];
 
     /**
+     * @var array
+     */
+    protected $elmentClasses = [];
+
+    /**
      * @var string
      */
     public $selectorPrefix = '.action-';
@@ -85,6 +91,11 @@ abstract class Action implements Renderable
      * @var string
      */
     public $name;
+
+    /**
+    * @var array
+    */
+    public $callbacks = [];
 
     /**
      * Action constructor.
@@ -123,6 +134,18 @@ abstract class Action implements Renderable
     }
 
     /**
+     * @param \Closure $callback
+     *
+     * @return \Encore\Admin\Form\Field
+     */
+    public function callback(Closure $callback): self
+    {
+        $this->callbacks[] = $callback;
+
+        return $this;
+    }
+
+    /**
      * @param string $prefix
      *
      * @return mixed|string
@@ -149,6 +172,18 @@ abstract class Action implements Renderable
         }
 
         return static::$selectors[$class];
+    }
+
+    /**
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function addElementClass($value)
+    {
+        $this->elmentClasses[] = $value;
+
+        return $this;
     }
 
     /**
@@ -185,7 +220,8 @@ abstract class Action implements Renderable
      */
     protected function getElementClass()
     {
-        return ltrim($this->selector($this->selectorPrefix), '.');
+        $class = array_merge([ltrim($this->selector($this->selectorPrefix), '.')], $this->elmentClasses);
+        return implode(' ', $class);
     }
 
     /**
@@ -423,6 +459,12 @@ SCRIPT;
      */
     public function render()
     {
+        foreach ($this->callbacks as $callback){
+            if ($callback instanceof Closure) {
+                $callback->call($this, $this);
+            }
+        }
+ 
         $this->addScript();
 
         $content = $this->html();

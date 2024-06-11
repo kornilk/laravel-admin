@@ -2,6 +2,7 @@
 
 namespace Encore\Admin\Actions;
 
+use Closure;
 use Encore\Admin\Grid\Column;
 use Illuminate\Http\Request;
 
@@ -26,6 +27,11 @@ abstract class RowAction extends GridAction
      * @var bool
      */
     protected $asColumn = false;
+
+        /**
+    * @var \Closure
+    */
+    public $formatName;
 
     /**
      * Get primary key value of current row.
@@ -122,9 +128,28 @@ abstract class RowAction extends GridAction
 
         return $modelClass::findOrFail($key);
     }
-
-    public function display($value)
+   /**
+     * @param \Closure $callback
+     *
+     * @return \Encore\Admin\Form\Field
+     */
+    public function setFormatName(Closure $callback): self
     {
+        $this->formatName = $callback;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function formatName(): string
+    {
+        if ($this->formatName instanceof Closure) {
+            return $this->formatName->call($this, $this->name());
+        }
+
+        return $this->name();
     }
 
     /**
@@ -134,19 +159,25 @@ abstract class RowAction extends GridAction
      */
     public function render()
     {
+        foreach ($this->callbacks as $callback){
+            if ($callback instanceof Closure) {
+                $callback->call($this, $this);
+            }
+        }
+        $attributes = $this->formatAttributes();
+        // $name = $this->asColumn ? $this->display($this->row($this->column->getName())) : $this->name();
+
         if ($href = $this->href()) {
-            return "<a href='{$href}'>{$this->name()}</a>";
+            return "<a class='{$this->getElementClass()}' href='{$href}' {$attributes}>{$this->formatName()}</a>";
         }
 
         $this->addScript();
-
-        $attributes = $this->formatAttributes();
 
         return sprintf(
             "<a data-_key='%s' href='javascript:void(0);' class='%s' {$attributes}>%s</a>",
             $this->getKey(),
             $this->getElementClass(),
-            $this->asColumn ? $this->display($this->row($this->column->getName())) : $this->name()
+            $this->formatName()
         );
     }
 }
