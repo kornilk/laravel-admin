@@ -250,11 +250,11 @@ input.lead, textarea.lead {
     margin-left:5px;
 }
 
-.belongs-to-select {
+.belongs-relation-select {
     display:flex;
     align-items: center;
 }
 
-.belongs-to-select .belongs-to-select-button {
+.belongs-relation-select .belongs-relation-select-button {
     padding-left:3px;
 }

@@ -126,7 +126,8 @@ trait HasFields
         'belongsTo'         => Field\BelongsTo::class,
         'belongsToMany'     => Field\BelongsToMany::class,
         'belongsToManyOrdered' => Field\BelongsToManyOrdered::class,
-        'belongsToSelect' => Field\BelongsToSelect::class,
+        'belongsToSelect'   => Field\BelongsToSelect::class,
+        'belongsToManySelect' => Field\BelongsToManySelect::class,
         'editor'            => Field\Editor::class,
     ];
 

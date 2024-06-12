@@ -320,7 +320,18 @@ class AdminController extends Controller
         return $res;
     }
 
-    public function getTaggingItems($model, \Illuminate\Http\Request $request){
+    /**
+     * Get items for tagging feature.
+     *
+     * @param string $model The model class name.
+     * @param \Illuminate\Http\Request $request The HTTP request object.
+     *
+     * @return \Illuminate\Http\JsonResponse Returns a JSON response with the data for tagging.
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException If the user does not have the required permission.
+     */
+    public function getTaggingItems($model, \Illuminate\Http\Request $request)
+    {
         if (\Admin::user()->can("{$model::getContentPermissionName()}.show")) {
             $q = $request->get('q');
             $model = $model::query();
@@ -329,16 +340,49 @@ class AdminController extends Controller
         }
     }
 
-    public function getRelationSelectItems($model, $primaryKey='id', $column="title", \Illuminate\Http\Request $request){
+    /**
+     * Get items for relation select feature.
+     *
+     * @param string $model The model class name.
+     * @param string $primaryKey The primary key column name of the model. Default is 'id'.
+     * @param string $column The column name to be displayed in the select box. Default is 'title'.
+     * @param \Illuminate\Http\Request $request The HTTP request object.
+     *
+     * @return \Illuminate\Http\JsonResponse Returns a JSON response with the data for relation select.
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException If the user does not have the required permission.
+     */
+    public function getRelationSelectItems($model, $primaryKey = 'id', $column = "title", \Illuminate\Http\Request $request)
+    {
         if (\Admin::user()->can("{$model::getContentPermissionName()}.show")) {
             $q = $request->get('q');
             $model = $model::query();
             if (!empty($q)) $model->where($column, 'like', "%{$q}%");
-            return new Response(json_encode(['data' => $model->select($primaryKey, $column)->get()]));
+            $result = $model->select($primaryKey, $column)->simplePaginate(15);
+      
+            return new \Illuminate\Http\JsonResponse([
+                'data' => $result->items(),
+                'pagination' => [
+                    'more' => $result->hasMorePages(),
+                ]
+            ]);
         }
     }
 
-    public function getRelationSelectItem($model, $primaryKey='id', $column="title", \Illuminate\Http\Request $request){
+    /**
+     * Get a single item for relation select feature.
+     *
+     * @param string $model The model class name.
+     * @param string $primaryKey The primary key column name of the model. Default is 'id'.
+     * @param string $column The column name to be displayed in the select box. Default is 'title'.
+     * @param \Illuminate\Http\Request $request The HTTP request object.
+     *
+     * @return \Illuminate\Http\JsonResponse Returns a JSON response with the data for relation select.
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException If the user does not have the required permission.
+     */
+    public function getRelationSelectItem($model, $primaryKey = 'id', $column = "title", \Illuminate\Http\Request $request)
+    {
         if (\Admin::user()->can("{$model::getContentPermissionName()}.show")) {
             $id = $request->get('id');
             $model = $model::query();
