@@ -252,7 +252,7 @@ input.lead, textarea.lead {
 
 .belongs-relation-select {
     display:flex;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .belongs-relation-select .belongs-relation-select-button {
