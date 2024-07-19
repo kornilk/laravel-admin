@@ -129,6 +129,14 @@ class UserController extends AdminController
                 $roles->where('slug', '!=', $role_slug);
             }
 
+            foreach (config('admin.auth.admin_roles') as $role_slug) {
+                $roles->where('slug', '!=', $role_slug);
+            }
+
+            foreach (config('admin.auth.hidden_roles') as $role_slug) {
+                $roles->where('slug', '!=', $role_slug);
+            }
+
         }
 
         foreach (config('admin.auth.default_permissions') as $permission_slug) {

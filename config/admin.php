@@ -154,9 +154,13 @@ return [
             '*',
         ],
 
+        'hidden_permissions' => [],
+
         'admin_roles' => [
             'administrator',
-        ]
+        ],
+
+        'hidden_roles' => [],
     ],
 
     /*

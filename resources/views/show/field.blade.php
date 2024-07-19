@@ -6,9 +6,9 @@
             <!-- /.box-header -->
             <div class="box-body {{ $class }}">
                 @if($escape)
-                    {{ $content }}&nbsp;
+                    {{ $content ? $content : '&nbsp;' }}
                 @else
-                    {!! $content !!}&nbsp;
+                    {!! $content ? $content : '&nbsp;' !!}
                 @endif
             </div><!-- /.box-body -->
         </div>
