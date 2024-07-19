@@ -124,9 +124,9 @@ class UserController extends AdminController
             foreach (config('admin.auth.admin_permissions') as $permission_slug) {
                 $permissions->where('slug', '!=', $permission_slug);
             }
-
-            foreach (config('admin.auth.admin_roles') as $role_slug) {
-                $roles->where('slug', '!=', $role_slug);
+         
+            foreach (config('admin.auth.hidden_permissions') as $permission_slug) {
+                $permissions->where('slug', '!=', $permission_slug);
             }
 
             foreach (config('admin.auth.admin_roles') as $role_slug) {
@@ -200,8 +200,26 @@ class UserController extends AdminController
                         unset($permissions[$key]);
                     }
                 }
+
+                foreach (config('admin.auth.hidden_permissions') as $permission_slug) {
+
+                    $permission = $permissionModel::where('slug', $permission_slug)->first();
+
+                    if ($permission && ($key = array_search($permission->id, $permissions)) !== false) {
+                        unset($permissions[$key]);
+                    }
+                }
     
                 foreach (config('admin.auth.admin_roles') as $role_slug) {
+
+                    $role = $roleModel::where('slug', $role_slug)->first();
+
+                    if ($role && ($key = array_search($role->id, $roles)) !== false) {
+                        unset($roles[$key]);
+                    }
+                }
+
+                foreach (config('admin.auth.hidden_roles') as $role_slug) {
 
                     $role = $roleModel::where('slug', $role_slug)->first();
 
