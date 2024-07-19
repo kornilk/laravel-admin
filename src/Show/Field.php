@@ -587,6 +587,19 @@ HTML;
     }
 
     /**
+     * nl2br
+     *
+     * @return Field
+     */
+    public function nl2br()
+    {
+        return $this->unescape()->as(function($value){
+            if (empty($value)) return $value;
+            return nl2br($value);
+        });
+    }
+
+    /**
      * Override class
      *
      * @return Field
