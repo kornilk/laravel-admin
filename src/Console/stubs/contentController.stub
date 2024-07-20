@@ -28,6 +28,7 @@ DummyGrid
 
             $filter->where(function ($query) {
 
+                /** @var \Encore\Admin\Grid\Filter\Where $this */
                 $query->where('title', 'like', "%{$this->input}%");
             
             }, __('admin.Search'));
