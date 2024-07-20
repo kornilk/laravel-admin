@@ -161,7 +161,7 @@ class AdminController extends Controller
     public function edit($id, Content $content)
     {
         $this->id = $id;
-        $body = $this->detail($id);
+        $body = $this->model::findOrFail($id);
         $content->breadcrumb(...$this->getBreadcrumb($id, $body, __('admin.edit')));
 
         if (!empty($this->description['edit'])) $content->description($this->description['edit']);
