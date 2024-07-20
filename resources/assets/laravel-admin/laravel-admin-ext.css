@@ -3,6 +3,10 @@
     margin-left: 5px;
 }
 
+.mb-0 { margin-bottom:0px;}
+.mt-0 { margin-top:0px;}
+.my-0 { margin-bottom:0px; margin-top:0px;}
+
 .column-__actions__ a {
     font-size: 18px;
     margin:0 5px;
@@ -257,4 +261,14 @@ input.lead, textarea.lead {
 
 .belongs-relation-select .belongs-relation-select-button {
     padding-left:3px;
+}
+
+.modal-content {
+    border-radius: 0.3125em;
+}
+
+.modal-header .close {
+    margin-top: -2px;
+    font-size: 28px;
+    opacity: 0.4;
 }
