@@ -272,3 +272,7 @@ input.lead, textarea.lead {
     font-size: 28px;
     opacity: 0.4;
 }
+
+.color-red {
+    color: #d9534f;
+}
