@@ -164,9 +164,13 @@ class UserController extends AdminController
 
         $form->ignore(['password_confirmation']);
 
-        $form->listbox('roles', trans('admin.roles'))->options($roles->get()->pluck('name', 'id'));
+        $form->listbox('roles', trans('admin.roles'))->options($roles->get()->pluck('name', 'id'))->addVariables(['optionStyles' => [
+            'color-red' => (new $roleModel)->whereIn('slug', config('admin.auth.hidden_roles'))->get()->pluck('id')->toArray(),
+        ]]);
 
-        $form->listbox('permissions', trans('admin.permissions'))->options($permissions->get()->pluck('name', 'id'));
+        $form->listbox('permissions', trans('admin.permissions'))->options($permissions->get()->pluck('name', 'id'))->addVariables(['optionStyles' => [
+            'color-red' => (new $permissionModel)->whereIn('slug', config('admin.auth.hidden_permissions'))->get()->pluck('id')->toArray(),
+        ]]);
 
         $form->saving(function (Form $form) use ($permissionModel, $roleModel) {
 
