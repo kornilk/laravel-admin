@@ -7,9 +7,10 @@ use Str;
 
 class Detail extends AbstractDisplayer
 {
-    public function display($href = null, $limit = 90)
+    public function display($icon = false, $href = null, $limit = 90)
     {
         if (empty($href)) $href = $this->getResource() . '/' . $this->row->id;
-        return '<a title="' . $this->value . '" href="' . $href . '"><i class="fa fa-eye" aria-hidden="true"></i>' . Str::limit($this->value, $limit, '...') . '</a>';
+        $icon = $icon ? '<i class="fa fa-eye mr-2" aria-hidden="true"></i>' : '';
+        return '<a title="' . $this->value . '" href="' . $href . '">' . $icon . Str::limit($this->value, $limit, '...') . '</a>';
     }
 }

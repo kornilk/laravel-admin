@@ -1,6 +1,6 @@
 <?php
 
-namespace Encore\Grid\Displayers\Lightbox;
+namespace Encore\Admin\Grid\Displayers;
 
 use Encore\Admin\Admin;
 use Encore\Admin\Grid\Displayers\AbstractDisplayer;

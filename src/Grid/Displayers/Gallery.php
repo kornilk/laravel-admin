@@ -1,6 +1,6 @@
 <?php
 
-namespace Encore\Grid\Displayers;
+namespace Encore\Admin\Grid\Displayers;
 
 class Gallery extends Lightbox
 {
