@@ -276,3 +276,13 @@ input.lead, textarea.lead {
 .color-red {
     color: #d9534f;
 }
+
+.select2-readonly .select2-selection {
+    background-color: #eee;
+    opacity: 1;
+    cursor: not-allowed;
+}
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    cursor: not-allowed;
+}

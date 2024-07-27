@@ -1039,7 +1039,7 @@ class Form implements Renderable
      *
      * @return mixed
      */
-    protected function getFieldByColumn($column)
+    public function getFieldByColumn($column)
     {
         return $this->fields()->first(
             function (Field $field) use ($column) {

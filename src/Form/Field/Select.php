@@ -397,6 +397,7 @@ $("{$this->getElementClassSelector()}").on("select2:opening", function (e) {
 $(document).ready(function(){
     $("{$this->getElementClassSelector()}").each(function(){
         if($(this).is('[readonly]')){
+            $(this).closest('.form-field').addClass('select2-readonly');
             $(this).closest('.form-field').find('span.select2-selection__choice__remove').remove();
             $(this).closest('.form-field').find('li.select2-search').first().remove();
             $(this).closest('.form-field').find('span.select2-selection__clear').first().remove();
