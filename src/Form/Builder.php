@@ -64,6 +64,11 @@ class Builder
     protected $hiddenFields = [];
 
     /**
+     * @var array
+     */
+    protected $data = [];
+
+    /**
      * @var Tools
      */
     protected $tools;
@@ -128,7 +133,7 @@ class Builder
         $this->tools = new Tools($this);
         $this->footer = new Footer($this);
 
-        $this->formClass = 'model-form-'.uniqid();
+        $this->formClass = 'model-form-' . uniqid();
     }
 
     /**
@@ -156,7 +161,8 @@ class Builder
      *
      * @return string
      */
-    public function getFormClass(){
+    public function getFormClass()
+    {
         return $this->formClass;
     }
 
@@ -301,7 +307,7 @@ class Builder
         }
 
         if ($this->isMode(static::MODE_EDIT)) {
-            return $this->form->resource().'/'.$this->id;
+            return $this->form->resource() . '/' . $this->id;
         }
 
         if ($this->isMode(static::MODE_CREATE)) {
@@ -491,6 +497,38 @@ class Builder
     }
 
     /**
+     * Set data for builder.
+     *
+     * @param array|string $key The name of the data or an array of data.
+     * @param mixed  $value The value of the data. If $key is an array, this parameter should be null.
+     *
+     * @return $this
+     */
+    public function setData(array|string $key, mixed $value = null): self
+    {
+        if (is_string($key)) $key = [$key => $value];
+        $this->data = array_merge($this->data, $key);
+        return $this;
+    }
+
+    /**
+     * Retrieves data associated with the form builder.
+     *
+     * If a key is provided, the function will return the value associated with that key.
+     * If no key is provided, the function will return the entire data array.
+     *
+     * @param string|null $key The key of the data to retrieve. If null, the entire data array will be returned.
+     *
+     * @return mixed|self If a key is provided, the function will return the corresponding value or null if the key does not exist.
+     *                   If no key is provided, the function will return the entire data array.
+     */
+    public function getData(string|null $key = null): mixed
+    {
+        if ($key) return $this->data[$key] ?? null;
+        return $this->data;
+    }
+
+    /**
      * Open up a new HTML form.
      *
      * @param array $options
@@ -521,7 +559,7 @@ class Builder
             $html[] = "$name=\"$value\"";
         }
 
-        return '<form '.implode(' ', $html).' pjax-container>';
+        return '<form ' . implode(' ', $html) . ' pjax-container>';
     }
 
     /**
@@ -689,6 +727,7 @@ SCRIPT;
 
         $data = [
             'form'   => $this,
+            'data'   => $this->getData(),
             'tabObj' => $tabObj,
             'width'  => $this->width,
             'layout' => $this->form->getLayout(),
@@ -697,7 +736,8 @@ SCRIPT;
         return view($this->view, $data)->render();
     }
 
-    public function form(){
+    public function form()
+    {
         return $this->form;
     }
 }

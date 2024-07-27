@@ -510,7 +510,7 @@ class Form implements Renderable
 
         foreach ($inputs as $column => $value) {
             if ((method_exists($this->model, $column) ||
-                method_exists($this->model, $column = Str::camel($column))) &&
+                    method_exists($this->model, $column = Str::camel($column))) &&
                 !method_exists(Model::class, $column)
             ) {
                 $relation = call_user_func([$this->model, $column]);
@@ -630,13 +630,13 @@ class Form implements Renderable
     {
         if (request('after-save') == 1) {
             // continue editing
-            $url = rtrim($resourcesPath, '/')."/{$key}/edit";
+            $url = rtrim($resourcesPath, '/') . "/{$key}/edit";
         } elseif (request('after-save') == 2) {
             // continue creating
-            $url = rtrim($resourcesPath, '/').'/create';
+            $url = rtrim($resourcesPath, '/') . '/create';
         } elseif (request('after-save') == 3) {
             // view resource
-            $url = rtrim($resourcesPath, '/')."/{$key}";
+            $url = rtrim($resourcesPath, '/') . "/{$key}";
         } else {
             $url = request(Builder::PREVIOUS_URL_KEY) ?: $resourcesPath;
         }
@@ -932,7 +932,8 @@ class Form implements Renderable
     {
         foreach ((array) $columns as $column) {
             if ((!$containsDot && Str::contains($column, '.')) ||
-                ($containsDot && !Str::contains($column, '.'))) {
+                ($containsDot && !Str::contains($column, '.'))
+            ) {
                 return true;
             }
         }
@@ -1122,7 +1123,7 @@ class Form implements Renderable
         $data = $this->model->toArray();
 
         if ($this->modelIsTranslatable) {
-            foreach ($data['translations'] as $translatedField){
+            foreach ($data['translations'] as $translatedField) {
                 $data[$translatedField['column_name'] . '_' . $translatedField['locale']] = $this->model->getTranslatedAttribute($translatedField['column_name'], $translatedField['locale']);
             }
         }
@@ -1218,13 +1219,15 @@ class Form implements Renderable
             if (Str::contains($column, '.')) {
                 list($relation) = explode('.', $column);
 
-                if (method_exists($this->model, $relation) &&
+                if (
+                    method_exists($this->model, $relation) &&
                     !method_exists(Model::class, $relation) &&
                     $this->model->$relation() instanceof Relations\Relation
                 ) {
                     $relations[] = $relation;
                 }
-            } elseif (method_exists($this->model, $column) &&
+            } elseif (
+                method_exists($this->model, $column) &&
                 !method_exists(Model::class, $column)
             ) {
                 $relations[] = $column;
@@ -1266,6 +1269,36 @@ class Form implements Renderable
         $this->builder()->setWidth($fieldWidth, $labelWidth);
 
         return $this;
+    }
+
+    /**
+     * Set data for builder.
+     *
+     * @param array|string $key The name of the data or an array of data.
+     * @param mixed  $value The value of the data. If $key is an array, this parameter should be null.
+     *
+     * @return $this
+     */
+    public function setData(array|string $key, mixed $value = null): self
+    {
+        $this->builder()->setData($key, $value);
+        return $this;
+    }
+
+    /**
+     * Retrieves data associated with the form builder.
+     *
+     * If a key is provided, the function will return the value associated with that key.
+     * If no key is provided, the function will return the entire data array.
+     *
+     * @param string|null $key The key of the data to retrieve. If null, the entire data array will be returned.
+     *
+     * @return mixed|self If a key is provided, the function will return the corresponding value or null if the key does not exist.
+     *                   If no key is provided, the function will return the entire data array.
+     */
+    public function getData(string|null $key = null): mixed
+    {
+        return $this->builder()->getData($key);
     }
 
     /**
@@ -1594,14 +1627,16 @@ class Form implements Renderable
     {
         if ($className = static::findFieldClass($method)) {
             $column = \Arr::get($arguments, 0, ''); //[0];
-            
+
             if (!$this->disableTranslate && $this->modelIsTranslatable && is_string($column) && in_array($column, $this->model->getTranslatableAttributes())) {
 
                 $originalElement = new $className($column, array_slice($arguments, 1));
                 $originalElement->setUniqueId();
                 $originalElement->setLabel($originalElement->label() . ' [' . strtoupper(config('i18n.default')) . ']');
 
-                if (!$this->hasHorizontalFields()) {$originalElement->disableHorizontal();}
+                if (!$this->hasHorizontalFields()) {
+                    $originalElement->disableHorizontal();
+                }
 
                 $originalElement->translatedFields = [];
 
@@ -1609,7 +1644,7 @@ class Form implements Renderable
 
                     $isDefaultField = $locale === config('i18n.default');
 
-                    $this->html('<div class="translatable ' . ($isDefaultField ? '' : 'translatable-hidden') . '" data-locale="'.$locale.'">')->plain();
+                    $this->html('<div class="translatable ' . ($isDefaultField ? '' : 'translatable-hidden') . '" data-locale="' . $locale . '">')->plain();
 
                     if ($isDefaultField) {
                         $this->pushField($originalElement);
@@ -1625,12 +1660,11 @@ class Form implements Renderable
                 }
 
                 return $originalElement;
-    
             } else {
                 $element = new $className($column, array_slice($arguments, 1));
                 $element->setUniqueId();
                 if (!$this->hasHorizontalFields()) $element->disableHorizontal();
-                
+
                 $this->pushField($element);
             }
 
@@ -1650,36 +1684,42 @@ class Form implements Renderable
         return $this->layout;
     }
 
-    public function disableTranslatedFieldCopy(){
+    public function disableTranslatedFieldCopy()
+    {
         $this->disableTranslatedFieldCopy = true;
     }
 
-    public function copyFieldAttributesToTranslatedFields(){
-        foreach($this->fields() as $field){
-            if (property_exists($field, 'translatedFields')){
+    public function copyFieldAttributesToTranslatedFields()
+    {
+        foreach ($this->fields() as $field) {
+            if (property_exists($field, 'translatedFields')) {
                 $field->copyToTranslatedFields();
             }
         }
     }
 
 
-    public function disableColumnTranslate(){
-        
+    public function disableColumnTranslate()
+    {
+
         $this->disableTranslate = true;
-        
+
         return $this;
     }
 
-    public function enableColumnTranslate(){
+    public function enableColumnTranslate()
+    {
         $this->disableTranslate = false;
         return $this;
     }
 
-    public function hasHorizontalFields(){
+    public function hasHorizontalFields()
+    {
         return $this->hasHorizontalFields;
     }
 
-    public function setHorizontalFields($boolean){
+    public function setHorizontalFields($boolean)
+    {
         $this->hasHorizontalFields = $boolean;
     }
 }
