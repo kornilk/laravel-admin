@@ -1114,6 +1114,8 @@ class Field implements Renderable
             $this->setLabelClass(['asterisk']);
         }
 
+        $this->rules('required');
+
         return $this->attribute('required', true);
     }
 
