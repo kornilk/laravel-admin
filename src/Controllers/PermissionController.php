@@ -2,6 +2,7 @@
 
 namespace Encore\Admin\Controllers;
 
+use Encore\Admin\Auth\Database\Permission;
 use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Show;
@@ -9,6 +10,8 @@ use Illuminate\Support\Str;
 
 class PermissionController extends AdminController
 {
+    protected $model = Permission::class;
+    
     /**
      * {@inheritdoc}
      */
