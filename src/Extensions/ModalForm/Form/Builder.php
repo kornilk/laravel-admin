@@ -30,7 +30,7 @@ class Builder extends \Encore\Admin\Form\Builder
     public function render():string
     {
         Modal::style(file_get_contents(public_path('/vendor/laravel-admin/modal-form/css/modal-form.css')));
-        return view($this->view, $this->getData())->render();
+        return view($this->view, $this->getModalData())->render();
     }
 
     /**
@@ -55,7 +55,7 @@ class Builder extends \Encore\Admin\Form\Builder
     /**
      * @return array
      */
-    protected function getData()
+    protected function getModalData()
     {
         $this->removeReservedFields();
 
