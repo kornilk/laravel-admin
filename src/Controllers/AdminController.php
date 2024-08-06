@@ -336,7 +336,13 @@ class AdminController extends Controller
             $q = $request->get('q');
             $model = $model::query();
             if (!empty($q)) $model->where('name', 'like', "%{$q}%");
-            return new Response(json_encode(['data' => $model->get()->toArray()]));
+            $result = $model->simplePaginate(15);
+            return new \Illuminate\Http\JsonResponse([
+                'data' => $result->items(),
+                'pagination' => [
+                    'more' => $result->hasMorePages(),
+                ]
+            ]);
         }
     }
 
