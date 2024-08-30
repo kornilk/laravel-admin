@@ -12,45 +12,49 @@ CKEDITOR.plugins.add('inlineimage', {
 
                 var browserCallback = function (response) {
 
-                    var image_text = '';
-                    var image_source = '';
-                    var image_text_cont = '';
+                    if (!(response instanceof Array)) response = [response];
 
-                    if (response.title !== undefined && response.title !== '' && response.title !== null)
-                        image_text = '<div data-tabu="true" class="image-text article-element">' + response.title + '</div>';
+                    for (var i = 0; i < response.length; i++) {
+                        var image_text = '';
+                        var image_source = '';
+                        var image_text_cont = '';
 
-                    if (response.source !== undefined && response.source !== '' && response.source !== null)
-                        image_source = '<div data-tabu="true" class="image-source article-element"><div data-tabu="true" class="image-source-text article-element">Forrás: ' + response.source + '</div></div>';
+                        if (response[i].title !== undefined && response[i].title !== '' && response[i].title !== null)
+                            image_text = '<div data-tabu="true" class="image-text article-element">' + response[i].title + '</div>';
 
-                    if (image_text !== '' || image_source !== '')
-                        image_text_cont = '<div data-tabu="true" class="article-image-text article-element">' + image_text + image_source + '</div>';
+                        if (response[i].source !== undefined && response[i].source !== '' && response[i].source !== null)
+                            image_source = '<div data-tabu="true" class="image-source article-element"><div data-tabu="true" class="image-source-text article-element">Forrás: ' + response[i].source + '</div></div>';
 
-                    if (response.title === undefined || response.title === null) response.title = '';
-                    if (response.source === undefined || response.source === null) response.source = '';
+                        if (image_text !== '' || image_source !== '')
+                            image_text_cont = '<div data-tabu="true" class="article-image-text article-element">' + image_text + image_source + '</div>';
 
-                    $img = '<img data-tabu="true" width="' + response.picture.default.width + '" height="' + response.picture.default.height + '" data-max-height="' + response.height + '" data-max-width="' + response.width + '" alt="' + response.title + '" src="' + response.picture.default.path + '" data-original="' + response.storage_path + '" title="Forrás: ' + response.source + '"/>';
+                        if (response[i].title === undefined || response[i].title === null) response[i].title = '';
+                        if (response[i].source === undefined || response[i].source === null) response[i].source = '';
 
-                    $sources = '';
-                    
-                    function reverseForIn(obj, f) {
-                        var arr = [];
-                        for (var key in obj) {
-                          // add hasOwnPropertyCheck if needed
-                          arr.push(key);
+                        $img = '<img data-tabu="true" width="' + response[i].picture.default.width + '" height="' + response[i].picture.default.height + '" data-max-height="' + response[i].height + '" data-max-width="' + response[i].width + '" alt="' + response[i].title + '" src="' + response[i].picture.default.path + '" data-original="' + response[i].storage_path + '" title="Forrás: ' + response[i].source + '"/>';
+
+                        $sources = '';
+                        
+                        function reverseForIn(obj, f) {
+                            var arr = [];
+                            for (var key in obj) {
+                            // add hasOwnPropertyCheck if needed
+                            arr.push(key);
+                            }
+                            for (var i=arr.length-1; i>=0; i--) {
+                            f.call(obj, arr[i]);
+                            }
                         }
-                        for (var i=arr.length-1; i>=0; i--) {
-                          f.call(obj, arr[i]);
-                        }
-                    }
-                    
-                    reverseForIn(response.picture.sources, function (i) { 
-                        $sources += '<source media="(min-width:'+i+'px)" width="'+response.picture.sources[i].width+'" height="'+response.picture.sources[i].height+'" srcSet="'+response.picture.sources[i].path+'"/>'
-                     });
-     
-                    var element = CKEDITOR.dom.element.createFromHtml('<div data-tabu="true" class="article-element article-image"><div data-tabu="true" class="image-wrapper article-element"><picture>'+$sources+$img+'</picture>' + image_text_cont + '</div></div>');
+                        
+                        reverseForIn(response[i].picture.sources, function (i2) { 
+                            $sources += '<source media="(min-width:'+i2+'px)" width="'+response[i].picture.sources[i2].width+'" height="'+response[i].picture.sources[i2].height+'" srcSet="'+response[i].picture.sources[i2].path+'"/>'
+                        });
+        
+                        var element = CKEDITOR.dom.element.createFromHtml('<div data-tabu="true" class="article-element article-image"><div data-tabu="true" class="image-wrapper article-element"><picture>'+$sources+$img+'</picture>' + image_text_cont + '</div></div>');
 
-                    editor.insertElement(element);
-                    editor.widgets.initOn(element, 'inlineimage');
+                        editor.insertElement(element);
+                        editor.widgets.initOn(element, 'inlineimage');
+                        
                 };
                 editor.config.inlineImageBrowserMethod(browserCallback);
             }
