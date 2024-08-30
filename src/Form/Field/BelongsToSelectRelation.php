@@ -182,28 +182,34 @@ trait BelongsToSelectRelation
       
                 var itemId = $(e.target).data('model-id');
 
-                $.get("{$this->getLoadUrl()}?id=" + itemId, function(response){
+                if (!(itemId instanceof Array)){
+                    itemId = [itemId];
+                }
 
-                    if (response?.data?.id) {
-                        var newOption = new Option(response.data.text, response.data.id, true, true);
-                        input.append(newOption);
-                        
-                        var selected = input.val() || [];
+                for (var i = 0; i < itemId.length; i++) {
+                    $.get("{$this->getLoadUrl()}?id=" + itemId, function(response){
 
-                        if (!isNaN(selected) && typeof parseInt(selected) === 'number') {
-                            selected = [selected];
+                        if (response?.data?.id) {
+                            var newOption = new Option(response.data.text, response.data.id, true, true);
+                            input.append(newOption);
+                            
+                            var selected = input.val() || [];
+
+                            if (!isNaN(selected) && typeof parseInt(selected) === 'number') {
+                                selected = [selected];
+                            }
+
+                            if (relationType === 'BelongsToMany') {
+                                selected.push(response.data.id);
+                            } else {
+                                selected = [response.data.id];
+                            }
+
+                            input.val(selected).trigger('change');   
                         }
 
-                        if (relationType === 'BelongsToMany') {
-                            selected.push(response.data.id);
-                        } else {
-                            selected = [response.data.id];
-                        }
-
-                        input.val(selected).trigger('change');   
-                    }
-
-                });
+                    });
+                }
  
             }
 

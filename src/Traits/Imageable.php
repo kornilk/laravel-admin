@@ -2,6 +2,8 @@
 
 namespace Encore\Admin\Traits;
 
+use Encore\Admin\Models\Image;
+
 trait Imageable
 {
     protected static $thumbnails = null;
@@ -11,11 +13,32 @@ trait Imageable
     protected static $keepOriginal = null;
     protected static $rules = null;
 
+    public $mutipleImageObjects = [];
+
     public static function boot()
     {
         parent::boot();
 
         self::creating(function ($model) {
+            $currentPath = null;
+            if (is_array($model->path)) {
+                foreach ($model->path as $path) {
+                    if (empty($path)) continue;
+                    if (empty($currentPath)) {
+                        $currentPath = $path;
+                        continue;
+                    }
+                    $image = new Image();
+                    foreach ($model->attributes as $key => $value) {
+                        $image->{$key} = $value;
+                        $image->path = $path;
+                    }
+                    $image->save();
+                    $model->mutipleImageObjects[] = $image;
+                }
+                $model->path = $currentPath;
+                $model->mutipleImageObjects[] = $model;
+            }
             $model->setImageData($model);
             $model->image_class = get_called_class();
         });
@@ -23,6 +46,9 @@ trait Imageable
 
         self::updating(function ($model) {
 
+            if (is_array($model->path)) {
+                $model->path = array_slice($model->path, -1)[0];
+            }
             if ($model->path !== $model->original['path']) {
                 $model->setImageData($model);
             }

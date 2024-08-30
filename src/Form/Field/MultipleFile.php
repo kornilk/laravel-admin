@@ -166,7 +166,7 @@ class MultipleFile extends Field
             return [];
         }
 
-        return $this->original;
+        return !is_array($this->original) ? [$this->original] : $this->original;
     }
 
     /**
@@ -195,6 +195,8 @@ class MultipleFile extends Field
     {
         $files = $this->value ?: [];
 
+        if (!is_array($files)) $files = [$files];
+
         return array_values(array_map([$this, 'objectUrl'], $files));
     }
 
@@ -222,6 +224,7 @@ class MultipleFile extends Field
     protected function initialPreviewConfig()
     {
         $files = $this->value ?: [];
+        if (!is_array($files)) $files = [$files];
 
         $config = [];
 
@@ -365,6 +368,7 @@ EOT;
     public function destroy($key)
     {
         $files = $this->original ?: [];
+        if (!is_array($files)) $files = [$files];
 
         $path = Arr::get($files, $key);
 

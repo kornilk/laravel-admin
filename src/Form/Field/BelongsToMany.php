@@ -131,43 +131,49 @@ class BelongsToMany extends MultipleSelect
 
     var formResponse = function(e){
         var itemId = $(e.target).data('model-id');
+
+        if (!(itemId instanceof Array)){
+            itemId = [itemId];
+        }
         
         var input = $("{$this->getElementClassSelector()}");
         var selected = input.val();
         if (typeof selected !== 'object' || selected === null ) selected = [];
 
-        var isUpdated = selected.includes(itemId) || selected.includes(itemId + '');
-    
-        if (typeof selected !== 'object' || selected === null ) selected = [];
-        if (!isUpdated) {
-            selected.push(itemId);
+        for (var i = 0; i < itemId.length; i++) {
+            var isUpdated = selected.includes(itemId) || selected.includes(itemId + '');
+        
+            if (typeof selected !== 'object' || selected === null ) selected = [];
+            if (!isUpdated) {
+                selected.push(itemId);
 
-            input
-            .select2({data: selected})
-            .val(selected)
-            .trigger('change')
-            .next()
-            .addClass('hide');
-        }
-  
-        container.find('.empty-grid').remove();
-
-        $.get("{$this->getLoadUrl(1)}&id=" + itemId, function(response){
-            var item = $(response).find('.selectable-item:first');
-            item.find('.column-__modal_selector__').remove();
-            item.find('.grid-row-remove').removeClass('hide');
-            item.find('.grid-row-edit').removeClass('hide');
-            item.find('.grid-row-edit').on('formResponse', formResponse);
-
-            if (isUpdated) {
-                items[itemId].replaceWith(item);
-                items[itemId] = item;
-            } else {
-                container.append(item);
-                items[itemId] = item;
+                input
+                .select2({data: selected})
+                .val(selected)
+                .trigger('change')
+                .next()
+                .addClass('hide');
             }
-            
-        });
+    
+            container.find('.empty-grid').remove();
+
+            $.get("{$this->getLoadUrl(1)}&id=" + itemId, function(response){
+                var item = $(response).find('.selectable-item:first');
+                item.find('.column-__modal_selector__').remove();
+                item.find('.grid-row-remove').removeClass('hide');
+                item.find('.grid-row-edit').removeClass('hide');
+                item.find('.grid-row-edit').on('formResponse', formResponse);
+
+                if (isUpdated) {
+                    items[itemId].replaceWith(item);
+                    items[itemId] = item;
+                } else {
+                    container.append(item);
+                    items[itemId] = item;
+                }
+                
+            });
+        }
     }
 
     grid.find('a[data-form="modal"]').on('formResponse', formResponse);

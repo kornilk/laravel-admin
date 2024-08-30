@@ -197,4 +197,28 @@ class ImageController extends AdminController
 
         return $grid->render();
     }
+
+    protected function modalSaveRespose($form, $message = null)
+    {
+        if (empty($message)) $message = __('admin.save_succeeded');
+
+        $model = $form->model();
+        $modelId = $form->model()->id;
+
+        if (!empty(($model->mutipleImageObjects))) {
+            $modelId = [];
+            foreach ($model->mutipleImageObjects as $item) {
+                $modelId[] = $item->id;
+            }
+        }
+
+        $res = new Response(json_encode([
+            'status' => true,
+            'message' => $message,
+            'modelId' => $modelId,
+            'data' => !empty(($model->mutipleImageObjects)) ? $model->mutipleImageObjects : $model,
+        ]));
+        $res->header('Content-Type', 'application/json');
+        return $res;
+    }
 }
