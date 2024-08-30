@@ -109,15 +109,15 @@ class BelongsTo extends Select
                     var input = $("{$this->getElementClassSelector()}");
              
                     input
-                    .select2({data: [itemId]})
-                    .val([itemId])
+                    .select2({data: [itemId[i]]})
+                    .val([itemId[i]])
                     .trigger('change')
                     .next()
                     .addClass('hide');
                         
                     container.html('');
             
-                    $.get("{$this->getLoadUrl()}&id=" + itemId, function(response){
+                    $.get("{$this->getLoadUrl()}&id=" + itemId[i], function(response){
                         var item = $(response).find('.selectable-item:first');
                         item.find('.column-__modal_selector__').remove();
                         item.find('.grid-row-remove').removeClass('hide');

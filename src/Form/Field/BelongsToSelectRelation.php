@@ -187,7 +187,7 @@ trait BelongsToSelectRelation
                 }
 
                 for (var i = 0; i < itemId.length; i++) {
-                    $.get("{$this->getLoadUrl()}?id=" + itemId, function(response){
+                    $.get("{$this->getLoadUrl()}?id=" + itemId[i], function(response){
 
                         if (response?.data?.id) {
                             var newOption = new Option(response.data.text, response.data.id, true, true);

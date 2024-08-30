@@ -141,11 +141,11 @@ class BelongsToMany extends MultipleSelect
         if (typeof selected !== 'object' || selected === null ) selected = [];
 
         for (var i = 0; i < itemId.length; i++) {
-            var isUpdated = selected.includes(itemId) || selected.includes(itemId + '');
+            var isUpdated = selected.includes(itemId[i]) || selected.includes(itemId[i] + '');
         
             if (typeof selected !== 'object' || selected === null ) selected = [];
             if (!isUpdated) {
-                selected.push(itemId);
+                selected.push(itemId[i]);
 
                 input
                 .select2({data: selected})
@@ -157,7 +157,7 @@ class BelongsToMany extends MultipleSelect
     
             container.find('.empty-grid').remove();
 
-            $.get("{$this->getLoadUrl(1)}&id=" + itemId, function(response){
+            $.get("{$this->getLoadUrl(1)}&id=" + itemId[i], function(response){
                 var item = $(response).find('.selectable-item:first');
                 item.find('.column-__modal_selector__').remove();
                 item.find('.grid-row-remove').removeClass('hide');
@@ -165,11 +165,11 @@ class BelongsToMany extends MultipleSelect
                 item.find('.grid-row-edit').on('formResponse', formResponse);
 
                 if (isUpdated) {
-                    items[itemId].replaceWith(item);
-                    items[itemId] = item;
+                    items[itemId[i]].replaceWith(item);
+                    items[itemId[i]] = item;
                 } else {
                     container.append(item);
-                    items[itemId] = item;
+                    items[itemId[i]] = item;
                 }
                 
             });

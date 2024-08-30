@@ -202,10 +202,10 @@ class BelongsToManyOrdered extends MultipleSelect
         if (typeof selected !== 'object' || selected === null ) selected = [];
 
         for (var i = 0; i < itemId.length; i++) {
-            var isUpdated = selected.includes(itemId) || selected.includes(itemId + '');
+            var isUpdated = selected.includes(itemId[i]) || selected.includes(itemId[i] + '');
 
             if (!isUpdated){
-                selected.push(itemId + '');
+                selected.push(itemId[i] + '');
 
                 $("{$this->getElementClassSelector()}")
                     .select2({data: selected})
@@ -217,21 +217,21 @@ class BelongsToManyOrdered extends MultipleSelect
                 
             container.find('.empty-grid').remove();
 
-            $.get("{$this->getLoadUrl()}&id=" + itemId, function(response){
+            $.get("{$this->getLoadUrl()}&id=" + itemId[i], function(response){
                 
                 var item = $(response).find('.selectable-item:first');
                 item.find('.column-__modal_selector__').remove();
                 item.find('.grid-row-remove').removeClass('hide');
                 item.find('.grid-row-edit').removeClass('hide');
-                item.attr('data-key', itemId);
+                item.attr('data-key', itemId[i]);
                 item.find('.grid-row-edit').on('formResponse', formResponse);
 
                 if (isUpdated) {
-                    items[itemId].replaceWith(item);
-                    items[itemId] = item;
+                    items[itemId[i]].replaceWith(item);
+                    items[itemId[i]] = item;
                 } else {
                     container.append(item);
-                    items[itemId] = item;
+                    items[itemId[i]] = item;
                 }
             });
         }
