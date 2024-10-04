@@ -53,6 +53,43 @@ trait Imageable
                 $model->setImageData($model);
             }
         });
+
+        self::deleting(function ($model) {
+            if ($model->forceDeleting === true) {
+
+                if (config('image.deleteFiles')) {
+
+                    $files = [];
+                    $files[] = $model->path;
+
+                    try {
+                        $formats = (array)json_decode($model->formats);
+                        foreach ($formats as $data) {
+                            $files[] = $data->path;
+                        }
+                    } catch (\Exception $e) {
+                        \Log::error($e->getMessage());
+                    }
+
+                    try {
+                        $path_parts = pathinfo($model->path);
+                        $files[] = "{$path_parts['dirname']}/{$path_parts['filename']}-original.{$path_parts['extension']}";
+                    } catch (\Exception $e) {
+                        \Log::error($e->getMessage());
+                    }
+
+                    foreach ($files as $path) {
+                        if (\Storage::disk(config('admin.upload.disk'))->exists($path)) {
+                            try {
+                                \Storage::disk(config('admin.upload.disk'))->delete($path);
+                            } catch (\Exception $e) {
+                                \Log::error($e->getMessage());
+                            }
+                        }
+                    }
+                }
+            }
+        });
     }
 
     public static function getThumbnails(){

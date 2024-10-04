@@ -22,6 +22,7 @@ return [
     'maxSize' => 1920,
 
     'keepOriginal' => false,
+    'deleteFiles' => false,
 
     'rules' => [
         'minWidth' => 320,
