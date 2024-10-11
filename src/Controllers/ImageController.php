@@ -9,6 +9,7 @@ use Encore\Admin\Grid;
 use Encore\Admin\Models\Image;
 use Encore\Admin\Show;
 use Request;
+use Illuminate\Http\Response;
 
 class ImageController extends AdminController
 {
