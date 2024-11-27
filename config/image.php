@@ -10,9 +10,11 @@ return [
 
     'thumbnails' => [ //[width, height, method, position, upscale (retain maximal original image size)(default false)]
         'thumb' => [320, null, null, null, true],
-        'thumb-r' => [320, 320, 'fit'],
+        'thumb-c' => [320, 320, 'fit'],
+        'thumb-r' => [320, 180, 'fit'],
         'medium' => [750, null, null, null, true],
-        'medium-r' => [750, 750, 'fit'],
+        'medium-c' => [750, 750, 'fit'],
+        'medium-r' => [750, 422, 'fit'],
     ],
 
     'useFilenameAsImageTitle' => false,
