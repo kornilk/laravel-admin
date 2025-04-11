@@ -38,22 +38,23 @@ CKEDITOR.plugins.add('inlineimage', {
                         function reverseForIn(obj, f) {
                             var arr = [];
                             for (var key in obj) {
-                            // add hasOwnPropertyCheck if needed
-                            arr.push(key);
+                                // add hasOwnPropertyCheck if needed
+                                arr.push(key);
                             }
-                            for (var i=arr.length-1; i>=0; i--) {
-                            f.call(obj, arr[i]);
+                            for (var i = arr.length - 1; i >= 0; i--) {
+                                f.call(obj, arr[i]);
                             }
                         }
                         
-                        reverseForIn(response[i].picture.sources, function (i2) { 
-                            $sources += '<source media="(min-width:'+i2+'px)" width="'+response[i].picture.sources[i2].width+'" height="'+response[i].picture.sources[i2].height+'" srcSet="'+response[i].picture.sources[i2].path+'"/>'
+                        reverseForIn(response[i].picture.sources, function (i2) {
+                            $sources += '<source media="(min-width:' + i2 + 'px)" width="' + response[i].picture.sources[i2].width + '" height="' + response[i].picture.sources[i2].height + '" srcSet="' + response[i].picture.sources[i2].path + '"/>'
                         });
         
-                        var element = CKEDITOR.dom.element.createFromHtml('<div data-tabu="true" class="article-element article-image"><div data-tabu="true" class="image-wrapper article-element"><picture>'+$sources+$img+'</picture>' + image_text_cont + '</div></div>');
+                        var element = CKEDITOR.dom.element.createFromHtml('<div data-tabu="true" class="article-element article-image"><div data-tabu="true" class="image-wrapper article-element"><picture>' + $sources + $img + '</picture>' + image_text_cont + '</div></div>');
 
                         editor.insertElement(element);
                         editor.widgets.initOn(element, 'inlineimage');
+                    }
                         
                 };
                 editor.config.inlineImageBrowserMethod(browserCallback);
