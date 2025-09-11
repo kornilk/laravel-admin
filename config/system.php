@@ -5,7 +5,7 @@ return [
     'domain' => env('PROJECT_DOMAIN', 'localhost'),
     'subdomain' => [
         'api' => env('SUBDOMAIN_API', 'api'),
-        'admin' => env('SUBDOMAIN_API', 'admin'),
+        'admin' => env('SUBDOMAIN_ADMIN', 'admin'),
     ],
 
     'cache' => [
